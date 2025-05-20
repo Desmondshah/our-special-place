@@ -1,0 +1,2233 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Theme Variables - Add to the top of your index.css */
+:root, [data-theme="pixel"] {
+  /* Pixel Art Theme (Original) */
+  --background-primary: #FFEAE6;
+  --background-secondary: #FFF5EE;
+  --background-tertiary: #FFF1E6;
+  --text-primary: #5D4037;
+  --text-secondary: #8D6E63;
+  --text-accent: #FF6B6B;
+  --border-primary: #FFDAB9;
+  --border-secondary: #FFB6B6;
+  --button-primary: #FFE0B2;
+  --button-success: #A5D6A7;
+  --button-danger: #FFCCBC;
+  --accent-light: #FFC1C1;
+  --accent-dark: #FF6B6B;
+  --shadow-color: rgba(255, 218, 185, 0.5);
+  --font-main: 'VT323', monospace;
+  --border-radius: 12px;
+  --border-width: 4px;
+  --button-shadow: 4px 4px 0;
+  --card-shadow: 6px 6px 0;
+  --animation-bounce: bounce 2s infinite ease-in-out;
+  
+  /* Styling features */
+  --pixelated: pixelated;
+  --button-hover-scale: translate(-2px, -2px);
+  --card-hover-scale: translate(-2px, -2px);
+}
+
+[data-theme="starry"] {
+  /* Starry Night Theme (Modern) */
+  --background-primary: #1A1A40;
+  --background-secondary: #0D1B2A;
+  --background-tertiary: #13193C;
+  --text-primary: #FDFDFD;
+  --text-secondary: #F4E2D8;
+  --text-accent: #E8C1C1;
+  --border-primary: #B497BD;
+  --border-secondary: #E8C1C1;
+  --button-primary: rgba(244, 226, 216, 0.1);
+  --button-success: rgba(180, 151, 189, 0.2);
+  --button-danger: rgba(232, 193, 193, 0.2);
+  --accent-light: #B497BD;
+  --accent-dark: #E8C1C1;
+  --shadow-color: rgba(180, 151, 189, 0.2);
+  --font-main: 'Inter', sans-serif;
+  --border-radius: 16px;
+  --border-width: 1px;
+  --button-shadow: 0 4px 12px;
+  --card-shadow: 0 8px 24px;
+  --animation-bounce: glow 4s infinite ease-in-out;
+  
+  /* Styling features */
+  --pixelated: auto;
+  --button-hover-scale: scale(1.02);
+  --card-hover-scale: scale(1.02);
+}
+
+/* Add Inter font for the starry theme */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Add animations for starry theme */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(180, 151, 189, 0.3), 0 0 20px rgba(232, 193, 193, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(180, 151, 189, 0.5), 0 0 30px rgba(232, 193, 193, 0.3);
+  }
+}
+
+/* Transitions for smooth theme switching */
+body, button, input, .pixel-card, .pixel-button, .pixel-input {
+  transition: all 0.5s ease;
+}
+
+/* Base style modifications to use theme variables */
+body {
+  font-family: var(--font-main);
+  background: var(--background-primary);
+  color: var(--text-primary);
+  image-rendering: var(--pixelated);
+}
+
+.pixel-input {
+  font-family: var(--font-main);
+  border: var(--border-width) solid var(--border-primary);
+  border-radius: var(--border-radius);
+  background-color: var(--background-tertiary);
+  color: var(--text-primary);
+  box-shadow: var(--button-shadow) var(--shadow-color);
+}
+
+.pixel-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.pixel-input:focus {
+  border-color: var(--accent-dark);
+  box-shadow: var(--button-shadow) var(--shadow-color);
+  transform: var(--button-hover-scale);
+}
+
+.pixel-button {
+  font-family: var(--font-main);
+  border: var(--border-width) solid var(--border-primary);
+  border-radius: var(--border-radius);
+  background-color: var(--button-primary);
+  color: var(--text-primary);
+  box-shadow: var(--button-shadow) var(--shadow-color);
+}
+
+.pixel-button:hover {
+  transform: var(--button-hover-scale);
+  box-shadow: var(--button-shadow) var(--shadow-color);
+}
+
+.pixel-title {
+  color: var(--accent-dark);
+  text-shadow: 2px 2px 4px var(--accent-light);
+  animation: var(--animation-bounce);
+}
+
+.pixel-card {
+  border: var(--border-width) solid var(--border-primary);
+  border-radius: var(--border-radius);
+  background-color: var(--background-secondary);
+  box-shadow: var(--card-shadow) var(--shadow-color);
+}
+
+.pixel-card:hover {
+  transform: var(--card-hover-scale);
+  box-shadow: var(--card-shadow) var(--shadow-color);
+}
+
+/* Starry theme specific styles */
+[data-theme="starry"] .pixel-card {
+  backdrop-filter: blur(10px);
+  background-color: rgba(13, 27, 42, 0.7);
+  border: var(--border-width) solid rgba(180, 151, 189, 0.3);
+}
+
+[data-theme="starry"] .pixel-input {
+  backdrop-filter: blur(10px);
+  background-color: rgba(13, 27, 42, 0.5);
+}
+
+[data-theme="starry"] .pixel-button {
+  backdrop-filter: blur(10px);
+  border: var(--border-width) solid rgba(180, 151, 189, 0.3);
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* Star background for Starry theme */
+[data-theme="starry"] body:before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: 
+    radial-gradient(1px 1px at 10px 10px, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 30px 30px, rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0)),
+    radial-gradient(2px 2px at 100px 100px, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0)),
+    radial-gradient(2px 2px at 200px 200px, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0));
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  animation: subtle-stars 60s linear infinite;
+}
+
+@keyframes subtle-stars {
+  from { background-position: 0 0; }
+  to { background-position: 300px 300px; }
+}
+
+/* Gradient accents for Starry theme */
+[data-theme="starry"] .pixel-title:after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(180, 151, 189, 0), rgba(180, 151, 189, 1), rgba(180, 151, 189, 0));
+}
+
+/* Responsive adjustments for both themes */
+@media (max-width: 600px) {
+  [data-theme="starry"] .pixel-title {
+    font-size: 32px;
+  }
+  
+  [data-theme="starry"] .pixel-card {
+    margin: 8px 0;
+    border-radius: 12px;
+  }
+  
+  [data-theme="starry"] .pixel-button {
+    border-radius: 12px;
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+}
+
+/* Theme Toggle Styling - Add to index.css */
+
+.theme-toggle-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.theme-toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  border: var(--border-width) solid var(--border-primary);
+  background-color: var(--button-primary);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--button-shadow) var(--shadow-color);
+}
+
+.theme-toggle-button:hover {
+  transform: var(--button-hover-scale);
+}
+
+.theme-icon {
+  font-size: 18px;
+}
+
+[data-theme="pixel"] .theme-toggle-button {
+  font-size: 18px;
+}
+
+[data-theme="starry"] .theme-toggle-button {
+  backdrop-filter: blur(8px);
+  background-color: rgba(26, 26, 64, 0.7);
+  border-color: rgba(180, 151, 189, 0.4);
+}
+
+/* Extra animation for theme icon */
+.theme-icon {
+  display: inline-block;
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(10deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .theme-toggle-container {
+    top: unset;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .theme-toggle-button {
+    padding: 8px 12px;
+  }
+  
+  .theme-text {
+    display: none;
+  }
+  
+  .theme-icon {
+    font-size: 20px;
+    margin: 0;
+  }
+}
+
+/* Tab styling - Add to index.css */
+
+/* Active and inactive tab styling using theme variables */
+.active-tab {
+  background-color: var(--accent-light);
+  color: var(--text-primary);
+  transform: translateY(-3px);
+  box-shadow: var(--button-shadow) var(--shadow-color);
+  position: relative;
+  z-index: 1;
+}
+
+.inactive-tab {
+  background-color: var(--background-tertiary);
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.inactive-tab:hover {
+  background-color: var(--button-primary);
+}
+
+/* Starry theme tab styles */
+[data-theme="starry"] .active-tab {
+  background: linear-gradient(45deg, rgba(244, 226, 216, 0.15), rgba(232, 193, 193, 0.25));
+  border-color: rgba(232, 193, 193, 0.4);
+  box-shadow: 0 4px 15px rgba(232, 193, 193, 0.3);
+}
+
+[data-theme="starry"] .inactive-tab {
+  background-color: rgba(13, 27, 42, 0.4);
+  backdrop-filter: blur(5px);
+  border-color: rgba(180, 151, 189, 0.2);
+}
+
+[data-theme="starry"] .inactive-tab:hover {
+  background-color: rgba(13, 27, 42, 0.6);
+  border-color: rgba(180, 151, 189, 0.4);
+}
+
+/* Active tab indicator for Starry theme */
+[data-theme="starry"] .active-tab::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 40%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(232, 193, 193, 0), rgba(232, 193, 193, 0.8), rgba(232, 193, 193, 0));
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .active-tab, .inactive-tab {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  [data-theme="starry"] .active-tab::after {
+    bottom: -3px;
+    height: 1px;
+  }
+}
+
+/* Theme transition effects - Add to index.css */
+
+/* Add a page transition when changing themes */
+.theme-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.theme-transition.pixel-to-starry {
+  background: radial-gradient(circle at center, rgba(180, 151, 189, 0.3), transparent);
+}
+
+.theme-transition.starry-to-pixel {
+  background: radial-gradient(circle at center, rgba(255, 218, 185, 0.3), transparent);
+}
+
+.theme-transition.active {
+  opacity: 1;
+}
+
+/* Smooth transition for all elements */
+* {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+}
+
+/* Transitions for specific elements */
+.pixel-title,
+.pixel-button,
+.pixel-input,
+.pixel-card,
+.bottom-sheet,
+.active-tab,
+.inactive-tab,
+.theme-toggle-button {
+  transition: all 0.5s ease;
+}
+
+/* More pronounced transition for main elements */
+[data-theme="starry"] .pixel-card {
+  animation: fade-in-up 0.5s ease forwards;
+}
+
+[data-theme="pixel"] .pixel-card {
+  animation: bounce-in 0.5s ease forwards;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0.5;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.97);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Mobile theme transitions */
+@media (max-width: 600px) {
+  .theme-transition {
+    transition: opacity 0.3s ease;
+  }
+  
+  * {
+    transition-duration: 0.3s;
+  }
+}
+
+
+body {
+  font-family: 'VT323', monospace;
+  image-rendering: pixelated;
+}
+
+.pixel-input {
+  font-family: 'VT323', monospace;
+  font-size: 24px;
+  padding: 10px 20px;
+  border: 4px solid #FFDAB9;
+  border-radius: 12px;
+  background-color: #FFF1E6;
+  color: #5D4037;
+  outline: none;
+  box-shadow: 4px 4px 0 #FFDAB9;
+  width: 300px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.pixel-input::placeholder {
+  color: #A1887F;
+}
+
+.pixel-input:focus {
+  background-color: #FFE6F8;
+  border-color: #FF6B6B;
+  box-shadow: 6px 6px 0 #FFB6B6;
+  transform: translate(-2px, -2px);
+}
+
+/* Apply the same focus style to all text inputs */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
+  background-color: #FFE6F8;
+  border-color: #FF6B6B;
+  box-shadow: 6px 6px 0 #FFB6B6;
+  transform: translate(-2px, -2px);
+  outline: none;
+}
+
+.pixel-button {
+  font-family: 'VT323', monospace;
+  font-size: 24px;
+  padding: 10px 20px;
+  border: 4px solid #FFDAB9;
+  border-radius: 12px;
+  background-color: #FFE0B2;
+  color: #5D4037;
+  outline: none;
+  box-shadow: 4px 4px 0 #FFDAB9;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.pixel-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #FFDAB9;
+}
+
+.pixel-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #FFDAB9;
+}
+
+.pixel-title {
+  font-size: 50px;
+  color: #FF6B6B;
+  text-shadow: 2px 2px 4px #FFC1C1;
+  animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.pixel-card {
+  border: 4px solid #FFDAB9;
+  border-radius: 12px;
+  background-color: #FFF5EE;
+  box-shadow: 6px 6px 0 #FFDAB9;
+  transition: all 0.3s;
+}
+
+.pixel-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 #FFDAB9;
+}
+
+/* Add consistent form input styling */
+.form-input {
+  @apply w-full p-2 rounded border border-[#FFDAB9] bg-[#FFF1E6] placeholder-[#A1887F] transition-all duration-300;
+}
+
+.form-input:focus {
+  @apply bg-[#FFE6F8] border-[#FF6B6B] shadow-lg transform -translate-y-0.5;
+}
+
+/* Mobile Styles - Only apply under 600px */
+@media (max-width: 600px) {
+  .pixel-title {
+    font-size: 36px;
+    margin-bottom: 16px;
+  }
+
+  .pixel-input {
+    width: 90%;
+    max-width: 300px;
+    font-size: 20px;
+    padding: 8px 16px;
+  }
+
+  .pixel-button {
+    width: 90%;
+    max-width: 300px;
+    font-size: 20px;
+    padding: 8px 16px;
+    margin: 8px 0;
+  }
+
+  .pixel-card {
+    margin: 8px;
+    padding: 12px;
+  }
+
+  /* Tab buttons in mobile */
+  .tab-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .tab-buttons button {
+    width: 100%;
+    margin: 0;
+  }
+
+  /* Form layouts in mobile */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Memory modal in mobile */
+  .memory-modal {
+    width: 95%;
+    max-height: 90vh;
+    margin: 10px;
+    padding: 16px;
+  }
+
+  /* Adjust input groups for mobile */
+  .input-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .input-group input,
+  .input-group select,
+  .input-group textarea {
+    width: 100%;
+  }
+
+  /* Adjust card layouts for mobile */
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Make sure buttons don't overflow */
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  /* Ensure proper spacing between sections */
+  .section-container {
+    margin: 16px 8px;
+  }
+
+  /* Adjust modal positioning */
+  .modal-overlay {
+    padding: 16px;
+  }
+}
+
+/* Cinema Tab Styles - Add to your index.css file */
+
+/* Hide scrollbar while maintaining scroll functionality */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Movie gallery styling */
+.movie-card-hover {
+  border: 4px solid #FFDAB9;
+  border-radius: 12px;
+  background-color: #FFF5EE;
+  box-shadow: 4px 4px 0 #FFDAB9;
+  transition: all 0.3s;
+  image-rendering: pixelated;
+  overflow: hidden;
+}
+
+.movie-card-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #FFDAB9;
+}
+
+.movie-card-hover img {
+  transition: transform 0.3s;
+}
+
+.movie-card-hover:hover img {
+  transform: scale(1.05);
+}
+
+/* Delete button for movies */
+.movie-delete-btn {
+  font-family: 'VT323', monospace;
+  border: 2px solid #FFDAB9;
+  background-color: #FFE0B2;
+  color: #5D4037;
+  outline: none;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.movie-delete-btn:hover {
+  background-color: #FF6B6B;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Trailer modal styling */
+.trailer-modal {
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.trailer-modal-content {
+  border: 4px solid #FFDAB9;
+  border-radius: 12px;
+  background-color: rgba(255, 245, 238, 0.1);
+  box-shadow: 6px 6px 0 rgba(255, 218, 185, 0.4);
+}
+
+.close-modal-btn {
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+  transition: all 0.3s;
+}
+
+.close-modal-btn:hover {
+  transform: scale(1.2);
+  color: #FF6B6B;
+}
+
+/* Animation for modal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile-specific styles */
+@media (max-width: 600px) {
+  .movie-card-hover {
+    width: 140px !important;
+    height: 210px !important;
+    border-width: 3px;
+  }
+  
+  .trailer-modal-content {
+    width: 95% !important;
+    border-width: 3px;
+  }
+  
+  .trailer-frame {
+    height: 240px !important;
+  }
+}
+
+/* Add these to your existing index.css file */
+
+/* Section titles styling */
+.section-title {
+  font-family: 'VT323', monospace;
+  color: #5D4037;
+  position: relative;
+  padding-left: 12px;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background-color: #FFB6B6;
+  border-radius: 2px;
+}
+
+/* Watched movie styling */
+.movie-watched {
+  opacity: 0.7;
+  filter: grayscale(30%);
+  transition: all 0.3s ease;
+}
+
+.movie-watched:hover {
+  opacity: 0.9;
+  filter: grayscale(15%);
+}
+
+/* Watch/unwatch buttons */
+.watch-button {
+  font-family: 'VT323', monospace;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  z-index: 10;
+}
+
+.watch-button:hover {
+  transform: scale(1.1);
+}
+
+.watch-button-check {
+  left: 12px;
+  background-color: #A5D6A7;
+  color: #1B5E20;
+  border-color: #81C784;
+}
+
+.watch-button-check:hover {
+  background-color: #81C784;
+}
+
+.watch-button-undo {
+  left: 12px;
+  background-color: #FFCCBC;
+  color: #BF360C;
+  border-color: #FFAB91;
+}
+
+.watch-button-undo:hover {
+  background-color: #FFAB91;
+}
+
+/* Watched badge */
+.watched-badge {
+  position: absolute;
+  bottom: 50px;
+  right: 8px;
+  background-color: #A5D6A7;
+  color: #1B5E20;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 2px solid #81C784;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+  z-index: 5;
+  transform: rotate(-5deg);
+}
+
+/* Empty state message */
+.empty-state {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  color: #8D6E63;
+  font-size: 18px;
+  background-color: rgba(255,245,238,0.5);
+  border-radius: 12px;
+  border: 2px dashed #FFDAB9;
+}
+
+/* Mobile adjustments for cinema sections */
+@media (max-width: 600px) {
+  .section-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .watch-button {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
+  
+  .watched-badge {
+    font-size: 8px;
+    padding: 1px 4px;
+    bottom: 40px;
+    right: 5px;
+  }
+}
+
+/* Animation for image viewer */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Prevent body scrolling when image viewer is open */
+.body-no-scroll {
+  overflow: hidden;
+}
+
+/* Photo hover effect */
+.photo-hover {
+  transition: all 0.3s ease;
+}
+
+.photo-hover:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 8px rgba(255, 218, 185, 0.8);
+}
+
+/* Image viewer media queries for responsive screens */
+@media (max-width: 600px) {
+  .image-viewer-content {
+    padding: 12px;
+  }
+  
+  .viewer-close-btn {
+    width: 32px;
+    height: 32px;
+    top: 12px;
+    right: 12px;
+    font-size: 18px;
+  }
+}
+
+/* Add these to your existing index.css file */
+
+/* Animations and transitions for Plans section */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Smaller title animation (for section titles) */
+.pixel-title-small {
+  text-shadow: 2px 2px 3px #FFC1C1;
+  animation: bounce 3s infinite ease-in-out;
+}
+
+/* Plan card hover effect */
+.plan-card-hover {
+  transition: all 0.3s ease;
+}
+
+.plan-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(255, 218, 185, 0.4);
+}
+
+/* Stylized checkbox */
+.styled-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #FFDAB9;
+  border-radius: 4px;
+  background-color: #FFF1E6;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.styled-checkbox:checked {
+  background-color: #A5D6A7;
+  border-color: #81C784;
+}
+
+.styled-checkbox:checked:after {
+  content: '✓';
+  position: absolute;
+  color: #1B5E20;
+  font-size: 14px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Tab filters styling */
+.tab-filter {
+  background-color: #FFF1E6;
+  border-radius: 20px;
+  border: 2px solid #FFDAB9;
+  padding: 3px;
+  display: flex;
+}
+
+.tab-filter-button {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  color: #8D6E63;
+}
+
+.tab-filter-button:hover {
+  background-color: #FFE0B2;
+}
+
+.tab-filter-button-active {
+  background-color: #FFB6B6;
+  color: white;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Month heading style */
+.month-heading {
+  font-family: 'VT323', monospace;
+  color: #8D6E63;
+  background-color: #FFE0B2;
+  border: 2px solid #FFDAB9;
+  border-radius: 12px;
+  padding: 4px 12px;
+  display: inline-block;
+  margin-bottom: 12px;
+  box-shadow: 2px 2px 0 #FFDAB9;
+}
+
+/* Memory box style */
+.memory-box {
+  background-color: #FFF1E6;
+  border: 2px solid #FFDAB9;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.memory-box:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to bottom, #FFB6B6, #FFDAB9);
+  border-radius: 3px 0 0 3px;
+}
+
+/* Star rating style */
+.star-rating {
+  display: flex;
+  gap: 4px;
+}
+
+.star-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #D1D1D1;
+  transition: all 0.2s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.star-button:hover {
+  transform: scale(1.2);
+}
+
+.star-active {
+  color: #FFD700;
+}
+
+/* Collapsible section animation */
+.collapsible {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.collapsible.open {
+  max-height: 2000px;
+}
+
+/* Placeholder photo thumbnail */
+.photo-placeholder {
+  width: 70px;
+  height: 70px;
+  background-color: #FFE0B2;
+  border: 2px dashed #FFDAB9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8D6E63;
+  font-size: 24px;
+}
+
+/* Make sure mobile users can see these elements clearly */
+@media (max-width: 600px) {
+  .tab-filter {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .tab-filter-button {
+    font-size: 12px;
+    padding: 4px 8px;
+    margin: 2px;
+  }
+  
+  .star-button {
+    font-size: 20px;
+  }
+  
+  .month-heading {
+    font-size: 16px;
+    padding: 3px 8px;
+  }
+  
+  .memory-photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Animation for heart icon */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.1); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.1); }
+}
+
+.heart-icon {
+  display: inline-block;
+  animation: heartbeat 2s infinite ease-in-out;
+  color: #FF6B6B;
+}
+
+/* Fancy button styling */
+.fancy-button {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 8px 16px;
+  background: linear-gradient(to bottom, #FFE0B2, #FFDAB9);
+  border: 3px solid #FFDAB9;
+  border-radius: 10px;
+  color: #5D4037;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 0 #FFDAB9;
+}
+
+.fancy-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #FFDAB9;
+}
+
+.fancy-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #FFDAB9;
+}
+
+/* Add cute button icons */
+.button-icon {
+  margin-right: 6px;
+  display: inline-block;
+}
+
+/* Empty state styling */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  background-color: #FFF5EE;
+  border: 3px dashed #FFDAB9;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.empty-state-title {
+  font-size: 24px;
+  color: #FF6B6B;
+  margin-bottom: 8px;
+}
+
+.empty-state-desc {
+  color: #8D6E63;
+  margin-bottom: 16px;
+}
+
+/* Add these to your existing index.css file for the fixed components */
+
+/* Star rating hover effects */
+.star-rating-button {
+  transition: all 0.2s ease;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.star-rating-button:hover {
+  transform: scale(1.2);
+}
+
+.star-active {
+  color: #FFD700;
+}
+
+.star-inactive {
+  color: #D1D1D1;
+}
+
+/* Editing note styling */
+.editing-note {
+  background-color: #FFE6F8;
+  border-color: #FF6B6B;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(255, 107, 107, 0.4); }
+  50% { box-shadow: 0 0 8px rgba(255, 107, 107, 0.6); }
+}
+
+/* Edit button styles */
+.edit-button {
+  background-color: transparent;
+  color: #1B5E20;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.edit-button:hover {
+  transform: scale(1.2);
+}
+
+.note-item:hover .edit-button {
+  opacity: 1;
+}
+
+/* Date input styles to ensure consistency */
+input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+/* Add specific styles for the update and cancel buttons in edit mode */
+.update-button {
+  background-color: #A5D6A7;
+  border-color: #81C784;
+  color: #1B5E20;
+}
+
+.cancel-button {
+  background-color: #FFCCBC;
+  border-color: #FFAB91;
+  color: #BF360C;
+}
+
+/* Adjusted modal styles for editing */
+.memory-modal-content {
+  position: relative;
+  background-color: #FFF5EE;
+  border: 4px solid #FFDAB9;
+  border-radius: 12px;
+  padding: 16px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Make star rating more visible */
+.star-display {
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Empty note placeholder */
+.empty-notes {
+  padding: 10px;
+  text-align: center;
+  color: #8D6E63;
+  font-style: italic;
+  border: 1px dashed #FFDAB9;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+/* Add these to your existing index.css file */
+
+/* Mobile animations */
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
+}
+
+/* Mobile-specific styles */
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #FFF5EE;
+  border-top: 4px solid #FFDAB9;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.drag-indicator {
+  width: 48px;
+  height: 4px;
+  background-color: #FFDAB9;
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+
+.mobile-section-title {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 16px;
+  color: #5D4037;
+  font-weight: bold;
+}
+
+/* Touch-friendly buttons for mobile */
+.mobile-action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  width: 100%;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.mobile-tab-filter {
+  display: flex;
+  overflow-x: auto;
+  padding: 4px;
+  margin: 0 -4px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mobile-tab-filter::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-category-chip {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Collapsible content animation */
+.collapsible-content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease-out;
+}
+
+.collapsible-content.open {
+  max-height: 1000px;
+}
+
+/* Card content truncation */
+.truncate-2-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Filter toggle pulse animation */
+@keyframes pulse-dot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+.filter-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #FFB6B6;
+  display: inline-block;
+  margin-left: 4px;
+}
+
+.filter-dot-active {
+  animation: pulse-dot 1.5s infinite;
+}
+
+/* Backdrop blur */
+.backdrop-blur {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Add these to your existing index.css file for improved milestone section styling */
+
+/* Responsive view toggles */
+.view-toggle-container {
+  display: flex;
+  background-color: #FFF1E6;
+  border-radius: 20px;
+  border: 2px solid #FFDAB9;
+  padding: 3px;
+  overflow: hidden;
+}
+
+.view-toggle-button {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  color: #8D6E63;
+  flex: 1;
+  text-align: center;
+}
+
+.view-toggle-button:hover {
+  background-color: #FFE0B2;
+}
+
+.view-toggle-button-active {
+  background-color: #FFB6B6;
+  color: white;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Calendar view styling */
+.calendar-card {
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.calendar-date-header {
+  background: linear-gradient(to right, #FFB6B6, #FFDAB9);
+  color: white;
+  text-align: center;
+  padding: 6px;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+  border-radius: 10px 10px 0 0;
+}
+
+.calendar-date-number {
+  font-size: 28px;
+  line-height: 1;
+  font-weight: bold;
+}
+
+.calendar-date-month {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Grid view styling */
+.milestone-grid-card {
+  aspect-ratio: 1/1.2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.milestone-grid-image {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.milestone-grid-image::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+
+.milestone-grid-title {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+  z-index: 2;
+}
+
+.milestone-grid-footer {
+  padding: 8px;
+  border-top: 2px solid #FFDAB9;
+  background: #FFF5EE;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Timeline view styling */
+.timeline-container {
+  position: relative;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20px;
+  width: 4px;
+  background: linear-gradient(to bottom, #FFB6B6, #FFDAB9);
+  border-radius: 2px;
+  z-index: 0;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 40px;
+  margin-bottom: 20px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 15px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FFF1E6;
+  border: 4px solid #FFB6B6;
+  z-index: 1;
+}
+
+/* Fullscreen image viewer enhancements */
+.fullscreen-viewer {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.viewer-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 30px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.viewer-control-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.viewer-control-button:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+}
+
+.viewer-nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.viewer-nav-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.viewer-nav-prev {
+  left: 20px;
+}
+
+.viewer-nav-next {
+  right: 20px;
+}
+
+/* Responsive layout adjustments */
+@media (min-width: 1024px) {
+  .milestone-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+  }
+  
+  .milestone-form {
+    position: sticky;
+    top: 20px;
+    align-self: start;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+  
+  .milestone-list {
+    overflow-y: auto;
+    max-height: calc(100vh - 40px);
+    padding-right: 10px;
+  }
+  
+  /* Enhanced scrollbar for desktop */
+  .milestone-list::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .milestone-list::-webkit-scrollbar-track {
+    background: #FFF1E6;
+    border-radius: 4px;
+  }
+  
+  .milestone-list::-webkit-scrollbar-thumb {
+    background: #FFDAB9;
+    border-radius: 4px;
+  }
+  
+  .milestone-list::-webkit-scrollbar-thumb:hover {
+    background: #FFB6B6;
+  }
+  
+  /* Desktop grid view */
+  .desktop-grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  
+  /* Desktop calendar view */
+  .desktop-calendar-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 767px) {
+  /* Bottom sheets */
+  .bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #FFF5EE;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-top: 4px solid #FFDAB9;
+    padding: 16px;
+    z-index: 50;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-out;
+  }
+  
+  .bottom-sheet-handle {
+    width: 40px;
+    height: 5px;
+    background-color: #FFDAB9;
+    border-radius: 3px;
+    margin: 0 auto 20px;
+  }
+  
+  .bottom-sheet-title {
+    text-align: center;
+    font-size: 20px;
+    color: #FF6B6B;
+    margin-bottom: 20px;
+  }
+  
+  /* Fixed action button */
+  .fab-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #FF6B6B;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.5);
+    border: 3px solid #FFDAB9;
+    z-index: 40;
+    transition: all 0.3s ease;
+  }
+  
+  .fab-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.5);
+  }
+  
+  /* Touch-friendly buttons */
+  .mobile-touch-button {
+    min-height: 44px;
+    padding: 10px 16px;
+    border-radius: 12px;
+  }
+  
+  /* Swipe indicator */
+  .swipe-indicator {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  
+  /* Pull to refresh */
+  .pull-indicator {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #FFDAB9;
+    border-radius: 30px;
+    padding: 8px 16px;
+    color: #5D4037;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 20;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .pull-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #5D4037;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Compact mobile cards */
+  .mobile-milestone-card {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .mobile-milestone-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .mobile-milestone-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #5D4037;
+    margin-right: 8px;
+  }
+  
+  .mobile-milestone-actions {
+    display: flex;
+    gap: 4px;
+  }
+  
+  .mobile-action-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  
+  /* Single column layouts for mobile */
+  .mobile-grid-view {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* Animation keyframes */
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes fade-slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Apply animations */
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s infinite ease-in-out;
+}
+
+.animate-fade-slide-up {
+  animation: fade-slide-up 0.3s forwards;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s infinite ease-in-out;
+}
+
+/* Focus visible styles for keyboard users */
+.focus-visible:focus-visible {
+  outline: 2px solid #FF6B6B;
+  outline-offset: 2px;
+}
+
+/* Helper class for smooth height transitions */
+.transition-height {
+  transition: max-height 0.3s ease-out;
+  overflow: hidden;
+}
+
+/* Add these to your index.css file */
+
+/* Social embed styling */
+.social-embed {
+  position: relative;
+  background-color: #FFF5EE;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.social-embed:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 218, 185, 0.3);
+}
+
+/* Platform-specific styling */
+.pinterest-embed {
+  border-left: 4px solid #E60023; /* Pinterest red */
+}
+
+.twitter-embed {
+  border-left: 4px solid #1DA1F2; /* Twitter blue */
+}
+
+.instagram-embed {
+  border-left: 4px solid #C13584; /* Instagram purple */
+}
+
+/* iframely overrides to match our pixel art style */
+.iframely-responsive {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Loading indicator for embeds */
+.embed-loading {
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(90deg, #FFB6B6, #FFDAB9, #FFB6B6);
+  background-size: 200% 100%;
+  animation: loading-gradient 2s infinite;
+}
+
+@keyframes loading-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Badge styling for embeds in gallery view */
+.embed-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 10px;
+  color: white;
+  z-index: 10;
+}
+
+.embed-badge-pinterest {
+  background-color: #E60023;
+}
+
+.embed-badge-twitter {
+  background-color: #1DA1F2;
+}
+
+.embed-badge-instagram {
+  background-color: #C13584;
+}
+
+/* Fix for iframe rendering */
+iframe {
+  display: block;
+  width: 100%;
+}
+
+/* Media queries for responsive embeds */
+@media (max-width: 600px) {
+  .social-embed {
+    min-height: 100px !important;
+  }
+  
+  .iframely-responsive {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+}
+
+/* Custom embed placeholder styling */
+.embed-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgba(255, 245, 238, 0.7);
+  text-align: center;
+  height: 100%;
+}
+
+.embed-placeholder-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.embed-placeholder-text {
+  font-size: 14px;
+  color: #5D4037;
+}
+
+/* Prevent iframe content from overflowing */
+.iframe-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.iframe-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Add these styles to your existing CSS */
+
+/* Image viewer animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.image-viewer-enter {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+/* Make close button more visible */
+.close-button {
+  position: relative;
+  z-index: 100;
+  background-color: #FF6B6B;
+  color: white;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #FFDAB9;
+  box-shadow: 3px 3px 0 #FFDAB9;
+  transition: all 0.2s;
+}
+
+.close-button:hover {
+  background-color: #FF4B4B;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #FFDAB9;
+}
+
+.close-button:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #FFDAB9;
+}
+
+/* Image viewer controls */
+.nav-button {
+  width: 3rem;
+  height: 3rem;
+  background-color: #FFE0B2;
+  color: #5D4037;
+  font-size: 1.25rem;
+  border-radius: 0.75rem;
+  border: 3px solid #FFDAB9;
+  box-shadow: 3px 3px 0 #FFDAB9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.nav-button:hover {
+  background-color: #FFD0A2;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #FFDAB9;
+}
+
+.nav-button:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #FFDAB9;
+}
+
+/* Top gradient for making close button more visible */
+.viewer-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+/* Image container */
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Styling for the image */
+.preview-image {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 0.75rem;
+  border: 4px solid #FFDAB9;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.preview-image.zoomed {
+  transform: scale(1.5);
+}
+
+/* Mobile info text */
+.mobile-info {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-info-text {
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+}
+
+/* Animation for controls appearing/disappearing */
+@keyframes fade-in-controls {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.controls-visible {
+  animation: fade-in-controls 0.3s forwards;
+}
+
+.controls-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+/* Add these styles to your index.css file */
+
+/* Fix for milestone photos taking up too much space */
+.milestone-photo-container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.milestone-centered-photo {
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 4px solid #FFDAB9;
+  box-shadow: 4px 4px 0 #FFDAB9;
+}
+
+/* Grid layout for multiple photos */
+.milestone-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.milestone-photo-grid-item {
+  aspect-ratio: 1/1;
+  border-radius: 8px;
+  border: 3px solid #FFDAB9;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.milestone-photo-grid-item:hover {
+  transform: scale(1.05);
+  box-shadow: 3px 3px 0 #FFDAB9;
+}
+
+.milestone-photo-grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 600px) {
+  .milestone-photo-container {
+    max-height: 200px;
+  }
+  
+  .milestone-centered-photo {
+    max-height: 200px;
+  }
+  
+  .milestone-photo-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}
