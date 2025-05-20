@@ -54,6 +54,762 @@
   --cinema-card-shadow: 4px 4px 0px var(--cinema-border);
   --cinema-button-shadow: 3px 3px 0px var(--cinema-border);
   --cinema-input-shadow: inset 2px 2px 0px rgba(0,0,0,0.2);
+
+   --dream-section-bg: #E6E0FF; /* Very Pale Lavender - dreamy */
+  --dream-header-bg: rgba(255, 255, 255, 0.1); /* Subtle header on top of section bg */
+  --dream-orb-bg: var(--cute-bg-secondary); /* Linen - light creamy peach */
+  --dream-orb-border: var(--cute-border-secondary); /* Lavender */
+  --dream-orb-shadow: 3px 3px 0px var(--cute-shadow);
+  --dream-orb-hover-shadow: 5px 5px 0px var(--cute-accent-primary);
+  --dream-text-primary: var(--cute-text-primary);
+  --dream-text-secondary: var(--cute-text-secondary);
+  --dream-form-bg: var(--cute-parchment-bg);
+  --dream-form-border: var(--cute-parchment-border);
+  --dream-input-bg: var(--cute-bg-secondary);
+  --dream-input-border: var(--cute-border-secondary);
+  --dream-delete-button-bg: #FFD1D1; /* Light red for delete confirm */
+  --dream-delete-button-text: #A64D4D;
+
+  /* Category specific orb backgrounds/borders - more subtle */
+  --dream-cat-travel-bg: #E0F7FA; --dream-cat-travel-border: #B2EBF2;
+  --dream-cat-home-bg: #FFF9C4; --dream-cat-home-border: #FFF59D;
+  --dream-cat-pets-bg: #E8F5E9; --dream-cat-pets-border: #C8E6C9;
+  --dream-cat-activities-bg: #FFEBEE; --dream-cat-activities-border: #FFCDD2;
+  --dream-cat-other-bg: #F3E5F5; --dream-cat-other-border: #E1BEE7;
+
+  --moodboard-bg: var(--cute-bg-primary); /* Lavender Blush or a light linen */
+  --moodboard-toolbar-bg: var(--cute-bg-secondary);
+  --moodboard-toolbar-border: var(--cute-border-secondary);
+  --moodboard-item-bg: var(--cute-bg-tertiary); /* Cornsilk for scraps */
+  --moodboard-item-border: var(--cute-border-primary); /* Light Pink */
+  --moodboard-item-shadow: 2px 2px 0px var(--cute-shadow);
+  --moodboard-item-hover-shadow: 4px 4px 0px var(--cute-accent-primary);
+  --moodboard-tape-color: rgba(255, 228, 196, 0.7); /* Bisque, semi-transparent for tape */
+  --moodboard-pin-color: var(--cute-accent-primary);
+  --moodboard-tag-bg: var(--cute-button-secondary-bg);
+  --moodboard-tag-text: var(--cute-button-secondary-text);
+  --moodboard-tag-border: var(--cute-button-secondary-border);
+  --moodboard-modal-bg: var(--cute-parchment-bg);
+  --moodboard-modal-border: var(--cute-parchment-border);
+  --moodboard-input-bg: var(--cute-bg-secondary);
+  --moodboard-input-border: var(--cute-border-secondary);
+  --moodboard-mobile-header-bg: var(--cute-accent-primary);
+  --moodboard-mobile-fab-shadow: 0px 3px 0px #B84A8A, 0px 5px 6px rgba(0,0,0,0.2);
+}
+
+/* Desktop Moodboard Styles */
+.moodboard-section-desktop-scrapbook {
+  padding: 1.5rem;
+  background-color: var(--moodboard-bg);
+  /* Optional: Subtle pixel texture for the "board" */
+  background-image: 
+    linear-gradient(45deg, rgba(0,0,0,0.03) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.03) 75%, rgba(0,0,0,0.03)),
+    linear-gradient(45deg, rgba(0,0,0,0.03) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.03) 75%, rgba(0,0,0,0.03));
+  background-size: 10px 10px;
+  background-position: 0 0, 5px 5px;
+  border-radius: var(--border-radius);
+  border: var(--border-width) solid var(--moodboard-toolbar-border);
+  min-height: 80vh;
+}
+
+.moodboard-toolbar-cute {
+  background-color: var(--moodboard-toolbar-bg);
+  padding: 1rem;
+  border-radius: calc(var(--border-radius) - 4px);
+  border-bottom: 3px solid var(--moodboard-toolbar-border);
+  box-shadow: var(--button-shadow) var(--cute-shadow);
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.moodboard-toolbar-cute h2 {
+  font-size: 1.75rem;
+  color: var(--cute-text-primary);
+  text-shadow: 1px 1px 0px var(--cute-highlight);
+}
+.moodboard-toolbar-actions-cute { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.moodboard-filter-group-cute { display: flex; gap: 0.5rem; align-items: center; }
+.moodboard-input-cute.search { width: 200px; font-size: 0.85rem; padding: 0.5rem 0.75rem; }
+.moodboard-select-cute { /* Similar to storybook-select-cute */
+  padding: 0.5rem 0.75rem; font-size: 0.85rem; background-color: var(--cute-bg-secondary);
+  color: var(--cute-text-primary); border: 2px solid var(--moodboard-toolbar-border);
+  border-radius: 0.375rem; box-shadow: 1px 1px 0 var(--cute-shadow);
+}
+.moodboard-layout-toggle-cute { display: flex; align-items: center; gap: 0.25rem; font-size: 0.8rem; color: var(--cute-text-secondary); }
+.moodboard-layout-toggle-cute button {
+  padding: 0.3rem 0.6rem; background: var(--cute-bg-tertiary); border: 1px solid var(--moodboard-toolbar-border);
+  border-radius: 0.25rem; cursor: pointer; color: var(--cute-text-primary);
+}
+.moodboard-layout-toggle-cute button.active { background-color: var(--cute-accent-primary); color: white; }
+
+.moodboard-button-cute { /* Base for this section */
+  padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: bold;
+  border-radius: 0.5rem; border-width: 2px; border-style: solid;
+  box-shadow: 2px 2px 0px var(--cute-shadow); cursor: pointer; transition: all 0.15s;
+  font-family: var(--font-main);
+}
+.moodboard-button-cute.add-scrap { background-color: var(--cute-accent-primary); color: white; border-color: var(--cute-highlight); }
+.moodboard-button-cute.add-scrap:hover { background-color: #E55A9D; transform: translate(-1px,-1px); }
+.moodboard-button-cute.choose-file { background-color: var(--cute-button-secondary-bg); color: var(--cute-button-secondary-text); border-color: var(--cute-button-secondary-border);}
+.moodboard-button-cute.add-tag { background-color: var(--moodboard-tag-bg); color: var(--moodboard-tag-text); border-color: var(--moodboard-tag-border); padding: 0.4rem 0.6rem; font-size: 0.8rem; }
+.moodboard-button-cute.save { background-color: var(--cute-accent-secondary); color: var(--cute-text-primary); border-color: #87D387; }
+.moodboard-button-cute.cancel { background-color: var(--cute-bg-secondary); color: var(--cute-text-secondary); border-color: var(--moodboard-toolbar-border); }
+.moodboard-button-cute.delete { background-color: #FFD4D4; color: #A75C5C; border-color: #FFC0C0; }
+
+
+/* Modal for Add/Edit Item */
+.moodboard-modal-overlay-cute { /* Same as storybook or plans modal overlay */
+  position: fixed; inset: 0; background-color: rgba(255, 240, 245, 0.7);
+  backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center;
+  padding: 1rem; z-index: 170; animation: cute-fade-in 0.3s;
+}
+.moodboard-form-modal-cute {
+  background-color: var(--moodboard-modal-bg); border: 3px solid var(--moodboard-modal-border);
+  border-radius: 0.75rem; padding: 1.5rem; width: 100%; max-width: 520px;
+  box-shadow: var(--card-shadow) var(--cute-shadow); max-height: 90vh; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 0.75rem; /* Smaller gap */
+}
+.moodboard-form-modal-cute h3 { font-size: 1.5rem; color: var(--cute-text-primary); text-align: center; margin-bottom: 0.5rem; }
+.moodboard-form-field-cute { display: flex; flex-direction: column; gap: 0.25rem; }
+.moodboard-form-field-cute label { font-size: 0.8rem; color: var(--cute-text-secondary); font-weight: bold; }
+.moodboard-input-cute, .moodboard-textarea-cute { /* Shared style for inputs in form */
+  background-color: var(--moodboard-input-bg); border: 2px solid var(--moodboard-input-border);
+  border-radius: 0.375rem; padding: 0.6rem; font-size: 0.9rem;
+}
+.moodboard-input-cute.small { font-size: 0.8rem; padding: 0.4rem 0.6rem; }
+.moodboard-textarea-cute { min-height: 60px; }
+.moodboard-file-input-cute { display: none; }
+.moodboard-progress-bar-cute { height: 4px; background-color: var(--cute-accent-primary); border-radius: 2px; margin-top: 0.25rem; transition: width 0.2s; }
+.moodboard-image-preview-cute img, .moodboard-embed-preview-cute { max-height: 150px; object-fit: contain; border-radius: 0.25rem; border: 1px solid var(--moodboard-input-border); margin-bottom: 0.25rem; }
+.moodboard-remove-item-btn-cute { font-size: 0.7rem; color: var(--cute-accent-primary); background:none; border:none; cursor:pointer; align-self:flex-start; padding:0.2rem;}
+.moodboard-color-palette-cute { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 0.25rem;}
+.moodboard-color-swatch-cute {
+  width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--moodboard-input-border);
+  cursor: pointer; transition: transform 0.2s;
+}
+.moodboard-color-swatch-cute.selected { border-color: var(--cute-accent-primary); transform: scale(1.2); box-shadow: 0 0 0 2px var(--cute-accent-primary); }
+.moodboard-tags-display-cute { display: flex; flex-wrap: wrap; gap: 0.375rem; margin-bottom: 0.25rem; }
+.moodboard-tag-item-cute {
+  background-color: var(--moodboard-tag-bg); color: var(--moodboard-tag-text);
+  border: 1px solid var(--moodboard-tag-border); border-radius: 0.25rem; /* More squared tags */
+  padding: 0.2rem 0.4rem; font-size: 0.75rem;
+}
+.moodboard-tag-item-cute.small { font-size: 0.7rem; padding: 1px 3px; }
+.moodboard-tag-item-cute button { margin-left: 0.25rem; background:none; border:none; color:inherit; opacity:0.7; cursor:pointer; }
+.moodboard-tag-input-area-cute { display: flex; gap: 0.5rem; align-items: center; }
+.moodboard-form-actions-cute { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1rem; }
+.moodboard-form-modal-cute.confirm-delete { text-align: center; }
+.moodboard-form-modal-cute.confirm-delete h3 { color: var(--cute-accent-primary); }
+
+
+/* Moodboard Items Container */
+.moodboard-items-container-cute {
+  padding-top: 1rem;
+  animation: cute-fade-in 0.5s ease-out;
+}
+.moodboard-items-container-cute.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+.moodboard-items-container-cute.masonry {
+  column-count: 4; /* Adjust for desired columns */
+  column-gap: 1rem;
+}
+@media (max-width: 1200px) { .moodboard-items-container-cute.masonry { column-count: 3; } }
+@media (max-width: 900px) { .moodboard-items-container-cute.masonry { column-count: 2; } }
+@media (max-width: 600px) { .moodboard-items-container-cute.masonry { column-count: 1; } } /* Mobile Masonry */
+
+
+.moodboard-item-scrap-cute {
+  background-color: var(--moodboard-item-bg);
+  border: 2px solid var(--moodboard-item-border);
+  border-radius: 0.5rem; /* Softer corners for scraps */
+  padding: 0.75rem;
+  box-shadow: var(--moodboard-item-shadow);
+  margin-bottom: 1rem; /* For masonry */
+  break-inside: avoid-column; /* For masonry */
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  opacity: 0; /* For animation */
+  transform: translateY(10px);
+  animation: moodboard-item-appear 0.4s ease-out forwards;
+  animation-delay: var(--animation-delay, 0s); /* Stagger animation */
+  display: flex;
+  flex-direction: column;
+}
+@keyframes moodboard-item-appear {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.moodboard-item-scrap-cute:hover {
+  transform: translateY(-3px) rotate(0.5deg);
+  box-shadow: var(--moodboard-item-hover-shadow);
+}
+
+/* Washi tape effect */
+.moodboard-item-tape-cute {
+  position: absolute;
+  width: 40px; height: 20px;
+  background-color: var(--moodboard-tape-color);
+  opacity: 0.8;
+  border-left: 1px dashed rgba(0,0,0,0.2);
+  border-right: 1px dashed rgba(0,0,0,0.2);
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+}
+.moodboard-item-tape-cute.top-left { top: -8px; left: 10px; transform: rotate(-15deg); }
+.moodboard-item-tape-cute.top-right { top: -8px; right: 10px; transform: rotate(15deg); }
+
+
+.moodboard-item-image-wrapper-cute, .moodboard-item-embed-wrapper-cute {
+  width: 100%;
+  max-height: 250px; /* Limit height of media */
+  border-radius: 0.25rem;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+  background-color: var(--moodboard-input-bg); /* Placeholder bg */
+  border: 1px solid var(--moodboard-item-border);
+}
+.moodboard-item-image-cute { width: 100%; height: 100%; object-fit: cover; }
+.moodboard-item-placeholder-cute { /* For items without image/embed */
+  height: 100px; display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; color: var(--moodboard-item-border);
+  background-color: rgba(0,0,0,0.02); border-radius: 0.25rem; margin-bottom: 0.5rem;
+}
+
+.moodboard-item-content-cute { padding: 0.25rem 0; flex-grow: 1; }
+.moodboard-item-title-cute {
+  font-size: 1.1rem; font-weight: bold; color: var(--cute-text-primary);
+  margin-bottom: 0.25rem;
+}
+.moodboard-item-description-cute {
+  font-size: 0.8rem; color: var(--cute-text-secondary);
+  line-height: 1.4; margin-bottom: 0.5rem;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.moodboard-item-tags-cute { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.5rem; }
+.moodboard-item-tags-cute .moodboard-tag-item-cute.more { font-style: italic; opacity: 0.7; }
+
+.moodboard-item-actions-cute {
+  display: flex; gap: 0.375rem; position: absolute; top: 0.5rem; right: 0.5rem;
+  opacity: 0; transition: opacity 0.2s;
+}
+.moodboard-item-scrap-cute:hover .moodboard-item-actions-cute { opacity: 1; }
+.moodboard-item-actions-cute button {
+  background-color: rgba(255,255,255,0.8); border: 1px solid var(--moodboard-item-border);
+  border-radius: 50%; width: 28px; height: 28px; font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.moodboard-item-actions-cute button:hover { background-color: var(--cute-highlight); }
+
+.moodboard-item-date-cute {
+    font-size: 0.65rem; color: var(--cute-text-secondary); text-align: right;
+    margin-top: 0.5rem; opacity: 0.7;
+}
+
+.moodboard-empty-state-cute { /* Same as storybook or plans empty state */
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 3rem 1rem; text-align: center; color: var(--cute-text-secondary);
+  min-height: 300px; border: 2px dashed var(--moodboard-item-border); border-radius:0.5rem;
+}
+.moodboard-empty-state-cute span { font-size: 3rem; margin-bottom: 1rem; animation: cute-bounce 2s infinite .5s;}
+.moodboard-empty-state-cute p { font-size: 1.1rem; margin-bottom: 1rem;}
+
+
+/* --- Mobile Moodboard Styles --- */
+.moodboard-section-mobile-scrapbook {
+  padding: 0.75rem; padding-bottom: 5rem; /* Space for FAB */
+  background-color: var(--moodboard-bg); min-height: 100vh;
+}
+.moodboard-mobile-header-cute {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.5rem 0.25rem; margin-bottom: 1rem;
+  border-bottom: 2px solid var(--moodboard-toolbar-border);
+}
+.moodboard-mobile-header-cute h2 { font-size: 1.5rem; color: var(--cute-text-primary); }
+.moodboard-mobile-filter-btn-cute {
+  background-color: var(--moodboard-toolbar-bg); color: var(--cute-text-primary);
+  padding: 0.5rem 0.75rem; border-radius: 0.375rem; font-size: 0.8rem;
+  border: 1px solid var(--moodboard-toolbar-border); box-shadow: 1px 1px 0 var(--cute-shadow);
+  display: flex; align-items:center; gap: 0.25rem;
+}
+.filter-active-indicator { 
+    display:inline-block; width: 8px; height:8px; background-color: var(--cute-accent-primary); 
+    border-radius:50%; animation: cute-bounce 1s infinite;
+}
+
+
+.moodboard-items-container-cute.mobile-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); /* Two columns for mobile */
+  gap: 0.75rem;
+}
+.moodboard-item-scrap-cute.mobile {
+  padding: 0.5rem; border-width: 2px;
+  box-shadow: 1px 1px 0px var(--cute-shadow);
+}
+.moodboard-item-scrap-cute.mobile:hover { transform: translateY(-2px); box-shadow: 2px 2px 0px var(--cute-accent-primary); }
+.moodboard-item-embed-wrapper-cute.mobile, .moodboard-item-image-wrapper-cute.mobile {
+  max-height: 120px; /* Smaller media on mobile cards */
+  margin-bottom: 0.375rem;
+}
+.moodboard-embed-placeholder-mobile {
+  height: 80px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem; color: var(--moodboard-item-border);
+  background-color: rgba(0,0,0,0.03); border-radius: 0.25rem;
+}
+.moodboard-item-content-cute.mobile { padding: 0.25rem 0; }
+.moodboard-item-title-cute.mobile { font-size: 0.9rem; margin-bottom: 0.1rem; -webkit-line-clamp: 2; }
+.moodboard-tag-item-cute.small.mobile { font-size: 0.65rem; padding: 1px 3px;}
+
+.moodboard-fab-cute { /* Similar to bucket list FAB */
+  position: fixed; bottom: 1.25rem; right: 1.25rem;
+  width: 3.5rem; height: 3.5rem; background-color: var(--cute-accent-primary); color: white;
+  border-radius: 50%; border: 3px solid white; box-shadow: var(--mobile-fab-shadow);
+  font-size: 1.75rem; display: flex; align-items: center; justify-content: center;
+  z-index: 150; transition: all 0.15s ease-out; animation: cute-fab-pulse 2s infinite .5s;
+}
+.moodboard-fab-cute:active { transform: scale(0.9); box-shadow: 0px 1px 0px #B84A8A; }
+
+
+/* Mobile Bottom Sheet for Moodboard */
+.moodboard-bottom-sheet-overlay-cute { /* Use existing or theme specifically */
+  position: fixed; inset: 0; background-color: rgba(255, 240, 245, 0.7);
+  backdrop-filter: blur(2px); z-index: 190;
+  display: flex; align-items: flex-end;
+}
+.moodboard-bottom-sheet-cute {
+  width: 100%; background-color: var(--mobile-sheet-bg);
+  border-top-left-radius: 1rem; border-top-right-radius: 1rem;
+  border-top: 3px solid var(--mobile-sheet-border-top);
+  padding: 0.75rem; padding-top: 0.25rem;
+  box-shadow: 0 -3px 15px rgba(0,0,0,0.1);
+  max-height: 85vh; overflow-y: auto;
+  animation: cute-slide-up 0.3s ease-out;
+}
+.moodboard-bottom-sheet-handle-cute { /* Use existing or theme specifically */
+  width: 2.5rem; height: 0.2rem; background-color: var(--mobile-sheet-border-top);
+  border-radius: 0.1rem; margin: 0.5rem auto 1rem;
+}
+.moodboard-sheet-form-cute h3, .moodboard-sheet-details-cute h3, .moodboard-sheet-filter-cute h3 {
+  font-size: 1.2rem; color: var(--cute-text-primary); text-align: center;
+  margin-bottom: 1rem; font-weight: bold;
+}
+.moodboard-input-cute.sheet, .moodboard-textarea-cute.sheet {
+  font-size: 0.85rem; padding: 0.5rem;
+}
+.moodboard-textarea-cute.sheet { min-height: 50px; }
+.moodboard-button-cute.sheet { padding: 0.6rem 1rem; font-size: 0.85rem; flex: 1; }
+.moodboard-button-cute.choose-file.sheet { width: 100%; }
+.moodboard-color-palette-cute.sheet { gap: 0.375rem; }
+.moodboard-color-palette-cute.sheet button { width: 20px; height: 20px; border-width: 1px;}
+.moodboard-tags-input-area-cute.sheet { gap: 0.375rem; }
+.moodboard-input-cute.small.sheet { flex-grow: 1; }
+.moodboard-button-cute.add-tag.small.sheet { padding: 0.3rem 0.5rem; font-size: 0.75rem; }
+.moodboard-tags-display-cute.sheet span { font-size: 0.75rem; padding: 1px 3px; }
+.moodboard-tags-display-cute.sheet.details span { background-color: var(--moodboard-tag-bg); color: var(--moodboard-tag-text); border:1px solid var(--moodboard-tag-border); }
+.moodboard-item-date-cute.sheet { font-size: 0.7rem; text-align: center; margin-top:0.5rem; }
+.moodboard-sheet-details-cute img { max-width:100%; max-height:200px; object-fit:contain; border-radius:0.25rem; margin: 0.5rem auto; display:block;}
+.moodboard-sheet-details-cute p {font-size:0.85rem; color: var(--cute-text-secondary); margin-bottom:0.5rem;}
+.moodboard-sheet-filter-cute h4 { font-size:0.9rem; color: var(--cute-text-secondary); margin-top:0.75rem; margin-bottom:0.25rem; }
+.moodboard-tag-filter-list-cute { display:flex; flex-wrap:wrap; gap:0.375rem; }
+.moodboard-tag-filter-list-cute button {
+  padding: 0.3rem 0.6rem; font-size:0.8rem; background-color: var(--moodboard-tag-bg);
+  color: var(--moodboard-tag-text); border:1px solid var(--moodboard-tag-border); border-radius:0.25rem;
+}
+.moodboard-tag-filter-list-cute button.active { background-color: var(--cute-accent-primary); color:white; }
+
+
+/* SocialEmbed Theming to fit scrapbook style */
+.social-embed-pixel-wrapper {
+  border: 2px dashed var(--moodboard-item-border); /* Dashed border like stitched */
+  padding: 0.375rem; /* 6px */
+  border-radius: 0.375rem; /* 6px */
+  background-color: rgba(0,0,0,0.02); /* Subtle background */
+  height: 100%; /* Ensure it fills the wrapper */
+  min-height: 150px; /* Minimum height for embeds */
+}
+.social-embed-iframe-container-pixel {
+  width: 100%;
+  height: 100%;
+  min-height: inherit; /* Inherit min-height */
+}
+.social-embed-iframe-pixel-perfect { /* Styles for the iframe itself */
+  border-radius: 0.125rem; /* 2px, very slight rounding for the iframe content */
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  border: none;
+}
+.social-embed-loading-state-pixel, .social-embed-error-state-pixel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 150px; /* Match wrapper */
+  padding: 1rem;
+  text-align: center;
+  color: var(--cute-text-secondary);
+  font-size: 0.8rem;
+}
+.social-embed-loading-state-pixel .loading-icon, .social-embed-error-state-pixel .error-icon {
+  font-size: 1.75rem; /* Larger emoji */
+  margin-bottom: 0.5rem;
+  animation: cute-bounce 1.5s infinite;
+}
+.social-embed-error-state-pixel a {
+  margin-top: 0.5rem;
+  color: var(--cute-accent-primary);
+  text-decoration: underline;
+  font-size: 0.75rem;
+}
+
+/* Overflow hidden for cute themes that prevent scrollbars during modal/sheet */
+.overflow-hidden-cute {
+  overflow: hidden !important;
+}
+
+
+/* Dreams Section - Dream Weaver / Wishing Stars Theme */
+.dreams-section-weaver {
+  padding: 1.5rem; /* More padding */
+  background-color: var(--dream-section-bg);
+  border-radius: var(--border-radius);
+  border: var(--border-width) solid var(--dream-orb-border);
+  box-shadow: inset 0 0 25px rgba(0,0,0,0.05), var(--card-shadow) var(--cute-shadow);
+  min-height: 70vh; /* Ensure it has some height */
+  position: relative;
+  overflow: hidden; /* For pseudo-elements */
+}
+
+/* Optional: Add a subtle starry/dusty background to the section */
+.dreams-section-weaver::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(var(--dream-orb-border) 1px, transparent 1px);
+  background-size: 20px 20px; /* Small pixel dots */
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+}
+.dreams-section-weaver > * { position: relative; z-index: 1; } /* Ensure content is above pseudo-element */
+
+
+.dreams-header-weaver {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: var(--dream-header-bg);
+  border-radius: calc(var(--border-radius) - 4px);
+  border-bottom: 2px dashed var(--dream-orb-border);
+}
+.dreams-header-weaver h1 {
+  font-size: 2rem;
+  color: var(--dream-text-primary);
+  text-shadow: 1px 1px 0px var(--cute-highlight);
+  margin-bottom: 0.75rem;
+  animation: cute-glow-text 3s infinite alternate;
+}
+@keyframes cute-glow-text {
+  from { text-shadow: 1px 1px 0px var(--cute-highlight), 0 0 3px var(--cute-highlight); }
+  to { text-shadow: 1px 1px 0px var(--cute-highlight), 0 0 8px var(--cute-accent-primary); }
+}
+
+.dream-button-cute { /* Base style for buttons in this section */
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border-radius: 0.5rem; /* Softer radius */
+  border-width: 2px; /* Thinner border for dream buttons */
+  border-style: solid;
+  box-shadow: 2px 2px 0px var(--cute-shadow);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: var(--font-main);
+  font-weight: bold;
+}
+.dream-button-cute:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--cute-shadow);
+}
+.dream-button-cute:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--cute-shadow);
+}
+
+.dream-button-cute.add-dream-button {
+  background-color: var(--cute-accent-primary);
+  color: white;
+  border-color: var(--cute-highlight); /* Highlight border */
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+}
+.dream-button-cute.add-dream-button:hover {
+  background-color: #E55A9D; /* Darker pink */
+}
+
+/* Add Dream Modal */
+.dream-modal-overlay-cute {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(230, 224, 255, 0.7); /* Dreamy Lavender overlay */
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 160; 
+  animation: cute-fade-in 0.3s;
+}
+.dream-add-form-cute {
+  background-color: var(--dream-form-bg);
+  border: 3px solid var(--dream-form-border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--card-shadow) var(--cute-shadow), 0 0 0 5px var(--dream-section-bg); /* Double border */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.dream-add-form-cute h2 {
+  font-size: 1.5rem;
+  color: var(--dream-text-primary);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.dream-input-cute, .dream-textarea-cute {
+  background-color: var(--dream-input-bg);
+  border: 2px solid var(--dream-input-border);
+  border-radius: 0.375rem; /* 6px */
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--dream-text-primary);
+  box-shadow: inset 1px 1px 1px rgba(0,0,0,0.05);
+}
+.dream-input-cute::placeholder, .dream-textarea-cute::placeholder {
+  color: var(--dream-text-secondary);
+  opacity: 0.8;
+}
+.dream-input-cute:focus, .dream-textarea-cute:focus {
+  outline: none;
+  border-color: var(--cute-accent-primary);
+  background-color: var(--cute-highlight);
+}
+.dream-textarea-cute { min-height: 70px; resize: vertical; }
+
+.dream-form-actions-cute {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end; /* Align to right */
+  margin-top: 0.5rem;
+}
+.dream-button-cute.submit {
+  background-color: var(--cute-accent-secondary);
+  color: var(--dream-text-primary);
+  border-color: #87D387; /* Greenish border */
+}
+.dream-button-cute.cancel {
+  background-color: var(--cute-bg-secondary);
+  color: var(--dream-text-secondary);
+  border-color: var(--dream-orb-border);
+}
+.dream-button-cute.delete {
+  background-color: var(--dream-delete-button-bg);
+  color: var(--dream-delete-button-text);
+  border-color: #FFB8B8;
+}
+.dream-button-cute:disabled {
+  background-color: var(--dream-text-secondary);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+
+/* Dreams Constellation Grid */
+.dreams-constellation-grid-cute {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Responsive orbs */
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+@media (max-width: 600px) {
+  .dreams-constellation-grid-cute {
+    grid-template-columns: 1fr; /* Single column on small mobile */
+  }
+}
+
+
+.dream-orb-cute {
+  background-color: var(--dream-orb-bg);
+  border: 3px solid var(--dream-orb-border);
+  border-radius: 1rem; /* Orb-like */
+  padding: 1rem;
+  box-shadow: var(--dream-orb-shadow);
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  animation: dream-appear 0.5s ease-out backwards;
+  animation-delay: calc(var(--idx, 0) * 0.05s); /* Stagger appearance */
+  min-height: 180px; /* Ensure orbs have some height */
+}
+@keyframes dream-appear {
+  from { opacity: 0; transform: translateY(20px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.dream-orb-cute:hover, .dream-orb-cute.hovered {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: var(--dream-orb-hover-shadow);
+  border-color: var(--cute-accent-primary);
+}
+/* Category-specific theming for orbs */
+.dream-orb-cute.dream-category-travel { background-color: var(--dream-cat-travel-bg); border-color: var(--dream-cat-travel-border); }
+.dream-orb-cute.dream-category-home { background-color: var(--dream-cat-home-bg); border-color: var(--dream-cat-home-border); }
+.dream-orb-cute.dream-category-pets { background-color: var(--dream-cat-pets-bg); border-color: var(--dream-cat-pets-border); }
+.dream-orb-cute.dream-category-activities { background-color: var(--dream-cat-activities-bg); border-color: var(--dream-cat-activities-border); }
+.dream-orb-cute.dream-category-other { background-color: var(--dream-cat-other-bg); border-color: var(--dream-cat-other-border); }
+
+.dream-orb-image-container-cute {
+  width: 100%;
+  height: 120px; /* Fixed height for image part */
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  border: 2px solid var(--dream-input-border); /* Inner border for image */
+  background-color: var(--dream-input-bg); /* Placeholder bg */
+}
+.dream-orb-image-cute {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.dream-orb-cute:hover .dream-orb-image-cute {
+  transform: scale(1.1);
+}
+
+.dream-orb-content-cute {
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.dream-orb-emoji-cute {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.25rem;
+  animation: cute-wiggle 2.5s infinite; /* Re-use wiggle from Plans */
+}
+.dream-orb-title-cute {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--dream-text-primary);
+  margin-bottom: 0.25rem;
+  word-break: break-word; /* Prevent long titles from breaking layout */
+}
+.dream-orb-description-cute {
+  font-size: 0.8rem;
+  color: var(--dream-text-secondary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit description preview */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.dream-orb-delete-button-cute {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: rgba(255,255,255,0.6);
+  color: var(--cute-accent-primary);
+  border: 1px solid var(--dream-orb-border);
+  border-radius: 50%;
+  width: 1.75rem; /* 28px */
+  height: 1.75rem; /* 28px */
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.dream-orb-cute:hover .dream-orb-delete-button-cute,
+.dream-orb-cute:focus-within .dream-orb-delete-button-cute { /* Show on focus for accessibility */
+  opacity: 1;
+}
+.dream-orb-delete-button-cute:hover {
+  background-color: var(--dream-delete-button-bg);
+  color: var(--dream-delete-button-text);
+  transform: scale(1.1);
+}
+
+.dreams-empty-state-cute {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--dream-text-secondary);
+  border: 2px dashed var(--dream-orb-border);
+  border-radius: 0.75rem;
+  background-color: rgba(255,255,255,0.05);
+  margin-top: 2rem;
+}
+.dreams-empty-state-cute .icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+  animation: cute-bounce 2s infinite;
+}
+.dreams-empty-state-cute h2 {
+  font-size: 1.25rem;
+  color: var(--dream-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.dream-add-form-cute.confirm-delete {
+    text-align: center;
+}
+.dream-add-form-cute.confirm-delete h2 {
+    color: var(--cute-accent-primary);
+    font-size: 1.3rem;
+}
+.dream-add-form-cute.confirm-delete p {
+    color: var(--dream-text-secondary);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Mobile specific styling for orbs if needed */
+@media (max-width: 600px) {
+  .dream-orb-cute {
+    min-height: 160px; /* Slightly smaller for mobile */
+  }
+  .dream-orb-image-container-cute {
+    height: 100px;
+  }
+  .dream-orb-emoji-cute {
+    font-size: 1.75rem;
+  }
+  .dream-orb-title-cute {
+    font-size: 1rem;
+  }
+  .dream-orb-description-cute {
+    font-size: 0.75rem;
+    -webkit-line-clamp: 2;
+  }
+  .dreams-header-weaver h1 {
+    font-size: 1.75rem;
+  }
+  .dream-button-cute.add-dream-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
 }
 
 /* Cinema Section - Arcade Theme */
