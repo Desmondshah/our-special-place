@@ -97,6 +97,126 @@
   --moodboard-mobile-fab-shadow: 0px 3px 0px #B84A8A, 0px 5px 6px rgba(0,0,0,0.2);
 }
 
+
+
+/* Add these to your src/index.css file */
+
+/* Tab container styling */
+.tab-container-cute {
+  display: flex;
+  gap: 0.5rem; /* 8px */
+  margin-bottom: 1.5rem; /* 24px */
+  overflow-x: auto; /* For mobile scrolling */
+  padding: 0.25rem; /* Add a little padding for scrollbar or visual */
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: var(--cute-border-primary) var(--cute-bg-secondary); /* For Firefox */
+}
+
+.tab-container-cute::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tab-container-cute::-webkit-scrollbar-track {
+  background: var(--cute-bg-secondary);
+  border-radius: 3px;
+}
+
+.tab-container-cute::-webkit-scrollbar-thumb {
+  background-color: var(--cute-border-primary);
+  border-radius: 3px;
+}
+
+
+/* Individual tab button styling */
+.tab-button-artistic {
+  font-family: var(--font-main);
+  padding: 0.75rem 1rem; /* 12px 16px */
+  font-size: 0.875rem; /* 14px for slightly smaller text */
+  border-width: var(--border-width);
+  border-style: solid;
+  border-radius: calc(var(--border-radius) - 4px); /* Slightly less rounded for a crisper look */
+  box-shadow: var(--button-shadow) var(--cute-shadow);
+  cursor: pointer;
+  transition: all 0.25s ease-out;
+  white-space: nowrap; /* Prevent text wrapping */
+  flex-shrink: 0; /* Prevent buttons from shrinking when container is too small */
+  position: relative;
+  overflow: hidden; /* For pseudo-elements */
+}
+
+/* Tab button inactive state */
+.tab-button-artistic.inactive-tab-artistic {
+  background-color: var(--cute-bg-tertiary);
+  color: var(--cute-text-secondary);
+  border-color: var(--cute-border-secondary);
+  opacity: 0.8;
+}
+
+.tab-button-artistic.inactive-tab-artistic:hover {
+  background-color: var(--cute-highlight);
+  border-color: var(--cute-border-primary);
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+/* Tab button active state */
+.tab-button-artistic.active-tab-artistic {
+  background-color: var(--cute-accent-primary);
+  color: white;
+  border-color: var(--cute-highlight);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: calc(var(--button-shadow) + 2px) calc(var(--button-shadow) + 2px) 0px var(--cute-accent-light);
+  font-weight: bold;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Add a little "shine" or "detail" to active tabs */
+.tab-button-artistic.active-tab-artistic::before {
+  content: '💖'; /* Or use a sparkle, star, etc. */
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  font-size: 0.7em;
+  opacity: 0.7;
+  transform: rotate(-15deg);
+}
+
+/* Starry theme adjustments for tabs */
+[data-theme="starry"] .tab-container-cute {
+  scrollbar-color: var(--border-primary) var(--background-secondary);
+}
+
+[data-theme="starry"] .tab-button-artistic.inactive-tab-artistic {
+  background-color: rgba(13, 27, 42, 0.5); /* Darker, semi-transparent */
+  border-color: rgba(180, 151, 189, 0.3);
+  color: var(--text-secondary);
+}
+
+[data-theme="starry"] .tab-button-artistic.inactive-tab-artistic:hover {
+  background-color: rgba(13, 27, 42, 0.7);
+  border-color: rgba(180, 151, 189, 0.5);
+  transform: translateY(-2px);
+}
+
+[data-theme="starry"] .tab-button-artistic.active-tab-artistic {
+  background: linear-gradient(45deg, rgba(232, 193, 193, 0.25), rgba(180, 151, 189, 0.35));
+  border-color: rgba(232, 193, 193, 0.5);
+  box-shadow: 0 4px 15px rgba(180, 151, 189, 0.4);
+  color: var(--text-primary);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+[data-theme="starry"] .tab-button-artistic.active-tab-artistic::before {
+  content: '✨'; /* Star for starry theme */
+  color: rgba(253, 253, 253, 0.8);
+}
+
+/* Ensure the overall pixel-card has some padding for the tab container */
+.pixel-card {
+  padding: 1.5rem; /* Original was p-6, adjust if this is too much/little */
+}
+
 /* Desktop Moodboard Styles */
 .moodboard-section-desktop-scrapbook {
   padding: 1.5rem;

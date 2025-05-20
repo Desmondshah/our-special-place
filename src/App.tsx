@@ -17,16 +17,24 @@ export default function App() {
 
   const handlePasscodeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode === "012325") {
+    if (passcode === "012325") { // Consider moving passcode to an environment variable
       setIsAuthenticated(true);
     } else {
       alert("Incorrect passcode!");
     }
   };
 
+  const tabs = [
+    { id: "plans", label: "Plans 📅", icon: "📅" },
+    { id: "bucket-list", label: "List 🎯", icon: "🎯" },
+    { id: "dreams", label: "Dreams ✨", icon: "✨" },
+    { id: "milestones", label: "Miles 💫", icon: "💫" },
+    { id: "cinema", label: "Cinema 🎬", icon: "🎬" },
+    { id: "mood-board", label: "Mood 💭", icon: "💭" },
+  ];
+
   return (
     <ThemeProvider>
-      {/* Theme Toggle visible regardless of authentication */}
       <ThemeToggle />
       <StarryBackground />
       <ThemeTransition />
@@ -62,25 +70,25 @@ export default function App() {
               Our Special Place 💕
             </h1>
             
-            <div className="pixel-card p-6">
-              {/* Updated tab container with mobile-only scroll */}
-              <div className="flex flex-row gap-1 sm:gap-2 mb-6 sm:overflow-hidden overflow-x-auto">
-                {["plans", "bucket-list", "dreams", "milestones", "cinema", "mood-board"].map((tab) => (
+            {/* Apply new styles to the pixel-card and tab container */}
+            <div className="pixel-card"> {/* Ensure this has some padding, e.g., p-4 or p-6 from your CSS */}
+              {/* Updated tab container with new class */}
+              <div className="tab-container-cute">
+                {tabs.map((tab) => (
                   <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`pixel-button whitespace-nowrap text-xs sm:text-base px-2 sm:px-4 py-2 flex-1 ${
-                      activeTab === tab
-                        ? "active-tab"
-                        : "inactive-tab"
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    // Apply new classes to buttons
+                    className={`tab-button-artistic ${
+                      activeTab === tab.id
+                        ? "active-tab-artistic" // New class for active tab
+                        : "inactive-tab-artistic" // New class for inactive tab
                     }`}
+                    title={tab.label} // Add title for accessibility and hover
                   >
-                    {tab === "plans" && "Plans 📅"}
-                    {tab === "bucket-list" && "List 🎯"}
-                    {tab === "dreams" && "Dreams ✨"}
-                    {tab === "milestones" && "Miles 💫"}
-                    {tab === "cinema" && "Cinema 🎬"}
-                    {tab === "mood-board" && "Mood 💭"}
+                    {/* Using only icon for smaller tabs, or icon + text based on screen size */}
+                    <span className="sm:hidden">{tab.icon}</span>
+                    <span className="hidden sm:inline">{tab.label}</span>
                   </button>
                 ))}
               </div>
