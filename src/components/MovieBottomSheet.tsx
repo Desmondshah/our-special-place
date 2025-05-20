@@ -190,27 +190,31 @@ export function MovieBottomSheet({
           </button>
           
           {movie.watched ? (
-            <button 
-              onClick={onMarkUnwatched}
-              className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base ${
-                theme === 'pixel' 
-                  ? 'bg-[#FFCCBC] text-[#BF360C]' 
-                  : 'bg-[rgba(232,193,193,0.2)] text-[#E8C1C1]'
-              }`}
-            >
-              <span>↩</span> Mark Unwatched
-            </button>
+           <button 
+  onClick={onMarkUnwatched}
+  // className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base ${
+  // theme === 'pixel' 
+  // ? 'bg-[#FFCCBC] text-[#BF360C]' // This was the Tailwind class
+  // : 'bg-[rgba(232,193,193,0.2)] text-[#E8C1C1]'
+  // }`}
+  // Add a new class like 'bottom-sheet-mark-unwatched-btn'
+  className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base bottom-sheet-mark-unwatched-btn`}
+>
+  <span>↩</span> Mark Unwatched
+</button>
           ) : (
             <button 
-              onClick={onMarkWatched}
-              className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base ${
-                theme === 'pixel' 
-                  ? 'bg-[#A5D6A7] text-[#1B5E20]' 
-                  : 'bg-[rgba(180,151,189,0.2)] text-[#B497BD]'
-              }`}
-            >
-              <span>✓</span> Mark Watched
-            </button>
+  onClick={onMarkWatched}
+  // className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base ${
+  // theme === 'pixel' 
+  // ? 'bg-[#A5D6A7] text-[#1B5E20]' // This was the Tailwind class
+  // : 'bg-[rgba(180,151,189,0.2)] text-[#B497BD]'
+  // }`}
+  // Add a new class like 'bottom-sheet-mark-watched-btn'
+  className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base bottom-sheet-mark-watched-btn`}
+>
+  <span>✓</span> Mark Watched
+</button>
           )}
         </div>
         
@@ -225,16 +229,18 @@ export function MovieBottomSheet({
             <span>🔗</span> Open Link
           </a>
           
-          <button 
-            onClick={onDelete}
-            className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base ${
-              theme === 'pixel' 
-                ? 'bg-[#FFCCBC] text-[#BF360C]' 
-                : 'bg-[rgba(232,193,193,0.2)] text-[#E8C1C1]'
-            }`}
-          >
-            <span>🗑️</span> Delete Movie
-          </button>
+         <button 
+    onClick={onDelete}
+    // className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base ${
+    // theme === 'pixel' 
+    // ? 'bg-[#FFCCBC] text-[#BF360C]' // This was the Tailwind class
+    // : 'bg-[rgba(232,193,193,0.2)] text-[#E8C1C1]'
+    // }`}
+    // Add a new class like 'bottom-sheet-delete-btn'
+    className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base bottom-sheet-delete-btn`}
+>
+    <span>🗑️</span> Delete Movie
+</button>
         </div>
         
         {/* Close button at bottom for easy tapping */}
