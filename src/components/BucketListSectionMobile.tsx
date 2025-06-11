@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, FormEvent } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
+import { useTheme } from "./ThemeContext";
 
 interface BucketListItem {
   _id: Id<"bucketList">;
@@ -13,19 +14,30 @@ interface BucketListItem {
   notes?: string;
 }
 
-const getCategoryStyle = (category: string): { emoji: string, className: string } => {
+const getCategoryStyleMobile = (category: string, theme: string): { emoji: string, className: string } => {
+  if (theme === 'starry') {
     switch (category) {
-      case "adventure": return { emoji: "🏞️", className: "category-adventure" };
-      case "travel": return { emoji: "✈️", className: "category-travel" };
-      case "food": return { emoji: "🍕", className: "category-food" };
-      case "milestone": return { emoji: "🏆", className: "category-milestone" };
-      default: return { emoji: "💖", className: "category-other" };
+      case "adventure": return { emoji: "⛰️", className: "category-adventure-starry-mobile" };
+      case "travel": return { emoji: "🌌", className: "category-travel-starry-mobile" };
+      case "food": return { emoji: "🍇", className: "category-food-starry-mobile" };
+      case "milestone": return { emoji: "🌠", className: "category-milestone-starry-mobile" };
+      default: return { emoji: "✨", className: "category-other-starry-mobile" };
     }
+  }
+  // Pixel theme defaults
+  switch (category) {
+    case "adventure": return { emoji: "🏞️", className: "category-adventure" };
+    case "travel": return { emoji: "✈️", className: "category-travel" };
+    case "food": return { emoji: "🍕", className: "category-food" };
+    case "milestone": return { emoji: "🏆", className: "category-milestone" };
+    default: return { emoji: "💖", className: "category-other" };
+  }
 };
 
 
 export default function BucketListSectionMobile() {
   const bottomSheetRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme(); 
 
   const bucketList = useQuery(api.bucketList.list) || [];
   const addItem = useMutation(api.bucketList.add);
@@ -41,15 +53,15 @@ export default function BucketListSectionMobile() {
   const [newItemCategory, setNewItemCategory] = useState("adventure");
   const [newItemTargetDate, setNewItemTargetDate] = useState("");
   const [newItemNotes, setNewItemNotes] = useState("");
+  const [newItemLinks, setNewItemLinks] = useState<{ website?: string }>({});
+
 
   const [selectedItemForAction, setSelectedItemForAction] = useState<BucketListItem | null>(null);
-  // Edit form states (used within bottom sheet)
   const [editTitle, setEditTitle] = useState("");
   const [editCategory, setEditCategory] = useState("adventure");
   const [editTargetDate, setEditTargetDate] = useState("");
   const [editNotes, setEditNotes] = useState("");
-  // Simplified links for mobile edit:
-  const [editLinkGeneral, setEditLinkGeneral] = useState("");
+  const [editLinks, setEditLinks] = useState<{ website?: string }>({});
 
 
   const [deleteConfirmItem, setDeleteConfirmItem] = useState<BucketListItem | null>(null);
@@ -68,7 +80,7 @@ export default function BucketListSectionMobile() {
       if (categoryFilter !== "all" && item.category !== categoryFilter) return false;
       return true;
     })
-    .sort((a, b) => { // Simplified sort for mobile: pending first, then by date
+    .sort((a, b) => { 
       if (a.isCompleted !== b.isCompleted) return a.isCompleted ? 1 : -1;
       const dateA = a.targetDate ? new Date(a.targetDate + 'T00:00:00').getTime() : Infinity;
       const dateB = b.targetDate ? new Date(b.targetDate + 'T00:00:00').getTime() : Infinity;
@@ -81,41 +93,38 @@ export default function BucketListSectionMobile() {
   };
   
   const resetNewItemForm = () => {
-    setNewItemTitle(""); setNewItemCategory("adventure"); setNewItemTargetDate(""); setNewItemNotes("");
+    setNewItemTitle(""); setNewItemCategory("adventure"); setNewItemTargetDate(""); setNewItemNotes(""); setNewItemLinks({});
   };
 
-  const handleAddNewItem = async (e: React.FormEvent) => {
+  const handleAddNewItem = async (e: FormEvent) => {
     e.preventDefault();
-    if (!newItemTitle.trim()) { showToast("Adventure needs a name!", 'error'); return; }
+    if (!newItemTitle.trim()) { showToast("Aspiration needs a name!", 'error'); return; }
     try {
-      await addItem({ title: newItemTitle, category: newItemCategory, targetDate: newItemTargetDate||undefined, notes: newItemNotes||undefined, isCompleted: false });
+      await addItem({ title: newItemTitle, category: newItemCategory, targetDate: newItemTargetDate||undefined, notes: newItemNotes||undefined, links: newItemLinks, isCompleted: false });
       resetNewItemForm();
       setActiveSheet('none');
-      showToast("New page added to diary! 📖");
-    } catch (error) { console.error(error); showToast("Couldn't add new page.", 'error'); }
+      showToast(theme === 'starry' ? "New aspiration added to your cosmos! ✨" : "New page added to diary! 📖");
+    } catch (error) { console.error(error); showToast("Couldn't add new aspiration.", 'error'); }
   };
 
   const openEditSheet = (item: BucketListItem) => {
-    setSelectedItemForAction(item); // Use selectedItemForAction for edit context
+    setSelectedItemForAction(item); 
     setEditTitle(item.title);
     setEditCategory(item.category);
     setEditTargetDate(item.targetDate ? new Date(item.targetDate + 'T00:00:00').toISOString().split('T')[0] : "");
     setEditNotes(item.notes || "");
-    // For mobile, maybe just one general link field for simplicity or pick the most common one
-    setEditLinkGeneral(item.links?.website || item.links?.maps || item.links?.flights || "");
+    setEditLinks({ website: item.links?.website || item.links?.maps || item.links?.flights || item.links?.airbnb || item.links?.tripadvisor || "" });
     setActiveSheet('edit');
   };
 
   const handleSaveEdit = async () => {
-    if (!selectedItemForAction || !editTitle.trim()) { showToast("Adventure name can't be blank!", 'error'); return; }
+    if (!selectedItemForAction || !editTitle.trim()) { showToast("Aspiration name can't be blank!", 'error'); return; }
     try {
-        // Simplified links for mobile: assuming a primary link or website
-      const links = editLinkGeneral ? { website: editLinkGeneral } : undefined;
-      await updateItem({ id: selectedItemForAction._id, title: editTitle, category: editCategory, targetDate: editTargetDate||undefined, notes: editNotes||undefined, links });
+      await updateItem({ id: selectedItemForAction._id, title: editTitle, category: editCategory, targetDate: editTargetDate||undefined, notes: editNotes||undefined, links: editLinks });
       setActiveSheet('none');
       setSelectedItemForAction(null);
-      showToast("Diary page updated! ✍️");
-    } catch (error) { console.error(error); showToast("Couldn't update page.", 'error'); }
+      showToast(theme === 'starry' ? "Aspiration updated! 🌠" : "Diary page updated! ✍️");
+    } catch (error) { console.error(error); showToast("Couldn't update aspiration.", 'error'); }
   };
   
   const openActionSheet = (item: BucketListItem) => {
@@ -123,18 +132,18 @@ export default function BucketListSectionMobile() {
     setActiveSheet('actions');
   };
 
-  const handleDeleteItem = async (_id: Id<"bucketList">) => {
+  const handleDeleteItem = async () => { 
     if (!deleteConfirmItem) return;
     try {
       await removeItem({ id: deleteConfirmItem._id });
       setDeleteConfirmItem(null);
       setActiveSheet('none'); 
-      showToast("Page torn from diary. 💨");
-    } catch (error) { console.error(error); showToast("Couldn't remove page.", 'error');}
+      showToast(theme === 'starry' ? "Aspiration removed from the cosmos. 💨" : "Page torn from diary. 💨");
+    } catch (error) { console.error(error); showToast("Couldn't remove aspiration.", 'error');}
   };
   
   const formatDateForDisplay = (dateString?: string): string => {
-    if (!dateString) return "Anytime ✨";
+    if (!dateString) return theme === 'starry' ? "Anytime ✨" : "Anytime ✨";
     const date = new Date(dateString + 'T00:00:00');
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
@@ -142,87 +151,120 @@ export default function BucketListSectionMobile() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (bottomSheetRef.current && !bottomSheetRef.current.contains(event.target as Node)) {
-        if (activeSheet !== 'none' && !deleteConfirmItem) {
+        if (activeSheet !== 'none' && !deleteConfirmItem) { 
             setActiveSheet('none');
-            setSelectedItemForAction(null);
+            setSelectedItemForAction(null); 
         }
       }
     };
-    if (activeSheet !== 'none') document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    if (activeSheet !== 'none') {
+      document.body.classList.add('overflow-hidden-cute');
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.body.classList.remove('overflow-hidden-cute');
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.body.classList.remove('overflow-hidden-cute');
+    };
   }, [activeSheet, deleteConfirmItem]);
 
+  // Define dynamic classes based on theme
+  const baseMobileLayoutClass = theme === 'starry' ? 'bucket-layout-mobile-adventurer starry-mobile' : 'bucket-layout-mobile-adventurer';
+  const headerClass = theme === 'starry' ? 'pocket-diary-header-cute starry-mobile' : 'pocket-diary-header-cute';
+  const progressClass = theme === 'starry' ? 'pocket-diary-progress-cute starry-mobile' : 'pocket-diary-progress-cute';
+  const filterBtnClass = theme === 'starry' ? 'pocket-diary-filter-btn-cute starry-mobile' : 'pocket-diary-filter-btn-cute';
+  const emptyStateClass = theme === 'starry' ? 'bucket-list-empty-starry' : 'pocket-diary-empty-state-cute';
+  const listClass = theme === 'starry' ? 'aspirations-map-starry mobile-grid' : 'pocket-diary-list-cute';
+  const itemCardBaseClass = theme === 'starry' ? 'celestial-scroll-item-starry' : 'diary-page-card-cute';
+  const fabClass = theme === 'starry' ? 'pocket-diary-fab-cute starry-mobile' : 'pocket-diary-fab-cute';
+  const bottomSheetBaseClass = theme === 'starry' ? 'bucket-bottom-sheet-cute adventurer starry-mobile' : 'bucket-bottom-sheet-cute adventurer';
+  const toastBaseClass = theme === 'starry' ? 'bucket-toast-cute starry-toast mobile' : 'bucket-toast-cute mobile';
+  const buttonClass = theme === 'starry' ? 'celestial-button-starry' : 'bucket-button-cute'; // Corrected definition
+  const inputClass = theme === 'starry' ? 'plans-input-cute' : 'bucket-input-cute sheet'; // Assuming plans-input-cute is styled for starry
+
+
   return (
-    <div className="bucket-layout-mobile-adventurer">
-      <header className="pocket-diary-header-cute">
-        <h2>Our Adventures 💖</h2>
-        <div className="pocket-diary-progress-cute">
+    <div className={baseMobileLayoutClass}>
+      <header className={headerClass}>
+        <h2>{theme === 'starry' ? 'Our Cosmic Aspirations ✨' : 'Our Adventures 💖'}</h2>
+        <div className={progressClass}>
           <div className="progress-bar-container">
             <div className="progress-bar-fill" style={{width: `${completionPercentage}%`}}></div>
           </div>
           <span>{completedItemsCount}/{totalItems} Done!</span>
         </div>
-        <button onClick={() => setActiveSheet('filters')} className="pocket-diary-filter-btn-cute">
-            <span role="img" aria-label="filter">🎨</span> Filters
+        <button onClick={() => setActiveSheet('filters')} className={filterBtnClass}>
+            <span role="img" aria-label="filter">{theme === 'starry' ? '🔭' : '🎨'}</span> Filters
+            {(filterStatus !== 'all' || categoryFilter !== 'all') && <span className="filter-dot filter-dot-active"></span>}
         </button>
       </header>
 
       {filteredAndSortedList.length === 0 && activeSheet === 'none' && (
-          <div className="pocket-diary-empty-state-cute">
-            <span>📖</span>
-            <p>Our diary is waiting for new adventures!</p>
+          <div className={emptyStateClass}>
+            <span className="icon">{theme === 'starry' ? '🌌' : '📖'}</span>
+            <p>{theme === 'starry' ? 'The universe of our dreams awaits charting!' : 'Our diary is waiting for new adventures!'}</p>
           </div>
       )}
 
-      <main className="pocket-diary-list-cute">
+      <main className={listClass}>
         {filteredAndSortedList.map(item => {
-          const style = getCategoryStyle(item.category);
+          const style = getCategoryStyleMobile(item.category, theme);
+          const currentItemCardClass = `${itemCardBaseClass} ${theme === 'starry' ? 'starry-mobile-card' : ''} ${style.className} ${item.isCompleted ? "completed" : ""}`;
           return (
             <div 
               key={item._id} 
-              className={`diary-page-card-cute ${style.className} ${item.isCompleted ? "completed" : ""}`}
+              className={currentItemCardClass}
               onClick={() => openActionSheet(item)}
             >
-              <div className="card-top-row">
-                <span className="card-emoji">{style.emoji}</span>
-                <h3 className="card-title">{item.title}</h3>
+              <div className={theme === 'starry' ? 'scroll-header-content-starry' : "card-top-row"}>
+                <span className={theme === 'starry' ? 'scroll-category-icon-starry' : "card-emoji"}>{style.emoji}</span>
+                <h3 className={theme === 'starry' ? 'scroll-title-starry' : "card-title"}>{item.title}</h3>
                 <button 
-                    className={`card-checkbox ${item.isCompleted ? "checked" : ""}`}
+                    className={`${theme === 'starry' ? 'scroll-checkbox-starry' : 'card-checkbox'} ${item.isCompleted ? "checked" : ""}`}
                     onClick={(e) => { e.stopPropagation(); toggleItem({ id: item._id, isCompleted: !item.isCompleted}); }}
+                    aria-label={item.isCompleted ? "Mark as pending" : "Mark as completed"}
                 >
-                    {item.isCompleted ? "✔" : ""}
+                    {item.isCompleted ? "✓" : ""}
                 </button>
               </div>
-              <p className="card-date">{formatDateForDisplay(item.targetDate)}</p>
-              {item.notes && <p className="card-notes-preview">"{item.notes.substring(0, 40)}..."</p>}
-              {item.isCompleted && <div className="card-completed-ribbon-cute">Done!</div>}
+              <p className={theme === 'starry' ? 'scroll-details-starry text-xs opacity-80' : "card-date"}>{formatDateForDisplay(item.targetDate)}</p>
+              {item.notes && <p className={theme === 'starry' ? 'scroll-notes-starry text-xs' : "card-notes-preview"}>"{item.notes.substring(0, 40)}{item.notes.length > 40 ? '...' : ''}"</p>}
+              {item.isCompleted && <div className={theme === 'starry' ? `${buttonClass} success text-xs py-0 px-2 mt-2 inline-block` : "card-completed-ribbon-cute"}>{theme === 'starry' ? 'Fulfilled! 🌠' : 'Done!'}</div>}
             </div>
           );
         })}
       </main>
 
-      <button onClick={() => { resetNewItemForm(); setActiveSheet('add'); }} className="pocket-diary-fab-cute">✏️</button>
+      <button onClick={() => { resetNewItemForm(); setActiveSheet('add'); }} className={fabClass}>
+        {theme === 'starry' ? '🌟' : '✏️'}
+      </button>
 
-      {/* --- Bottom Sheets --- */}
       {activeSheet !== 'none' && (
         <div className="bucket-bottom-sheet-overlay-cute" onClick={() => { if (!deleteConfirmItem) { setActiveSheet('none'); setSelectedItemForAction(null);}}}>
-          <div ref={bottomSheetRef} className="bucket-bottom-sheet-cute adventurer" onClick={e => e.stopPropagation()}>
+          <div ref={bottomSheetRef} className={bottomSheetBaseClass} onClick={e => e.stopPropagation()}>
             <div className="bucket-bottom-sheet-handle-cute"></div>
 
             {activeSheet === 'add' && (
               <>
-                <h3 className="bucket-sheet-title-cute">New Diary Page ✨</h3>
+                <h3 className="bucket-sheet-title-cute">{theme === 'starry' ? 'New Cosmic Aspiration ✨' : 'New Diary Page ✨'}</h3>
                 <form onSubmit={handleAddNewItem} className="bucket-sheet-form-cute compact">
-                  <input type="text" value={newItemTitle} onChange={e => setNewItemTitle(e.target.value)} placeholder="Adventure Title..." className="bucket-input-cute sheet"/>
-                  <select value={newItemCategory} onChange={e => setNewItemCategory(e.target.value)} className="bucket-input-cute sheet">
-                    {uniqueCategories.length === 0 && <option value="adventure">🏞️ Adventure</option> /* Default if no cats yet */}
-                    {uniqueCategories.map(cat => <option key={cat} value={cat}>{getCategoryStyle(cat).emoji} {cat}</option>)}
+                  <input type="text" value={newItemTitle} onChange={e => setNewItemTitle(e.target.value)} placeholder="Aspiration Title..." className={inputClass}/>
+                  <select value={newItemCategory} onChange={e => setNewItemCategory(e.target.value)} className={inputClass}>
+                    {Object.keys(getCategoryStyleMobile("", theme)).map(catKey => { // Use Object.keys on the result of getCategoryStyleMobile
+                        const catDisplay = getCategoryStyleMobile(catKey, theme);
+                        // Ensure catKey is a valid category string before using it.
+                        // This part might need adjustment based on how categories are defined/stored.
+                        // For now, assuming catKey directly maps to a category.
+                        return <option key={catKey} value={catKey}>{catDisplay.emoji} {catKey.charAt(0).toUpperCase() + catKey.slice(1)}</option>;
+                    })}
                   </select>
-                  <input type="date" value={newItemTargetDate} onChange={e => setNewItemTargetDate(e.target.value)} className="bucket-input-cute sheet"/>
-                  <textarea value={newItemNotes} onChange={e => setNewItemNotes(e.target.value)} placeholder="A few notes..." className="bucket-textarea-cute sheet" rows={2}/>
+                  <input type="date" value={newItemTargetDate} onChange={e => setNewItemTargetDate(e.target.value)} className={inputClass}/>
+                  <textarea value={newItemNotes} onChange={e => setNewItemNotes(e.target.value)} placeholder="A few notes..." className={`${inputClass} min-h-[60px]`} rows={2}/>
+                  <input type="url" value={newItemLinks.website || ""} onChange={e => setNewItemLinks(prev => ({...prev, website: e.target.value}))} placeholder="🔗 Link (Optional)" className={inputClass}/>
                   <div className="bucket-sheet-actions-cute">
-                    <button type="button" onClick={() => setActiveSheet('none')} className="bucket-button-cute cancel sheet">Cancel</button>
-                    <button type="submit" className="bucket-button-cute add sheet">Add Page</button>
+                    <button type="button" onClick={() => setActiveSheet('none')} className={`${buttonClass} cancel sheet`}>Cancel</button>
+                    <button type="submit" className={`${buttonClass} add sheet`}>Add Aspiration</button>
                   </div>
                 </form>
               </>
@@ -230,18 +272,21 @@ export default function BucketListSectionMobile() {
 
             {activeSheet === 'edit' && selectedItemForAction && (
                <>
-                <h3 className="bucket-sheet-title-cute">Edit Page ✏️</h3>
+                <h3 className="bucket-sheet-title-cute">{theme === 'starry' ? 'Adjust Aspiration ✏️' : 'Edit Page ✏️'}</h3>
                 <form onSubmit={(e) => {e.preventDefault(); handleSaveEdit();}} className="bucket-sheet-form-cute compact">
-                  <input type="text" value={editTitle} onChange={e => setEditTitle(e.target.value)} className="bucket-input-cute sheet"/>
-                  <select value={editCategory} onChange={e => setEditCategory(e.target.value)} className="bucket-input-cute sheet">
-                     {uniqueCategories.map(cat => <option key={cat} value={cat}>{getCategoryStyle(cat).emoji} {cat}</option>)}
+                  <input type="text" value={editTitle} onChange={e => setEditTitle(e.target.value)} className={inputClass}/>
+                  <select value={editCategory} onChange={e => setEditCategory(e.target.value)} className={inputClass}>
+                     {Object.keys(getCategoryStyleMobile("", theme)).map(catKey => {
+                        const catDisplay = getCategoryStyleMobile(catKey, theme);
+                        return <option key={catKey} value={catKey}>{catDisplay.emoji} {catKey.charAt(0).toUpperCase() + catKey.slice(1)}</option>;
+                    })}
                   </select>
-                  <input type="date" value={editTargetDate} onChange={e => setEditTargetDate(e.target.value)} className="bucket-input-cute sheet"/>
-                  <textarea value={editNotes} onChange={e => setEditNotes(e.target.value)} className="bucket-textarea-cute sheet" rows={2}/>
-                  <input type="url" value={editLinkGeneral} onChange={e => setEditLinkGeneral(e.target.value)} placeholder="🔗 Primary Link (Optional)" className="bucket-input-cute sheet"/>
+                  <input type="date" value={editTargetDate} onChange={e => setEditTargetDate(e.target.value)} className={inputClass}/>
+                  <textarea value={editNotes} onChange={e => setEditNotes(e.target.value)} placeholder="Notes..." className={`${inputClass} min-h-[60px]`} rows={2}/>
+                  <input type="url" value={editLinks.website || ""} onChange={e => setEditLinks(prev => ({...prev, website: e.target.value}))} placeholder="🔗 Link (Optional)" className={inputClass}/>
                   <div className="bucket-sheet-actions-cute">
-                    <button type="button" onClick={() => {setActiveSheet('actions'); /* Go back to actions */}} className="bucket-button-cute cancel sheet">Back</button>
-                    <button type="submit" className="bucket-button-cute save sheet">Save</button>
+                    <button type="button" onClick={() => {setActiveSheet('actions');}} className={`${buttonClass} cancel sheet`}>Back</button>
+                    <button type="submit" className={`${buttonClass} save sheet`}>Save</button>
                   </div>
                 </form>
               </>
@@ -252,47 +297,54 @@ export default function BucketListSectionMobile() {
                     <h3 className="bucket-sheet-title-cute compact">{selectedItemForAction.title}</h3>
                     <div className="bucket-sheet-action-list-cute">
                         <button onClick={() => { toggleItem({ id: selectedItemForAction._id, isCompleted: !selectedItemForAction.isCompleted }); setActiveSheet('none'); setSelectedItemForAction(null);}} className="bucket-action-list-item-cute">
-                            {selectedItemForAction.isCompleted ? "✔️ Mark Pending" : "◻️ Mark Done"}
+                            {selectedItemForAction.isCompleted ? (theme === 'starry' ? "🌠 Mark Unfulfilled" : "✔️ Mark Pending") : (theme === 'starry' ? "✨ Mark Fulfilled" : "◻️ Mark Done")}
                         </button>
-                        <button onClick={() => openEditSheet(selectedItemForAction)} className="bucket-action-list-item-cute">✏️ Edit Entry</button>
-                         {/* Simplified link display for mobile actions */}
-                        {selectedItemForAction.links?.website && <a href={selectedItemForAction.links.website} target="_blank" rel="noopener noreferrer" className="bucket-action-list-item-cute link">🔗 View Link</a>}
-                        {!selectedItemForAction.links?.website && selectedItemForAction.links?.maps && <a href={selectedItemForAction.links.maps} target="_blank" rel="noopener noreferrer" className="bucket-action-list-item-cute link">📍 View Map</a>}
-                        
-                        <button onClick={() => setDeleteConfirmItem(selectedItemForAction)} className="bucket-action-list-item-cute delete">🗑️ Remove Entry</button>
+                        <button onClick={() => openEditSheet(selectedItemForAction)} className="bucket-action-list-item-cute">✏️ Edit Aspiration</button>
+                        {(selectedItemForAction.links?.website || selectedItemForAction.links?.maps || selectedItemForAction.links?.flights) && 
+                          <a 
+                            href={selectedItemForAction.links?.website || selectedItemForAction.links?.maps || selectedItemForAction.links?.flights || "#"} 
+                            target="_blank" rel="noopener noreferrer" 
+                            className="bucket-action-list-item-cute link"
+                            onClick={(e) => e.stopPropagation()} 
+                          >🔗 View Link
+                          </a>
+                        }
+                        <button onClick={() => setDeleteConfirmItem(selectedItemForAction)} className="bucket-action-list-item-cute delete">🗑️ Remove Aspiration</button>
                     </div>
-                    <button onClick={() => setActiveSheet('none')} className="bucket-button-cute cancel sheet full-width mt-2">Close</button>
+                    <button onClick={() => setActiveSheet('none')} className={`${buttonClass} cancel sheet full-width mt-2`}>Close</button>
                 </>
             )}
 
             {activeSheet === 'filters' && (
                 <>
-                    <h3 className="bucket-sheet-title-cute">Filter Adventures 🧭</h3>
+                    <h3 className="bucket-sheet-title-cute">{theme === 'starry' ? 'Filter Your Cosmos 🔭' : 'Filter Adventures 🧭'}</h3>
                     <div className="bucket-sheet-form-cute compact">
-                        <label>Status:</label>
-                        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value as any)} className="bucket-input-cute sheet">
+                        <label className={theme === 'starry' ? 'text-text-secondary' : ''}>Status:</label>
+                        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value as any)} className={inputClass}>
                             <option value="all">All</option>
                             <option value="pending">Pending</option>
-                            <option value="completed">Completed</option>
+                            <option value="completed">Fulfilled</option>
                         </select>
-                        <label>Category:</label>
-                        <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="bucket-input-cute sheet">
-                            <option value="all">All Categories</option>
-                            {uniqueCategories.map(cat => <option key={cat} value={cat}>{getCategoryStyle(cat).emoji} {cat}</option>)}
+                        <label className={theme === 'starry' ? 'text-text-secondary mt-2' : ''}>Constellation (Category):</label>
+                        <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className={inputClass}>
+                            <option value="all">All Constellations</option>
+                            {uniqueCategories.map(cat => {
+                                const catDisplay = getCategoryStyleMobile(cat, theme);
+                                return <option key={cat} value={cat}>{catDisplay.emoji} {cat.charAt(0).toUpperCase() + cat.slice(1)}</option>;
+                            })}
                         </select>
                     </div>
-                     <button onClick={() => setActiveSheet('none')} className="bucket-button-cute save sheet full-width mt-2">Apply Filters</button>
+                     <button onClick={() => setActiveSheet('none')} className={`${buttonClass} save sheet full-width mt-2`}>Apply Filters</button>
                 </>
             )}
 
-
-            {deleteConfirmItem && selectedItemForAction && ( // Ensure selectedItemForAction is used for context
+            {deleteConfirmItem && ( 
                 <div className="bucket-delete-confirm-sheet-cute">
-                    <h4>Remove "{selectedItemForAction.title}"?</h4>
-                    <p>This page will be torn from our diary!</p>
+                    <h4>Remove "{deleteConfirmItem.title}"?</h4>
+                    <p>This aspiration will fade from the cosmos!</p>
                     <div className="bucket-sheet-actions-cute">
-                        <button onClick={() => setDeleteConfirmItem(null)} className="bucket-button-cute cancel sheet">No, Keep!</button>
-                        <button onClick={() => handleDeleteItem(selectedItemForAction._id)} className="bucket-button-cute delete sheet">Yes, Remove!</button>
+                        <button onClick={() => setDeleteConfirmItem(null)} className={`${buttonClass} cancel sheet`}>No, Keep It!</button>
+                        <button onClick={handleDeleteItem} className={`${buttonClass} delete sheet`}>Yes, Let Go!</button>
                     </div>
                 </div>
             )}
@@ -300,7 +352,7 @@ export default function BucketListSectionMobile() {
         </div>
       )}
 
-      {toast.visible && <div className={`bucket-toast-cute mobile ${toast.type}`}>{toast.message}</div>}
+      {toast.visible && <div className={`${toastBaseClass} ${toast.type}`}>{toast.message}</div>}
     </div>
   );
 }

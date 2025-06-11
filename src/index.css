@@ -97,8 +97,6 @@
   --moodboard-mobile-fab-shadow: 0px 3px 0px #B84A8A, 0px 5px 6px rgba(0,0,0,0.2);
 }
 
-
-
 /* Add these to your src/index.css file */
 
 /* Tab container styling */
@@ -180,36 +178,6 @@
   font-size: 0.7em;
   opacity: 0.7;
   transform: rotate(-15deg);
-}
-
-/* Starry theme adjustments for tabs */
-[data-theme="starry"] .tab-container-cute {
-  scrollbar-color: var(--border-primary) var(--background-secondary);
-}
-
-[data-theme="starry"] .tab-button-artistic.inactive-tab-artistic {
-  background-color: rgba(13, 27, 42, 0.5); /* Darker, semi-transparent */
-  border-color: rgba(180, 151, 189, 0.3);
-  color: var(--text-secondary);
-}
-
-[data-theme="starry"] .tab-button-artistic.inactive-tab-artistic:hover {
-  background-color: rgba(13, 27, 42, 0.7);
-  border-color: rgba(180, 151, 189, 0.5);
-  transform: translateY(-2px);
-}
-
-[data-theme="starry"] .tab-button-artistic.active-tab-artistic {
-  background: linear-gradient(45deg, rgba(232, 193, 193, 0.25), rgba(180, 151, 189, 0.35));
-  border-color: rgba(232, 193, 193, 0.5);
-  box-shadow: 0 4px 15px rgba(180, 151, 189, 0.4);
-  color: var(--text-primary);
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-}
-
-[data-theme="starry"] .tab-button-artistic.active-tab-artistic::before {
-  content: '✨'; /* Star for starry theme */
-  color: rgba(253, 253, 253, 0.8);
 }
 
 /* Ensure the overall pixel-card has some padding for the tab container */
@@ -2876,19 +2844,6 @@
   --card-hover-scale: scale(1.02);
 }
 
-/* Add Inter font for the starry theme */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-/* Add animations for starry theme */
-@keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(180, 151, 189, 0.3), 0 0 20px rgba(232, 193, 193, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 15px rgba(180, 151, 189, 0.5), 0 0 30px rgba(232, 193, 193, 0.3);
-  }
-}
-
 /* Transitions for smooth theme switching */
 body, button, input, .pixel-card, .pixel-button, .pixel-input {
   transition: all 0.5s ease;
@@ -3010,102 +2965,21 @@ body {
 
 /* Responsive adjustments for both themes */
 @media (max-width: 600px) {
-  [data-theme="starry"] .pixel-title {
+  .pixel-title {
     font-size: 32px;
   }
   
-  [data-theme="starry"] .pixel-card {
+  .pixel-card {
     margin: 8px 0;
     border-radius: 12px;
   }
   
-  [data-theme="starry"] .pixel-button {
+.pixel-button {
     border-radius: 12px;
     font-size: 16px;
     padding: 8px 16px;
   }
 }
-
-/* Theme Toggle Styling - Add to index.css */
-
-.theme-toggle-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
-}
-
-.theme-toggle-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: var(--border-radius);
-  border: var(--border-width) solid var(--border-primary);
-  background-color: var(--button-primary);
-  color: var(--text-primary);
-  font-family: var(--font-main);
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: var(--button-shadow) var(--shadow-color);
-}
-
-.theme-toggle-button:hover {
-  transform: var(--button-hover-scale);
-}
-
-.theme-icon {
-  font-size: 18px;
-}
-
-[data-theme="pixel"] .theme-toggle-button {
-  font-size: 18px;
-}
-
-[data-theme="starry"] .theme-toggle-button {
-  backdrop-filter: blur(8px);
-  background-color: rgba(26, 26, 64, 0.7);
-  border-color: rgba(180, 151, 189, 0.4);
-}
-
-/* Extra animation for theme icon */
-.theme-icon {
-  display: inline-block;
-  animation: spin 3s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(10deg); }
-  75% { transform: rotate(-10deg); }
-  100% { transform: rotate(0deg); }
-}
-
-/* Mobile adjustments */
-@media (max-width: 600px) {
-  .theme-toggle-container {
-    top: unset;
-    bottom: 20px;
-    right: 20px;
-  }
-  
-  .theme-toggle-button {
-    padding: 8px 12px;
-  }
-  
-  .theme-text {
-    display: none;
-  }
-  
-  .theme-icon {
-    font-size: 20px;
-    margin: 0;
-  }
-}
-
-/* Tab styling - Add to index.css */
 
 /* Active and inactive tab styling using theme variables */
 .active-tab {
@@ -3127,78 +3001,6 @@ body {
   background-color: var(--button-primary);
 }
 
-/* Starry theme tab styles */
-[data-theme="starry"] .active-tab {
-  background: linear-gradient(45deg, rgba(244, 226, 216, 0.15), rgba(232, 193, 193, 0.25));
-  border-color: rgba(232, 193, 193, 0.4);
-  box-shadow: 0 4px 15px rgba(232, 193, 193, 0.3);
-}
-
-[data-theme="starry"] .inactive-tab {
-  background-color: rgba(13, 27, 42, 0.4);
-  backdrop-filter: blur(5px);
-  border-color: rgba(180, 151, 189, 0.2);
-}
-
-[data-theme="starry"] .inactive-tab:hover {
-  background-color: rgba(13, 27, 42, 0.6);
-  border-color: rgba(180, 151, 189, 0.4);
-}
-
-/* Active tab indicator for Starry theme */
-[data-theme="starry"] .active-tab::after {
-  content: "";
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  width: 40%;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(232, 193, 193, 0), rgba(232, 193, 193, 0.8), rgba(232, 193, 193, 0));
-  transform: translateX(-50%);
-  border-radius: 1px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .active-tab, .inactive-tab {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-  
-  [data-theme="starry"] .active-tab::after {
-    bottom: -3px;
-    height: 1px;
-  }
-}
-
-/* Theme transition effects - Add to index.css */
-
-/* Add a page transition when changing themes */
-.theme-transition {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: transparent;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.theme-transition.pixel-to-starry {
-  background: radial-gradient(circle at center, rgba(180, 151, 189, 0.3), transparent);
-}
-
-.theme-transition.starry-to-pixel {
-  background: radial-gradient(circle at center, rgba(255, 218, 185, 0.3), transparent);
-}
-
-.theme-transition.active {
-  opacity: 1;
-}
-
 /* Smooth transition for all elements */
 * {
   transition-property: color, background-color, border-color, box-shadow, transform;
@@ -3217,52 +3019,6 @@ body {
 .theme-toggle-button {
   transition: all 0.5s ease;
 }
-
-/* More pronounced transition for main elements */
-[data-theme="starry"] .pixel-card {
-  animation: fade-in-up 0.5s ease forwards;
-}
-
-[data-theme="pixel"] .pixel-card {
-  animation: bounce-in 0.5s ease forwards;
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0.5;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes bounce-in {
-  0% {
-    opacity: 0.5;
-    transform: scale(0.97);
-  }
-  70% {
-    opacity: 1;
-    transform: scale(1.02);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* Mobile theme transitions */
-@media (max-width: 600px) {
-  .theme-transition {
-    transition: opacity 0.3s ease;
-  }
-  
-  * {
-    transition-duration: 0.3s;
-  }
-}
-
 
 body {
   font-family: 'VT323', monospace;
