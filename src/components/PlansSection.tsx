@@ -1,4 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect }
+
+/* Add these enhanced iOS-inspired styles to your src/index.css file */ from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
@@ -359,1098 +361,417 @@ export default function PlansSection() {
   const stats = getStats();
 
   return (
-    <div className="pixel-card pixel-fade-in" style={{ margin: '24px', padding: '32px' }}>
-      {/* Pixel Art Header */}
-      <div style={{ 
-        textAlign: 'center', 
-        marginBottom: '32px',
-        padding: '24px',
-        background: 'linear-gradient(135deg, var(--pixel-bg-secondary), var(--pixel-bg-tertiary))',
-        border: '4px solid var(--pixel-border-primary)',
-        borderRadius: '16px',
-        boxShadow: '6px 6px 0px var(--pixel-shadow-secondary)',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        {/* Pixel background pattern */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: 'radial-gradient(circle at 10px 10px, var(--pixel-border-secondary) 1px, transparent 1px)',
-          backgroundSize: '20px 20px',
-          opacity: 0.3,
-          pointerEvents: 'none'
-        }} />
-        
-        <h1 style={{ 
-          fontFamily: 'var(--pixel-font-main)',
-          fontSize: '48px',
-          color: 'var(--pixel-primary)',
-          textShadow: '4px 4px 0px var(--pixel-shadow-secondary)',
-          margin: '0 0 16px 0',
-          textTransform: 'uppercase',
-          letterSpacing: '2px',
-          position: 'relative',
-          zIndex: 1
-        }} className="pixel-bounce">
-          ⚡ Our Epic Adventures ⚡
-        </h1>
-        <p style={{ 
-          fontFamily: 'var(--pixel-font-main)',
-          fontSize: '20px',
-          color: 'var(--pixel-text-secondary)',
-          margin: '0',
-          textTransform: 'uppercase',
-          letterSpacing: '1px',
-          position: 'relative',
-          zIndex: 1
-        }}>
-          Level up your love story, one quest at a time!
-        </p>
-        
-        {/* Pixel Stats Dashboard */}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(3, 1fr)', 
-          gap: '16px',
-          marginTop: '24px',
-          position: 'relative',
-          zIndex: 1
-        }}>
-          <div className="pixel-card-primary" style={{ 
-            padding: '16px', 
-            textAlign: 'center',
-            border: '3px solid var(--pixel-border-primary)',
-            borderRadius: '12px',
-            background: 'linear-gradient(135deg, var(--pixel-bg-tertiary), rgba(255, 107, 107, 0.1))',
-            boxShadow: '4px 4px 0px var(--pixel-shadow-primary)'
-          }}>
-            <div style={{ 
-              fontSize: '32px', 
-              fontWeight: 'bold', 
-              color: 'var(--pixel-primary)',
-              textShadow: '2px 2px 0px var(--pixel-shadow-secondary)',
-              fontFamily: 'var(--pixel-font-main)'
-            }} className="pixel-pulse">
-              {stats.totalPlans}
-            </div>
-            <div style={{ 
-              fontSize: '14px', 
-              color: 'var(--pixel-text-secondary)',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              fontFamily: 'var(--pixel-font-main)'
-            }}>
-              Total Quests
-            </div>
+    <div className="ios-plans-container">
+      {/* Professional Header Section */}
+      <div className="ios-header-section">
+        <div className="ios-header-backdrop"></div>
+        <div className="ios-header-content">
+          <div className="ios-title-section">
+            <h1 className="ios-main-title">Our Epic Adventures</h1>
+            <p className="ios-subtitle">Creating memories, one quest at a time</p>
           </div>
           
-          <div className="pixel-card-success" style={{ 
-            padding: '16px', 
-            textAlign: 'center',
-            border: '3px solid var(--pixel-success)',
-            borderRadius: '12px',
-            background: 'linear-gradient(135deg, var(--pixel-bg-tertiary), rgba(150, 206, 180, 0.1))',
-            boxShadow: '4px 4px 0px rgba(150, 206, 180, 0.4)'
-          }}>
-            <div style={{ 
-              fontSize: '32px', 
-              fontWeight: 'bold', 
-              color: 'var(--pixel-success)',
-              textShadow: '2px 2px 0px var(--pixel-shadow-secondary)',
-              fontFamily: 'var(--pixel-font-main)'
-            }} className="pixel-pulse">
-              {stats.completedPlans}
-            </div>
-            <div style={{ 
-              fontSize: '14px', 
-              color: 'var(--pixel-text-secondary)',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              fontFamily: 'var(--pixel-font-main)'
-            }}>
-              Completed
-            </div>
-          </div>
-          
-          <div className="pixel-card-warning" style={{ 
-            padding: '16px', 
-            textAlign: 'center',
-            border: '3px solid var(--pixel-warning)',
-            borderRadius: '12px',
-            background: 'linear-gradient(135deg, var(--pixel-bg-tertiary), rgba(255, 234, 167, 0.1))',
-            boxShadow: '4px 4px 0px rgba(255, 234, 167, 0.4)'
-          }}>
-            <div style={{ 
-              fontSize: '32px', 
-              fontWeight: 'bold', 
-              color: 'var(--pixel-warning)',
-              textShadow: '2px 2px 0px var(--pixel-shadow-secondary)',
-              fontFamily: 'var(--pixel-font-main)'
-            }} className="pixel-pulse">
-              {stats.memoriesAdded}
-            </div>
-            <div style={{ 
-              fontSize: '14px', 
-              color: 'var(--pixel-text-secondary)',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              fontFamily: 'var(--pixel-font-main)'
-            }}>
-              Memories
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Pixel Navigation Controls */}
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        marginBottom: '32px',
-        flexWrap: 'wrap',
-        gap: '16px'
-      }}>
-        <div className="pixel-nav" style={{ 
-          display: 'flex',
-          gap: '8px',
-          padding: '8px',
-          background: 'var(--pixel-bg-secondary)',
-          border: '3px solid var(--pixel-border-primary)',
-          borderRadius: '16px',
-          boxShadow: '4px 4px 0px var(--pixel-shadow-secondary)'
-        }}>
-          {(["all", "upcoming", "completed", "withMemories"] as const).map(filterKey => (
-            <button 
-              key={filterKey}
-              onClick={() => setViewFilter(filterKey)}
-              className={`pixel-tab ${viewFilter === filterKey ? "active" : ""}`}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 16px',
-                fontSize: '16px',
-                fontFamily: 'var(--pixel-font-main)',
-                textTransform: 'uppercase',
-                letterSpacing: '1px'
-              }}
-            >
-              <span style={{ fontSize: '18px' }}>
-                {filterKey === 'all' && '📋'}
-                {filterKey === 'upcoming' && '⏳'}
-                {filterKey === 'completed' && '✅'}
-                {filterKey === 'withMemories' && '💖'}
-              </span>
-              <span>
-                {filterKey.charAt(0).toUpperCase() + filterKey.slice(1).replace('With', 'With ')}
-              </span>
-            </button>
-          ))}
-        </div>
-        
-        <button
-          onClick={() => setShowAddForm(!showAddForm)}
-          className="pixel-btn-glow"
-          style={{
-            padding: '16px 24px',
-            fontSize: '20px',
-            fontFamily: 'var(--pixel-font-main)',
-            background: 'linear-gradient(135deg, var(--pixel-primary), var(--pixel-secondary))',
-            color: 'white',
-            border: '3px solid var(--pixel-primary)',
-            borderRadius: '12px',
-            textTransform: 'uppercase',
-            letterSpacing: '1px',
-            cursor: 'pointer',
-            boxShadow: '4px 4px 0px var(--pixel-shadow-primary)',
-            textShadow: '2px 2px 0px rgba(0,0,0,0.3)'
-          }}
-        >
-          {showAddForm ? "❌ Close Form" : "✨ New Quest"}
-        </button>
-      </div>
-
-      {/* Pixel Add Form */}
-      {showAddForm && (
-        <div className="pixel-card-dotted pixel-slide-in" style={{ 
-          marginBottom: '32px',
-          padding: '24px',
-          background: 'var(--pixel-bg-tertiary)',
-          border: '4px solid var(--pixel-border-secondary)',
-          borderRadius: '16px',
-          boxShadow: '6px 6px 0px var(--pixel-shadow-secondary)',
-          position: 'relative'
-        }}>
-          <h3 style={{ 
-            fontFamily: 'var(--pixel-font-main)',
-            fontSize: '28px',
-            color: 'var(--pixel-primary)',
-            textAlign: 'center',
-            margin: '0 0 24px 0',
-            textTransform: 'uppercase',
-            letterSpacing: '2px',
-            textShadow: '2px 2px 0px var(--pixel-shadow-secondary)'
-          }} className="pixel-wiggle">
-            🎮 Create New Quest! 🎮
-          </h3>
-          
-          <form onSubmit={handleAddPlan}>
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
-              gap: '16px',
-              marginBottom: '24px'
-            }}>
-              <div>
-                <label style={{ 
-                  display: 'block',
-                  fontFamily: 'var(--pixel-font-main)',
-                  fontSize: '16px',
-                  color: 'var(--pixel-text-primary)',
-                  marginBottom: '8px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}>
-                  🎯 Quest Name:
-                </label>
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Our Epic Adventure..."
-                  className="pixel-input"
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    fontSize: '18px',
-                    fontFamily: 'var(--pixel-font-main)',
-                    border: '3px solid var(--pixel-border-primary)',
-                    borderRadius: '8px',
-                    background: 'var(--pixel-bg-tertiary)',
-                    boxShadow: 'inset 2px 2px 0px var(--pixel-shadow-secondary)'
-                  }}
-                  required
-                />
-              </div>
-              
-              <div>
-                <label style={{ 
-                  display: 'block',
-                  fontFamily: 'var(--pixel-font-main)',
-                  fontSize: '16px',
-                  color: 'var(--pixel-text-primary)',
-                  marginBottom: '8px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}>
-                  📅 Quest Date:
-                </label>
-                <input
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  className="pixel-input"
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    fontSize: '18px',
-                    fontFamily: 'var(--pixel-font-main)',
-                    border: '3px solid var(--pixel-border-primary)',
-                    borderRadius: '8px',
-                    background: 'var(--pixel-bg-tertiary)',
-                    boxShadow: 'inset 2px 2px 0px var(--pixel-shadow-secondary)'
-                  }}
-                  required
-                />
-              </div>
-              
-              <div>
-                <label style={{ 
-                  display: 'block',
-                  fontFamily: 'var(--pixel-font-main)',
-                  fontSize: '16px',
-                  color: 'var(--pixel-text-primary)',
-                  marginBottom: '8px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}>
-                  🎲 Quest Type:
-                </label>
-                <select 
-                  value={type} 
-                  onChange={(e) => setType(e.target.value)} 
-                  className="pixel-input"
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    fontSize: '18px',
-                    fontFamily: 'var(--pixel-font-main)',
-                    border: '3px solid var(--pixel-border-primary)',
-                    borderRadius: '8px',
-                    background: 'var(--pixel-bg-tertiary)',
-                    boxShadow: 'inset 2px 2px 0px var(--pixel-shadow-secondary)'
-                  }}
-                >
-                  <option value="date">💖 Romance Quest</option>
-                  <option value="trip">✈️ Adventure Quest</option>
-                  <option value="activity">🎉 Fun Quest</option>
-                  <option value="celebration">🥳 Party Quest</option>
-                  <option value="other">🌟 Special Quest</option>
-                </select>
-              </div>
-              
-              <div>
-                <label style={{ 
-                  display: 'block',
-                  fontFamily: 'var(--pixel-font-main)',
-                  fontSize: '16px',
-                  color: 'var(--pixel-text-primary)',
-                  marginBottom: '8px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}>
-                  🌐 Website (Optional):
-                </label>
-                <input
-                  type="url"
-                  value={website}
-                  onChange={(e) => setWebsite(e.target.value)}
-                  placeholder="https://..."
-                  className="pixel-input"
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    fontSize: '18px',
-                    fontFamily: 'var(--pixel-font-main)',
-                    border: '3px solid var(--pixel-border-primary)',
-                    borderRadius: '8px',
-                    background: 'var(--pixel-bg-tertiary)',
-                    boxShadow: 'inset 2px 2px 0px var(--pixel-shadow-secondary)'
-                  }}
-                />
-              </div>
-              
-              <div style={{ gridColumn: isMobile ? '1' : 'span 2' }}>
-                <label style={{ 
-                  display: 'block',
-                  fontFamily: 'var(--pixel-font-main)',
-                  fontSize: '16px',
-                  color: 'var(--pixel-text-primary)',
-                  marginBottom: '8px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}>
-                  📍 Maps Link (Optional):
-                </label>
-                <input
-                  type="url"
-                  value={mapsLink}
-                  onChange={(e) => setMapsLink(e.target.value)}
-                  placeholder="Google Maps link..."
-                  className="pixel-input"
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    fontSize: '18px',
-                    fontFamily: 'var(--pixel-font-main)',
-                    border: '3px solid var(--pixel-border-primary)',
-                    borderRadius: '8px',
-                    background: 'var(--pixel-bg-tertiary)',
-                    boxShadow: 'inset 2px 2px 0px var(--pixel-shadow-secondary)'
-                  }}
-                />
+          {/* Enhanced Stats Dashboard */}
+          <div className="ios-stats-grid">
+            <div className="ios-stat-card stat-primary">
+              <div className="ios-stat-icon">🎯</div>
+              <div className="ios-stat-content">
+                <div className="ios-stat-number">{stats.totalPlans}</div>
+                <div className="ios-stat-label">Total Quests</div>
               </div>
             </div>
             
-            <div style={{ 
-              display: 'flex', 
-              gap: '16px', 
-              justifyContent: 'flex-end',
-              flexWrap: 'wrap'
-            }}>
-              <button 
-                type="button" 
-                onClick={() => setShowAddForm(false)} 
-                className="pixel-btn-secondary"
-                style={{
-                  padding: '12px 20px',
-                  fontSize: '16px',
-                  fontFamily: 'var(--pixel-font-main)',
-                  background: 'var(--pixel-btn-secondary-bg)',
-                  color: 'var(--pixel-btn-secondary-text)',
-                  border: '3px solid var(--pixel-btn-secondary-border)',
-                  borderRadius: '8px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  cursor: 'pointer',
-                  boxShadow: '4px 4px 0px var(--pixel-shadow-secondary)'
-                }}
-              >
-                ❌ Cancel
-              </button>
-              <button 
-                type="submit" 
-                className="pixel-btn-success"
-                style={{
-                  padding: '12px 20px',
-                  fontSize: '16px',
-                  fontFamily: 'var(--pixel-font-main)',
-                  background: 'var(--pixel-success)',
-                  color: 'white',
-                  border: '3px solid var(--pixel-success)',
-                  borderRadius: '8px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  cursor: 'pointer',
-                  boxShadow: '4px 4px 0px rgba(150, 206, 180, 0.4)',
-                  textShadow: '1px 1px 0px rgba(0,0,0,0.3)'
-                }}
-              >
-                ⚡ Start Quest!
-              </button>
+            <div className="ios-stat-card stat-success">
+              <div className="ios-stat-icon">✅</div>
+              <div className="ios-stat-content">
+                <div className="ios-stat-number">{stats.completedPlans}</div>
+                <div className="ios-stat-label">Completed</div>
+              </div>
             </div>
-          </form>
+            
+            <div className="ios-stat-card stat-memories">
+              <div className="ios-stat-icon">💖</div>
+              <div className="ios-stat-content">
+                <div className="ios-stat-number">{stats.memoriesAdded}</div>
+                <div className="ios-stat-label">Memories</div>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+      </div>
 
-      {/* Empty State */}
-      {sortedPlans.length === 0 && !showAddForm && (
-        <div className="empty-state pixel-float" style={{
-          textAlign: 'center',
-          padding: '48px 24px',
-          background: 'var(--pixel-bg-tertiary)',
-          border: '4px dashed var(--pixel-border-primary)',
-          borderRadius: '16px',
-          margin: '32px 0'
-        }}>
-          <div style={{ fontSize: '64px', marginBottom: '16px' }}>🗺️</div>
-          <h3 style={{ 
-            fontSize: '28px', 
-            color: 'var(--pixel-text-primary)',
-            margin: '0 0 8px 0',
-            fontFamily: 'var(--pixel-font-main)',
-            textTransform: 'uppercase',
-            letterSpacing: '2px',
-            textShadow: '2px 2px 0px var(--pixel-shadow-secondary)'
-          }}>
-            Quest Log Empty!
-          </h3>
-          <p style={{ 
-            color: 'var(--pixel-text-secondary)',
-            marginBottom: '24px',
-            fontSize: '18px',
-            fontFamily: 'var(--pixel-font-main)'
-          }}>
-            Ready to start your love story adventure? Create your first quest!
-          </p>
-          <button 
-            onClick={() => setShowAddForm(true)} 
-            className="pixel-btn-glow"
-            style={{
-              padding: '16px 32px',
-              fontSize: '20px',
-              fontFamily: 'var(--pixel-font-main)',
-              background: 'linear-gradient(135deg, var(--pixel-primary), var(--pixel-secondary))',
-              color: 'white',
-              border: '3px solid var(--pixel-primary)',
-              borderRadius: '12px',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              cursor: 'pointer',
-              boxShadow: '6px 6px 0px var(--pixel-shadow-primary)',
-              textShadow: '2px 2px 0px rgba(0,0,0,0.3)'
-            }}
-          >
-            🚀 Begin Adventure!
-          </button>
-        </div>
-      )}
-
-      {/* Pixel Quest Cards by Month */}
-      {Object.entries(plansByMonth).map(([monthYear, monthPlans]) => (
-        <div key={monthYear} style={{ marginBottom: '48px' }}>
-          <div style={{ 
-            display: 'inline-block',
-            padding: '12px 24px',
-            background: 'linear-gradient(135deg, var(--pixel-secondary), var(--pixel-accent))',
-            color: 'white',
-            border: '3px solid var(--pixel-secondary)',
-            borderRadius: '12px',
-            fontSize: '24px',
-            fontFamily: 'var(--pixel-font-main)',
-            textTransform: 'uppercase',
-            letterSpacing: '2px',
-            marginBottom: '24px',
-            boxShadow: '4px 4px 0px rgba(78, 205, 196, 0.4)',
-            textShadow: '2px 2px 0px rgba(0,0,0,0.3)'
-          }} className="pixel-wiggle">
-            📖 {monthYear}
+      {/* Main Content Container */}
+      <div className="ios-main-content">
+        {/* Navigation Controls */}
+        <div className="ios-controls-section">
+          <div className="ios-filter-tabs">
+            {(["all", "upcoming", "completed", "withMemories"] as const).map(filterKey => (
+              <button 
+                key={filterKey}
+                onClick={() => setViewFilter(filterKey)}
+                className={`ios-filter-tab ${viewFilter === filterKey ? "active" : ""}`}
+              >
+                <span className="ios-tab-icon">
+                  {filterKey === 'all' && '📋'}
+                  {filterKey === 'upcoming' && '⏳'}
+                  {filterKey === 'completed' && '✅'}
+                  {filterKey === 'withMemories' && '💖'}
+                </span>
+                <span className="ios-tab-label">
+                  {filterKey.charAt(0).toUpperCase() + filterKey.slice(1).replace('With', 'With ')}
+                </span>
+              </button>
+            ))}
           </div>
           
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(350px, 1fr))',
-            gap: '24px'
-          }}>
-            {monthPlans.map((plan: Plan) => (
-              <div 
-                key={plan._id} 
-                className={`pixel-card pixel-fade-in ${plan.memory ? 'pixel-card-primary' : ''}`}
-                style={{ 
-                  background: plan.isCompleted 
-                    ? (plan.memory 
-                        ? 'linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(150, 206, 180, 0.1))'
-                        : 'linear-gradient(135deg, var(--pixel-bg-secondary), rgba(150, 206, 180, 0.1))')
-                    : 'linear-gradient(135deg, var(--pixel-bg-secondary), var(--pixel-bg-tertiary))',
-                  border: `4px solid ${plan.memory ? 'var(--pixel-primary)' : 'var(--pixel-border-primary)'}`,
-                  borderRadius: '16px',
-                  padding: '20px',
-                  boxShadow: `6px 6px 0px ${plan.memory ? 'var(--pixel-shadow-primary)' : 'var(--pixel-shadow-secondary)'}`,
-                  position: 'relative',
-                  opacity: plan.isCompleted ? '0.9' : '1'
-                }}
-              >
-                {editingPlan === plan._id ? (
-                  // Edit Form
-                  <div className="pixel-slide-in">
-                    <h3 style={{ 
-                      fontFamily: 'var(--pixel-font-main)',
-                      fontSize: '20px',
-                      color: 'var(--pixel-primary)',
-                      textAlign: 'center',
-                      margin: '0 0 16px 0',
-                      textTransform: 'uppercase',
-                      letterSpacing: '1px',
-                      textShadow: '2px 2px 0px var(--pixel-shadow-secondary)'
-                    }}>
-                      ✏️ Edit Quest
-                    </h3>
-                    
-                    <div style={{ 
-                      display: 'grid', 
-                      gridTemplateColumns: '1fr',
-                      gap: '12px',
-                      marginBottom: '16px'
-                    }}>
-                      <input 
-                        type="text" 
-                        value={editTitle} 
-                        onChange={(e) => setEditTitle(e.target.value)} 
-                        className="pixel-input"
-                        style={{
-                          width: '100%',
-                          padding: '10px',
-                          fontSize: '16px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          border: '3px solid var(--pixel-border-primary)',
-                          borderRadius: '8px',
-                          background: 'var(--pixel-bg-tertiary)'
-                        }}
-                      />
-                      <input 
-                        type="date" 
-                        value={editDate} 
-                        onChange={(e) => setEditDate(e.target.value)} 
-                        className="pixel-input"
-                        style={{
-                          width: '100%',
-                          padding: '10px',
-                          fontSize: '16px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          border: '3px solid var(--pixel-border-primary)',
-                          borderRadius: '8px',
-                          background: 'var(--pixel-bg-tertiary)'
-                        }}
-                      />
-                      <select 
-                        value={editType} 
-                        onChange={(e) => setEditType(e.target.value)} 
-                        className="pixel-input"
-                        style={{
-                          width: '100%',
-                          padding: '10px',
-                          fontSize: '16px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          border: '3px solid var(--pixel-border-primary)',
-                          borderRadius: '8px',
-                          background: 'var(--pixel-bg-tertiary)'
-                        }}
-                      >
-                        <option value="date">💖 Romance Quest</option>
-                        <option value="trip">✈️ Adventure Quest</option>
-                        <option value="activity">🎉 Fun Quest</option>
-                        <option value="celebration">🥳 Party Quest</option>
-                        <option value="other">🌟 Special Quest</option>
-                      </select>
-                      <input 
-                        type="url" 
-                        value={editWebsite} 
-                        onChange={(e) => setEditWebsite(e.target.value)} 
-                        placeholder="Website"
-                        className="pixel-input"
-                        style={{
-                          width: '100%',
-                          padding: '10px',
-                          fontSize: '16px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          border: '3px solid var(--pixel-border-primary)',
-                          borderRadius: '8px',
-                          background: 'var(--pixel-bg-tertiary)'
-                        }}
-                      />
-                      <input 
-                        type="url" 
-                        value={editMapsLink} 
-                        onChange={(e) => setEditMapsLink(e.target.value)} 
-                        placeholder="Maps Link"
-                        className="pixel-input"
-                        style={{
-                          width: '100%',
-                          padding: '10px',
-                          fontSize: '16px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          border: '3px solid var(--pixel-border-primary)',
-                          borderRadius: '8px',
-                          background: 'var(--pixel-bg-tertiary)'
-                        }}
-                      />
-                    </div>
-                    
-                    <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-                      <button 
-                        onClick={() => setEditingPlan(null)} 
-                        className="pixel-btn-secondary"
-                        style={{
-                          padding: '8px 16px',
-                          fontSize: '14px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          background: 'var(--pixel-btn-secondary-bg)',
-                          color: 'var(--pixel-btn-secondary-text)',
-                          border: '3px solid var(--pixel-btn-secondary-border)',
-                          borderRadius: '8px',
-                          textTransform: 'uppercase',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        Cancel
-                      </button>
-                      <button 
-                        onClick={() => handleSaveEdit(plan._id)} 
-                        className="pixel-btn-success"
-                        style={{
-                          padding: '8px 16px',
-                          fontSize: '14px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          background: 'var(--pixel-success)',
-                          color: 'white',
-                          border: '3px solid var(--pixel-success)',
-                          borderRadius: '8px',
-                          textTransform: 'uppercase',
-                          cursor: 'pointer',
-                          textShadow: '1px 1px 0px rgba(0,0,0,0.3)'
-                        }}
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  // Normal Card View
-                  <>
-                    {/* Card Header */}
-                    <div style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '16px',
-                      marginBottom: '16px'
-                    }}>
-                      <div style={{
-                        background: 'linear-gradient(135deg, var(--pixel-primary), var(--pixel-secondary))',
-                        color: 'white',
-                        padding: '12px',
-                        borderRadius: '12px',
-                        textAlign: 'center',
-                        minWidth: '60px',
-                        border: '3px solid var(--pixel-primary)',
-                        boxShadow: '3px 3px 0px var(--pixel-shadow-primary)',
-                        fontFamily: 'var(--pixel-font-main)',
-                        textShadow: '1px 1px 0px rgba(0,0,0,0.3)'
-                      }}>
-                        <div style={{ fontSize: '20px', fontWeight: 'bold', lineHeight: '1' }}>
-                          {formatDateBadge(plan.date).day}
+          <button
+            onClick={() => setShowAddForm(!showAddForm)}
+            className="ios-add-button"
+          >
+            <span className="ios-add-icon">{showAddForm ? '✕' : '+'}</span>
+            <span className="ios-add-label">{showAddForm ? 'Cancel' : 'New Quest'}</span>
+          </button>
+        </div>
+
+        {/* Add Form */}
+        {showAddForm && (
+          <div className="ios-form-container">
+            <div className="ios-form-header">
+              <h3 className="ios-form-title">Create New Quest</h3>
+              <p className="ios-form-subtitle">Plan your next adventure together</p>
+            </div>
+            
+            <form onSubmit={handleAddPlan} className="ios-form">
+              <div className="ios-form-grid">
+                <div className="ios-input-group">
+                  <label className="ios-label">Quest Name</label>
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Our Epic Adventure..."
+                    className="ios-input"
+                    required
+                  />
+                </div>
+                
+                <div className="ios-input-group">
+                  <label className="ios-label">Quest Date</label>
+                  <input
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    className="ios-input"
+                    required
+                  />
+                </div>
+                
+                <div className="ios-input-group">
+                  <label className="ios-label">Quest Type</label>
+                  <select 
+                    value={type} 
+                    onChange={(e) => setType(e.target.value)} 
+                    className="ios-input ios-select"
+                  >
+                    <option value="date">💖 Romance Quest</option>
+                    <option value="trip">✈️ Adventure Quest</option>
+                    <option value="activity">🎉 Fun Quest</option>
+                    <option value="celebration">🥳 Party Quest</option>
+                    <option value="other">🌟 Special Quest</option>
+                  </select>
+                </div>
+                
+                <div className="ios-input-group">
+                  <label className="ios-label">Website (Optional)</label>
+                  <input
+                    type="url"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    placeholder="https://..."
+                    className="ios-input"
+                  />
+                </div>
+                
+                <div className="ios-input-group full-width">
+                  <label className="ios-label">Maps Link (Optional)</label>
+                  <input
+                    type="url"
+                    value={mapsLink}
+                    onChange={(e) => setMapsLink(e.target.value)}
+                    placeholder="Google Maps link..."
+                    className="ios-input"
+                  />
+                </div>
+              </div>
+              
+              <div className="ios-form-actions">
+                <button 
+                  type="button" 
+                  onClick={() => setShowAddForm(false)} 
+                  className="ios-button secondary"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="ios-button primary"
+                >
+                  Create Quest
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {sortedPlans.length === 0 && !showAddForm && (
+          <div className="ios-empty-state">
+            <div className="ios-empty-icon">🗺️</div>
+            <h3 className="ios-empty-title">Quest Log Empty!</h3>
+            <p className="ios-empty-description">
+              Ready to start your love story adventure? Create your first quest!
+            </p>
+            <button 
+              onClick={() => setShowAddForm(true)} 
+              className="ios-button primary large"
+            >
+              Begin Adventure
+            </button>
+          </div>
+        )}
+
+        {/* Quest Cards by Month */}
+        <div className="ios-plans-timeline">
+          {Object.entries(plansByMonth).map(([monthYear, monthPlans]) => (
+            <div key={monthYear} className="ios-month-section">
+              <div className="ios-month-header">
+                <div className="ios-month-badge">
+                  <span className="ios-month-text">{monthYear}</span>
+                </div>
+                <div className="ios-month-line"></div>
+              </div>
+              
+              <div className="ios-plans-grid">
+                {monthPlans.map((plan: Plan) => (
+                  <div 
+                    key={plan._id} 
+                    className={`ios-plan-card ${plan.isCompleted ? 'completed' : 'upcoming'} ${plan.memory ? 'has-memory' : ''}`}
+                  >
+                    {editingPlan === plan._id ? (
+                      // Edit Form
+                      <div className="ios-edit-form">
+                        <h4 className="ios-edit-title">Edit Quest</h4>
+                        
+                        <div className="ios-edit-inputs">
+                          <input 
+                            type="text" 
+                            value={editTitle} 
+                            onChange={(e) => setEditTitle(e.target.value)} 
+                            className="ios-input"
+                            placeholder="Quest name..."
+                          />
+                          <input 
+                            type="date" 
+                            value={editDate} 
+                            onChange={(e) => setEditDate(e.target.value)} 
+                            className="ios-input"
+                          />
+                          <select 
+                            value={editType} 
+                            onChange={(e) => setEditType(e.target.value)} 
+                            className="ios-input ios-select"
+                          >
+                            <option value="date">💖 Romance Quest</option>
+                            <option value="trip">✈️ Adventure Quest</option>
+                            <option value="activity">🎉 Fun Quest</option>
+                            <option value="celebration">🥳 Party Quest</option>
+                            <option value="other">🌟 Special Quest</option>
+                          </select>
+                          <input 
+                            type="url" 
+                            value={editWebsite} 
+                            onChange={(e) => setEditWebsite(e.target.value)} 
+                            placeholder="Website"
+                            className="ios-input"
+                          />
+                          <input 
+                            type="url" 
+                            value={editMapsLink} 
+                            onChange={(e) => setEditMapsLink(e.target.value)} 
+                            placeholder="Maps Link"
+                            className="ios-input"
+                          />
                         </div>
-                        <div style={{ fontSize: '12px', opacity: '0.9', textTransform: 'uppercase' }}>
-                          {formatDateBadge(plan.date).month}
+                        
+                        <div className="ios-edit-actions">
+                          <button 
+                            onClick={() => setEditingPlan(null)} 
+                            className="ios-button secondary small"
+                          >
+                            Cancel
+                          </button>
+                          <button 
+                            onClick={() => handleSaveEdit(plan._id)} 
+                            className="ios-button primary small"
+                          >
+                            Save
+                          </button>
                         </div>
                       </div>
-                      
-                      <div style={{ flex: 1 }}>
-                        <h3 style={{ 
-                          fontSize: '20px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          color: 'var(--pixel-text-primary)',
-                          margin: '0 0 4px 0',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          textShadow: '1px 1px 0px var(--pixel-shadow-secondary)',
-                          textDecoration: plan.isCompleted ? 'line-through' : 'none',
-                          opacity: plan.isCompleted ? '0.7' : '1'
-                        }}>
-                          <span className="pixel-wiggle" style={{ fontSize: '24px' }}>
-                            {getTypeEmoji(plan.type)}
-                          </span>
-                          {plan.title}
-                        </h3>
-                        {plan.isCompleted && (
-                          <div className="pixel-badge-success" style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            padding: '4px 12px',
-                            fontSize: '12px',
-                            fontFamily: 'var(--pixel-font-main)',
-                            background: 'var(--pixel-success)',
-                            color: 'white',
-                            border: '2px solid var(--pixel-success)',
-                            borderRadius: '12px',
-                            textTransform: 'uppercase',
-                            letterSpacing: '1px',
-                            textShadow: '1px 1px 0px rgba(0,0,0,0.3)'
-                          }}>
-                            ✅ Completed
+                    ) : (
+                      // Normal Card View
+                      <>
+                        {/* Card Header */}
+                        <div className="ios-card-header">
+                          <div className="ios-date-badge">
+                            <div className="ios-date-day">{formatDateBadge(plan.date).day}</div>
+                            <div className="ios-date-month">{formatDateBadge(plan.date).month}</div>
                           </div>
-                        )}
-                      </div>
-                      
-                      <div 
-                        onClick={() => togglePlan({ id: plan._id, isCompleted: !plan.isCompleted })}
-                        className="pixel-checkbox"
-                        style={{ 
-                          width: '32px',
-                          height: '32px',
-                          border: '3px solid var(--pixel-border-primary)',
-                          borderRadius: '8px',
-                          background: plan.isCompleted ? 'var(--pixel-success)' : 'var(--pixel-bg-tertiary)',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '20px',
-                          color: 'white',
-                          textShadow: '1px 1px 0px rgba(0,0,0,0.3)',
-                          transition: 'all 0.2s ease',
-                          flexShrink: 0
-                        }}
-                        title={plan.isCompleted ? "Mark as not done" : "Mark as done!"}
-                      >
-                        {plan.isCompleted && '✓'}
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div style={{ 
-                      display: 'flex', 
-                      gap: '8px', 
-                      marginBottom: '16px',
-                      flexWrap: 'wrap'
-                    }}>
-                      {plan.website && (
-                        <a 
-                          href={plan.website} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="pixel-btn-secondary"
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            padding: '8px 12px',
-                            fontSize: '14px',
-                            fontFamily: 'var(--pixel-font-main)',
-                            background: 'var(--pixel-btn-secondary-bg)',
-                            color: 'var(--pixel-btn-secondary-text)',
-                            border: '3px solid var(--pixel-btn-secondary-border)',
-                            borderRadius: '8px',
-                            textDecoration: 'none',
-                            textTransform: 'uppercase',
-                            cursor: 'pointer',
-                            boxShadow: '2px 2px 0px var(--pixel-shadow-secondary)'
-                          }}
-                          title="Visit Website"
-                        >
-                          🌐 Site
-                        </a>
-                      )}
-                      {plan.mapsLink && (
-                        <a 
-                          href={plan.mapsLink} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="pixel-btn-secondary"
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            padding: '8px 12px',
-                            fontSize: '14px',
-                            fontFamily: 'var(--pixel-font-main)',
-                            background: 'var(--pixel-btn-secondary-bg)',
-                            color: 'var(--pixel-btn-secondary-text)',
-                            border: '3px solid var(--pixel-btn-secondary-border)',
-                            borderRadius: '8px',
-                            textDecoration: 'none',
-                            textTransform: 'uppercase',
-                            cursor: 'pointer',
-                            boxShadow: '2px 2px 0px var(--pixel-shadow-secondary)'
-                          }}
-                          title="Open in Maps"
-                        >
-                          📍 Maps
-                        </a>
-                      )}
-                      <button 
-                        onClick={() => startEditing(plan)} 
-                        className="pixel-btn-secondary"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          padding: '8px 12px',
-                          fontSize: '14px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          background: 'var(--pixel-btn-secondary-bg)',
-                          color: 'var(--pixel-btn-secondary-text)',
-                          border: '3px solid var(--pixel-btn-secondary-border)',
-                          borderRadius: '8px',
-                          textTransform: 'uppercase',
-                          cursor: 'pointer',
-                          boxShadow: '2px 2px 0px var(--pixel-shadow-secondary)'
-                        }}
-                        title="Edit Plan"
-                      >
-                        ✏️ Edit
-                      </button>
-                      <button 
-                        onClick={() => removePlan({ id: plan._id })} 
-                        className="pixel-btn-danger"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          padding: '8px 12px',
-                          fontSize: '14px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          background: 'var(--pixel-danger)',
-                          color: 'white',
-                          border: '3px solid var(--pixel-danger)',
-                          borderRadius: '8px',
-                          textTransform: 'uppercase',
-                          cursor: 'pointer',
-                          boxShadow: '2px 2px 0px rgba(214, 48, 49, 0.4)',
-                          textShadow: '1px 1px 0px rgba(0,0,0,0.3)'
-                        }}
-                        title="Delete Plan"
-                      >
-                        🗑️ Delete
-                      </button>
-                    </div>
-
-                    {/* Memory Actions */}
-                    {plan.isCompleted && (
-                      <div style={{ 
-                        marginBottom: '16px',
-                        paddingTop: '16px',
-                        borderTop: '2px dashed var(--pixel-border-secondary)'
-                      }}>
-                        {plan.memory ? (
-                          <button 
-                            onClick={() => editExistingMemory(plan)} 
-                            className="pixel-btn-glow"
-                            style={{
-                              padding: '10px 16px',
-                              fontSize: '16px',
-                              fontFamily: 'var(--pixel-font-main)',
-                              background: 'linear-gradient(135deg, var(--pixel-primary), var(--pixel-secondary))',
-                              color: 'white',
-                              border: '3px solid var(--pixel-primary)',
-                              borderRadius: '8px',
-                              textTransform: 'uppercase',
-                              letterSpacing: '1px',
-                              cursor: 'pointer',
-                              boxShadow: '3px 3px 0px var(--pixel-shadow-primary)',
-                              textShadow: '1px 1px 0px rgba(0,0,0,0.3)'
-                            }}
-                          >
-                            💖 Edit Memory
-                          </button>
-                        ) : (
-                          <button 
-                            onClick={() => { 
-                              setSelectedPlan(plan); 
-                              setShowMemoryModal(true); 
-                            }} 
-                            className="pixel-btn-glow"
-                            style={{
-                              padding: '10px 16px',
-                              fontSize: '16px',
-                              fontFamily: 'var(--pixel-font-main)',
-                              background: 'linear-gradient(135deg, var(--pixel-primary), var(--pixel-secondary))',
-                              color: 'white',
-                              border: '3px solid var(--pixel-primary)',
-                              borderRadius: '8px',
-                              textTransform: 'uppercase',
-                              letterSpacing: '1px',
-                              cursor: 'pointer',
-                              boxShadow: '3px 3px 0px var(--pixel-shadow-primary)',
-                              textShadow: '1px 1px 0px rgba(0,0,0,0.3)'
-                            }}
-                          >
-                            ✨ Add Memory
-                          </button>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Memory Preview */}
-                    {plan.memory && (
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(175, 82, 222, 0.1))',
-                        border: '3px solid var(--pixel-primary)',
-                        borderRadius: '12px',
-                        padding: '16px',
-                        marginTop: '16px'
-                      }}>
-                        <div style={{
-                          fontSize: '18px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          color: 'var(--pixel-primary)',
-                          margin: '0 0 12px 0',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          textShadow: '1px 1px 0px var(--pixel-shadow-secondary)',
-                          textTransform: 'uppercase',
-                          letterSpacing: '1px'
-                        }}>
-                          💖 Our Memory
-                        </div>
-                        
-                        <div style={{ 
-                          display: 'flex',
-                          gap: '4px',
-                          marginBottom: '12px',
-                          justifyContent: 'center'
-                        }}>
-                          {Array.from({ length: 5 }, (_, i) => (
-                            <span key={i} style={{ 
-                              fontSize: '18px',
-                              filter: 'drop-shadow(1px 1px 0px rgba(0,0,0,0.3))'
-                            }}>
-                              {i < plan.memory!.rating ? '💖' : '🤍'}
-                            </span>
-                          ))}
-                        </div>
-                        
-                        {plan.memory.photos.length > 0 && (
-                          <div style={{ 
-                            display: 'flex',
-                            gap: '8px',
-                            marginBottom: '12px',
-                            overflowX: 'auto',
-                            paddingBottom: '4px'
-                          }}>
-                            {plan.memory.photos.slice(0, 3).map((photo, index) => (
-                              <img 
-                                key={index} 
-                                src={photo} 
-                                alt={`Memory ${index + 1}`} 
-                                onClick={() => openImageViewer(photo)}
-                                style={{
-                                  width: '64px',
-                                  height: '64px',
-                                  objectFit: 'cover',
-                                  borderRadius: '8px',
-                                  border: '3px solid var(--pixel-border-accent)',
-                                  cursor: 'pointer',
-                                  flexShrink: 0,
-                                  boxShadow: '2px 2px 0px var(--pixel-shadow-secondary)',
-                                  imageRendering: 'pixelated'
-                                }}
-                              />
-                            ))}
-                            {plan.memory.photos.length > 3 && (
-                              <div style={{ 
-                                width: '64px',
-                                height: '64px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                background: 'var(--pixel-bg-secondary)',
-                                border: '3px dashed var(--pixel-border-primary)',
-                                borderRadius: '8px',
-                                fontSize: '14px',
-                                fontFamily: 'var(--pixel-font-main)',
-                                fontWeight: 'bold',
-                                color: 'var(--pixel-text-secondary)',
-                                flexShrink: 0
-                              }}>
-                                +{plan.memory.photos.length - 3}
+                          
+                          <div className="ios-plan-info">
+                            <h3 className="ios-plan-title">
+                              <span className="ios-plan-emoji">{getTypeEmoji(plan.type)}</span>
+                              {plan.title}
+                            </h3>
+                            {plan.isCompleted && (
+                              <div className="ios-completed-badge">
+                                <span className="ios-badge-icon">✅</span>
+                                <span className="ios-badge-text">Completed</span>
                               </div>
                             )}
                           </div>
-                        )}
-                        
-                        {plan.memory.notes.length > 0 && (
-                          <div style={{
-                            fontSize: '14px',
-                            fontFamily: 'var(--pixel-font-main)',
-                            color: 'var(--pixel-text-secondary)',
-                            fontStyle: 'italic',
-                            textAlign: 'center',
-                            background: 'rgba(255,255,255,0.5)',
-                            padding: '8px',
-                            borderRadius: '8px',
-                            border: '2px solid var(--pixel-border-secondary)'
-                          }}>
-                            "{plan.memory.notes[0].substring(0, 100)}{plan.memory.notes[0].length > 100 ? "..." : ""}"
+                          
+                          <button
+                            onClick={() => togglePlan({ id: plan._id, isCompleted: !plan.isCompleted })}
+                            className="ios-checkbox"
+                            title={plan.isCompleted ? "Mark as not done" : "Mark as done!"}
+                          >
+                            {plan.isCompleted && <span className="ios-check">✓</span>}
+                          </button>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="ios-action-row">
+                          {plan.website && (
+                            <a 
+                              href={plan.website} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="ios-action-button"
+                              title="Visit Website"
+                            >
+                              <span className="ios-action-icon">🌐</span>
+                              <span className="ios-action-text">Website</span>
+                            </a>
+                          )}
+                          {plan.mapsLink && (
+                            <a 
+                              href={plan.mapsLink} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="ios-action-button"
+                              title="Open in Maps"
+                            >
+                              <span className="ios-action-icon">📍</span>
+                              <span className="ios-action-text">Maps</span>
+                            </a>
+                          )}
+                          <button 
+                            onClick={() => startEditing(plan)} 
+                            className="ios-action-button"
+                            title="Edit Plan"
+                          >
+                            <span className="ios-action-icon">✏️</span>
+                            <span className="ios-action-text">Edit</span>
+                          </button>
+                          <button 
+                            onClick={() => removePlan({ id: plan._id })} 
+                            className="ios-action-button danger"
+                            title="Delete Plan"
+                          >
+                            <span className="ios-action-icon">🗑️</span>
+                            <span className="ios-action-text">Delete</span>
+                          </button>
+                        </div>
+
+                        {/* Memory Section */}
+                        {plan.isCompleted && (
+                          <div className="ios-memory-section">
+                            {plan.memory ? (
+                              <div className="ios-memory-preview">
+                                <div className="ios-memory-header">
+                                  <span className="ios-memory-title">💖 Our Memory</span>
+                                  <button 
+                                    onClick={() => editExistingMemory(plan)} 
+                                    className="ios-memory-edit"
+                                  >
+                                    Edit
+                                  </button>
+                                </div>
+                                
+                                <div className="ios-memory-rating">
+                                  {Array.from({ length: 5 }, (_, i) => (
+                                    <span key={i} className="ios-star">
+                                      {i < plan.memory!.rating ? '💖' : '🤍'}
+                                    </span>
+                                  ))}
+                                </div>
+                                
+                                {plan.memory.photos.length > 0 && (
+                                  <div className="ios-memory-photos">
+                                    {plan.memory.photos.slice(0, 3).map((photo, index) => (
+                                      <img 
+                                        key={index} 
+                                        src={photo} 
+                                        alt={`Memory ${index + 1}`} 
+                                        onClick={() => openImageViewer(photo)}
+                                        className="ios-memory-photo"
+                                      />
+                                    ))}
+                                    {plan.memory.photos.length > 3 && (
+                                      <div className="ios-memory-more">
+                                        +{plan.memory.photos.length - 3}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                                
+                                {plan.memory.notes.length > 0 && (
+                                  <div className="ios-memory-note">
+                                    "{plan.memory.notes[0].substring(0, 80)}{plan.memory.notes[0].length > 80 ? "..." : ""}"
+                                  </div>
+                                )}
+                              </div>
+                            ) : (
+                              <button 
+                                onClick={() => { 
+                                  setSelectedPlan(plan); 
+                                  setShowMemoryModal(true); 
+                                }} 
+                                className="ios-add-memory-button"
+                              >
+                                <span className="ios-memory-icon">✨</span>
+                                <span className="ios-memory-text">Add Memory</span>
+                              </button>
+                            )}
                           </div>
                         )}
-                      </div>
+                      </>
                     )}
-                  </>
-                )}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
 
-      {/* Pixel Memory Modal */}
+      {/* Enhanced Memory Modal */}
       {showMemoryModal && selectedPlan && (
-        <div className="pixel-modal-overlay">
-          <div className="pixel-modal" style={{ maxWidth: '600px', width: '90%' }}>
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              marginBottom: '24px',
-              paddingBottom: '16px',
-              borderBottom: '3px solid var(--pixel-border-primary)'
-            }}>
-              <h2 style={{ 
-                fontFamily: 'var(--pixel-font-main)',
-                fontSize: '28px',
-                color: 'var(--pixel-primary)',
-                margin: '0',
-                textShadow: '2px 2px 0px var(--pixel-shadow-secondary)',
-                textTransform: 'uppercase',
-                letterSpacing: '2px'
-              }} className="pixel-wiggle">
+        <div className="ios-modal-overlay">
+          <div className="ios-modal">
+            <div className="ios-modal-header">
+              <h2 className="ios-modal-title">
                 {selectedPlan?.memory ? '💖 Edit Memory' : '✨ New Memory'}
               </h2>
               <button 
@@ -1463,58 +784,23 @@ export default function PlansSection() {
                   setNewNote(""); 
                   setEditingNoteIndex(-1);
                 }} 
-                className="pixel-modal-close"
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  background: 'var(--pixel-danger)',
-                  color: 'white',
-                  border: '3px solid var(--pixel-danger)',
-                  borderRadius: '50%',
-                  fontSize: '20px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontFamily: 'var(--pixel-font-main)',
-                  boxShadow: '3px 3px 0px rgba(214, 48, 49, 0.4)'
-                }}
+                className="ios-modal-close"
               >
                 ✕
               </button>
             </div>
             
-            <div style={{ maxHeight: '70vh', overflowY: 'auto', paddingRight: '8px' }}>
+            <div className="ios-modal-content">
               {/* Rating */}
-              <div style={{ marginBottom: '24px' }}>
-                <label style={{ 
-                  display: 'block',
-                  fontFamily: 'var(--pixel-font-main)',
-                  fontSize: '18px',
-                  color: 'var(--pixel-text-primary)',
-                  marginBottom: '12px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}>
-                  🌟 How Magical Was It?
-                </label>
-                <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+              <div className="ios-rating-section">
+                <label className="ios-label">How Magical Was It?</label>
+                <div className="ios-rating-stars">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star} 
                       type="button" 
                       onClick={() => setMemoryRating(star)}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        fontSize: '32px',
-                        cursor: 'pointer',
-                        opacity: star <= memoryRating ? 1 : 0.3,
-                        transition: 'all 0.2s ease',
-                        filter: 'drop-shadow(2px 2px 0px rgba(0,0,0,0.3))',
-                        transform: star <= memoryRating ? 'scale(1.1)' : 'scale(1)'
-                      }}
-                      className={star <= memoryRating ? 'pixel-pulse' : ''}
+                      className={`ios-star-button ${star <= memoryRating ? 'active' : ''}`}
                     >
                       💖
                     </button>
@@ -1523,18 +809,8 @@ export default function PlansSection() {
               </div>
 
               {/* Photos */}
-              <div style={{ marginBottom: '24px' }}>
-                <label style={{ 
-                  display: 'block',
-                  fontFamily: 'var(--pixel-font-main)',
-                  fontSize: '18px',
-                  color: 'var(--pixel-text-primary)',
-                  marginBottom: '12px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}>
-                  📸 Show Me The Pictures!
-                </label>
+              <div className="ios-photo-section">
+                <label className="ios-label">Photos</label>
                 <input 
                   type="file" 
                   ref={fileInputRef} 
@@ -1546,77 +822,30 @@ export default function PlansSection() {
                   type="button" 
                   onClick={() => fileInputRef.current?.click()} 
                   disabled={isUploading} 
-                  className="pixel-btn-glow"
-                  style={{
-                    width: '100%',
-                    padding: '16px',
-                    fontSize: '18px',
-                    fontFamily: 'var(--pixel-font-main)',
-                    background: 'linear-gradient(135deg, var(--pixel-secondary), var(--pixel-accent))',
-                    color: 'white',
-                    border: '3px solid var(--pixel-secondary)',
-                    borderRadius: '12px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    cursor: isUploading ? 'not-allowed' : 'pointer',
-                    boxShadow: '4px 4px 0px rgba(78, 205, 196, 0.4)',
-                    textShadow: '2px 2px 0px rgba(0,0,0,0.3)',
-                    opacity: isUploading ? 0.7 : 1
-                  }}
+                  className="ios-upload-button"
                 >
-                  {isUploading ? `⏳ Uploading... ${uploadProgress}%` : "📸 Add Photo"}
+                  {isUploading ? `Uploading... ${uploadProgress}%` : "📸 Add Photo"}
                 </button>
                 
                 {isUploading && (
-                  <div className="pixel-progress" style={{ marginTop: '12px' }}>
-                    <div className="pixel-progress-bar" style={{ width: `${uploadProgress}%` }}></div>
+                  <div className="ios-progress-bar">
+                    <div className="ios-progress-fill" style={{ width: `${uploadProgress}%` }}></div>
                   </div>
                 )}
                 
-                <div style={{ 
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '12px',
-                  marginTop: '16px'
-                }}>
+                <div className="ios-photo-grid">
                   {memoryPhotos.map((photo, index) => (
-                    <div key={index} style={{ position: 'relative' }}>
+                    <div key={index} className="ios-photo-item">
                       <img 
                         src={photo} 
                         alt={`Preview ${index + 1}`} 
                         onClick={() => openImageViewer(photo)}
-                        style={{
-                          width: '80px',
-                          height: '80px',
-                          objectFit: 'cover',
-                          borderRadius: '8px',
-                          border: '3px solid var(--pixel-border-accent)',
-                          cursor: 'pointer',
-                          boxShadow: '3px 3px 0px var(--pixel-shadow-secondary)',
-                          imageRendering: 'pixelated'
-                        }}
+                        className="ios-photo-preview"
                       />
                       <button 
                         type="button" 
                         onClick={() => handleRemovePhoto(index)} 
-                        style={{
-                          position: 'absolute',
-                          top: '-8px',
-                          right: '-8px',
-                          background: 'var(--pixel-danger)',
-                          color: 'white',
-                          border: '2px solid white',
-                          borderRadius: '50%',
-                          width: '24px',
-                          height: '24px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          fontSize: '14px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          boxShadow: '2px 2px 0px rgba(214, 48, 49, 0.4)'
-                        }}
+                        className="ios-photo-remove"
                       >
                         ✕
                       </button>
@@ -1626,55 +855,20 @@ export default function PlansSection() {
               </div>
 
               {/* Notes */}
-              <div style={{ marginBottom: '24px' }}>
-                <label style={{ 
-                  display: 'block',
-                  fontFamily: 'var(--pixel-font-main)',
-                  fontSize: '18px',
-                  color: 'var(--pixel-text-primary)',
-                  marginBottom: '12px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}>
-                  📝 What Made It Special?
-                </label>
-                <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+              <div className="ios-notes-section">
+                <label className="ios-label">What Made It Special?</label>
+                <div className="ios-note-input-row">
                   <textarea 
                     value={newNote} 
                     onChange={(e) => setNewNote(e.target.value)} 
                     placeholder="Our favorite part was..." 
-                    className="pixel-input"
-                    style={{
-                      flex: 1,
-                      minHeight: '80px',
-                      padding: '12px',
-                      fontSize: '16px',
-                      fontFamily: 'var(--pixel-font-main)',
-                      border: '3px solid var(--pixel-border-primary)',
-                      borderRadius: '8px',
-                      background: 'var(--pixel-bg-tertiary)',
-                      boxShadow: 'inset 2px 2px 0px var(--pixel-shadow-secondary)',
-                      resize: 'vertical'
-                    }}
+                    className="ios-textarea"
                   />
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div className="ios-note-actions">
                     <button 
                       type="button" 
                       onClick={handleAddNote} 
-                      className="pixel-btn-primary"
-                      style={{
-                        padding: '10px 16px',
-                        fontSize: '14px',
-                        fontFamily: 'var(--pixel-font-main)',
-                        background: 'var(--pixel-primary)',
-                        color: 'white',
-                        border: '3px solid var(--pixel-primary)',
-                        borderRadius: '8px',
-                        textTransform: 'uppercase',
-                        cursor: 'pointer',
-                        boxShadow: '3px 3px 0px var(--pixel-shadow-primary)',
-                        textShadow: '1px 1px 0px rgba(0,0,0,0.3)'
-                      }}
+                      className="ios-button primary small"
                     >
                       {editingNoteIndex >= 0 ? "Update" : "Add"}
                     </button>
@@ -1685,18 +879,7 @@ export default function PlansSection() {
                           setNewNote(""); 
                           setEditingNoteIndex(-1);
                         }} 
-                        className="pixel-btn-secondary"
-                        style={{
-                          padding: '8px 12px',
-                          fontSize: '12px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          background: 'var(--pixel-btn-secondary-bg)',
-                          color: 'var(--pixel-btn-secondary-text)',
-                          border: '3px solid var(--pixel-btn-secondary-border)',
-                          borderRadius: '8px',
-                          textTransform: 'uppercase',
-                          cursor: 'pointer'
-                        }}
+                        className="ios-button secondary small"
                       >
                         Cancel
                       </button>
@@ -1704,73 +887,33 @@ export default function PlansSection() {
                   </div>
                 </div>
                 
-                <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                <div className="ios-notes-list">
                   {memoryNotes.map((note, index) => (
-                    <div key={index} style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      padding: '12px',
-                      background: 'var(--pixel-bg-secondary)',
-                      border: '3px solid var(--pixel-border-secondary)',
-                      borderRadius: '8px',
-                      marginBottom: '8px',
-                      boxShadow: '2px 2px 0px var(--pixel-shadow-secondary)'
-                    }}>
-                      <span style={{ 
-                        flex: 1, 
-                        fontSize: '14px',
-                        fontFamily: 'var(--pixel-font-main)',
-                        color: 'var(--pixel-text-primary)'
-                      }}>
-                        {note}
-                      </span>
-                      <button 
-                        type="button" 
-                        onClick={() => handleEditNote(index)} 
-                        style={{
-                          background: 'var(--pixel-btn-secondary-bg)',
-                          color: 'var(--pixel-btn-secondary-text)',
-                          border: '2px solid var(--pixel-btn-secondary-border)',
-                          borderRadius: '6px',
-                          padding: '4px 8px',
-                          cursor: 'pointer',
-                          fontSize: '12px',
-                          fontFamily: 'var(--pixel-font-main)'
-                        }}
-                      >
-                        ✏️
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={() => handleRemoveNote(index)} 
-                        style={{
-                          background: 'var(--pixel-danger)',
-                          color: 'white',
-                          border: '2px solid var(--pixel-danger)',
-                          borderRadius: '6px',
-                          padding: '4px 8px',
-                          cursor: 'pointer',
-                          fontSize: '12px',
-                          fontFamily: 'var(--pixel-font-main)',
-                          textShadow: '1px 1px 0px rgba(0,0,0,0.3)'
-                        }}
-                      >
-                        ✕
-                      </button>
+                    <div key={index} className="ios-note-item">
+                      <span className="ios-note-text">{note}</span>
+                      <div className="ios-note-item-actions">
+                        <button 
+                          type="button" 
+                          onClick={() => handleEditNote(index)} 
+                          className="ios-note-action"
+                        >
+                          ✏️
+                        </button>
+                        <button 
+                          type="button" 
+                          onClick={() => handleRemoveNote(index)} 
+                          className="ios-note-action danger"
+                        >
+                          ✕
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
 
-            <div style={{ 
-              display: 'flex',
-              gap: '16px',
-              justifyContent: 'flex-end',
-              paddingTop: '16px',
-              borderTop: '3px solid var(--pixel-border-primary)'
-            }}>
+            <div className="ios-modal-footer">
               <button 
                 type="button" 
                 onClick={() => { 
@@ -1782,41 +925,14 @@ export default function PlansSection() {
                   setNewNote(""); 
                   setEditingNoteIndex(-1);
                 }} 
-                className="pixel-btn-secondary"
-                style={{
-                  padding: '12px 20px',
-                  fontSize: '16px',
-                  fontFamily: 'var(--pixel-font-main)',
-                  background: 'var(--pixel-btn-secondary-bg)',
-                  color: 'var(--pixel-btn-secondary-text)',
-                  border: '3px solid var(--pixel-btn-secondary-border)',
-                  borderRadius: '8px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  cursor: 'pointer',
-                  boxShadow: '4px 4px 0px var(--pixel-shadow-secondary)'
-                }}
+                className="ios-button secondary"
               >
                 Cancel
               </button>
               <button 
                 type="button" 
                 onClick={handleSaveMemory} 
-                className="pixel-btn-glow"
-                style={{
-                  padding: '12px 24px',
-                  fontSize: '16px',
-                  fontFamily: 'var(--pixel-font-main)',
-                  background: 'linear-gradient(135deg, var(--pixel-primary), var(--pixel-secondary))',
-                  color: 'white',
-                  border: '3px solid var(--pixel-primary)',
-                  borderRadius: '8px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  cursor: 'pointer',
-                  boxShadow: '4px 4px 0px var(--pixel-shadow-primary)',
-                  textShadow: '2px 2px 0px rgba(0,0,0,0.3)'
-                }}
+                className="ios-button primary"
               >
                 💕 Save Memory
               </button>
@@ -1825,53 +941,20 @@ export default function PlansSection() {
         </div>
       )}
 
-      {/* Pixel Image Viewer Modal */}
+      {/* Enhanced Image Viewer Modal */}
       {imageViewerOpen && (
-        <div className="pixel-modal-overlay" onClick={closeImageViewer}>
-          <div style={{ 
-            position: 'relative',
-            maxWidth: '90vw',
-            maxHeight: '90vh',
-            background: 'var(--pixel-bg-secondary)',
-            border: '4px solid var(--pixel-border-primary)',
-            borderRadius: '16px',
-            padding: '8px',
-            boxShadow: '8px 8px 0px var(--pixel-shadow-dark)'
-          }} onClick={(e) => e.stopPropagation()}>
+        <div className="ios-image-viewer-overlay" onClick={closeImageViewer}>
+          <div className="ios-image-viewer-content" onClick={(e) => e.stopPropagation()}>
             <button 
               onClick={closeImageViewer} 
-              style={{
-                position: 'absolute',
-                top: '-16px',
-                right: '-16px',
-                width: '40px',
-                height: '40px',
-                background: 'var(--pixel-danger)',
-                color: 'white',
-                border: '3px solid white',
-                borderRadius: '50%',
-                fontSize: '20px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'var(--pixel-font-main)',
-                boxShadow: '4px 4px 0px rgba(214, 48, 49, 0.4)',
-                zIndex: 10
-              }}
+              className="ios-image-viewer-close"
             >
               ✕
             </button>
             <img 
               src={currentImage} 
               alt="Memory Preview" 
-              style={{ 
-                maxWidth: '100%', 
-                maxHeight: '80vh', 
-                objectFit: 'contain',
-                borderRadius: '12px',
-                imageRendering: 'pixelated'
-              }}
+              className="ios-image-viewer-image"
             />
           </div>
         </div>
