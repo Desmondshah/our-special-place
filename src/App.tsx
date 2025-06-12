@@ -59,7 +59,7 @@ export default function App() {
         </div>
       ) : (
         <div className="min-h-screen p-4">
-          <div className="max-w-7xl mx-auto space-y-6">
+          <div className="max-w-4xl mx-auto space-y-6">
             <h1 className="pixel-title text-center mb-8 relative">
               Our Special Place 💕
             </h1>
