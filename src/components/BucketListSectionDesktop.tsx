@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 
+// Interface for a single bucket list item
 interface BucketListItem {
   _id: Id<"bucketList">;
   title: string;
@@ -13,14 +14,14 @@ interface BucketListItem {
   notes?: string;
 }
 
-// Helper to get category specific styles (emoji, class for color/icon)
-const getCategoryStyle = (category: string): { emoji: string, className: string, iconName?: string } => {
+// Helper to get category-specific styles (emoji, class for color/icon)
+const getCategoryStyle = (category: string): { emoji: string, className: string } => {
   switch (category) {
-    case "adventure": return { emoji: "🏞️", className: "category-adventure", iconName: "mountain" };
-    case "travel": return { emoji: "✈️", className: "category-travel", iconName: "airplane" };
-    case "food": return { emoji: "🍕", className: "category-food", iconName: "pizza" };
-    case "milestone": return { emoji: "🏆", className: "category-milestone", iconName: "trophy" };
-    default: return { emoji: "💖", className: "category-other", iconName: "sparkle-heart" };
+    case "adventure": return { emoji: "🏞️", className: "category-adventure" };
+    case "travel": return { emoji: "✈️", className: "category-travel" };
+    case "food": return { emoji: "🍕", className: "category-food" };
+    case "milestone": return { emoji: "🏆", className: "category-milestone" };
+    default: return { emoji: "💖", className: "category-other" };
   }
 };
 
@@ -33,337 +34,277 @@ export default function BucketListSectionDesktop() {
   const toggleItem = useMutation(api.bucketList.toggle);
   const removeItem = useMutation(api.bucketList.remove);
 
+  // State for filtering, sorting, and UI
   const [filterStatus, setFilterStatus] = useState<"all" | "completed" | "pending">("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<"date" | "title" | "category">("date");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  
-  const [showAddItemParchment, setShowAddItemParchment] = useState(false);
-  
-  // Add form state
-  const [newTitle, setNewTitle] = useState("");
-  const [newCategory, setNewCategory] = useState("adventure");
-  const [newTargetDate, setNewTargetDate] = useState("");
-  const [newFlightLink, setNewFlightLink] = useState("");
-  const [newAirbnbLink, setNewAirbnbLink] = useState("");
-  const [newMapsLink, setNewMapsLink] = useState("");
-  const [newTripAdvisorLink, setNewTripAdvisorLink] = useState("");
-  const [newNotes, setNewNotes] = useState("");
+  const [selectedItemId, setSelectedItemId] = useState<Id<"bucketList"> | null>(null);
 
-  // Edit/View Modal ("Quest Detail Scroll") state
-  const [viewingItem, setViewingItem] = useState<BucketListItem | null>(null);
+  // Form states for adding and editing
+  const [showAddModal, setShowAddModal] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  // Edit form state (inside modal)
-  const [editTitle, setEditTitle] = useState("");
-  const [editCategory, setEditCategory] = useState("");
-  const [editTargetDate, setEditTargetDate] = useState("");
-  const [editFlightLink, setEditFlightLink] = useState("");
-  const [editAirbnbLink, setEditAirbnbLink] = useState("");
-  const [editMapsLink, setEditMapsLink] = useState("");
-  const [editTripAdvisorLink, setEditTripAdvisorLink] = useState("");
-  const [editNotes, setEditNotes] = useState("");
+  
+  const [formState, setFormState] = useState({
+      title: "", category: "adventure", targetDate: "",
+      notes: "", website: "", maps: "", flights: "", airbnb: "", tripadvisor: ""
+  });
 
-  const [deleteConfirmItem, setDeleteConfirmItem] = useState<BucketListItem | null>(null);
-  const [toast, setToast] = useState<{message: string, visible: boolean, type: 'success' | 'error'}>({ message: "", visible: false, type: 'success' });
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<BucketListItem | null>(null);
+  const [toast, setToast] = useState<{ message: string; visible: boolean; type: 'success' | 'error' }>({ message: "", visible: false, type: 'success' });
 
-  // Derived state for display
-  const totalItems = bucketList.length;
-  const completedItemsCount = bucketList.filter(item => item.isCompleted).length;
-  const completionPercentage = totalItems ? Math.round((completedItemsCount / totalItems) * 100) : 0;
+  // Memoized derived state
   const uniqueCategories = Array.from(new Set(bucketList.map(item => item.category)));
-
-  const filteredAndSortedList = bucketList
-    .filter(item => {
-      if (filterStatus === "completed" && !item.isCompleted) return false;
-      if (filterStatus === "pending" && item.isCompleted) return false;
+  
+  const filteredList = bucketList.filter(item => {
+      if (filterStatus !== "all" && (filterStatus === "completed") !== item.isCompleted) return false;
       if (categoryFilter !== "all" && item.category !== categoryFilter) return false;
       return true;
-    })
-    .sort((a, b) => {
-      const direction = sortOrder === "asc" ? 1 : -1;
-      switch (sortBy) {
-        case "date":
-          const dateA = a.targetDate ? new Date(a.targetDate + 'T00:00:00').getTime() : (sortOrder === 'asc' ? Infinity : -Infinity);
-          const dateB = b.targetDate ? new Date(b.targetDate + 'T00:00:00').getTime() : (sortOrder === 'asc' ? Infinity : -Infinity);
-          return (dateA - dateB) * direction;
-        case "title": return a.title.localeCompare(b.title) * direction;
-        case "category": return a.category.localeCompare(b.category) * direction;
-        default: return 0;
-      }
-    });
+  }).sort((a, b) => new Date(b.targetDate || 0).getTime() - new Date(a.targetDate || 0).getTime());
+
+  const selectedItem = filteredList.find(item => item._id === selectedItemId);
+
+  // Effect to select the first item on load or when list changes
+  useEffect(() => {
+    if (!selectedItemId && filteredList.length > 0) {
+      setSelectedItemId(filteredList[0]._id);
+    }
+  }, [filteredList, selectedItemId]);
 
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToast({ message, visible: true, type });
     setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 3000);
   };
 
-  const resetNewItemForm = () => {
-    setNewTitle(""); setNewCategory("adventure"); setNewTargetDate("");
-    setNewFlightLink(""); setNewAirbnbLink(""); setNewMapsLink(""); setNewTripAdvisorLink(""); setNewNotes("");
-    setShowAddItemParchment(false);
+  const resetForm = () => {
+    setFormState({
+        title: "", category: "adventure", targetDate: "",
+        notes: "", website: "", maps: "", flights: "", airbnb: "", tripadvisor: ""
+    });
   };
 
-  const handleAddNewItem = async (e: React.FormEvent) => {
+  const handleOpenAddModal = () => {
+    resetForm();
+    setIsEditMode(false);
+    setShowAddModal(true);
+    setTimeout(() => firstInputRef.current?.focus(), 0);
+  };
+
+  const handleOpenEditMode = () => {
+    if (!selectedItem) return;
+    setFormState({
+      title: selectedItem.title,
+      category: selectedItem.category,
+      targetDate: selectedItem.targetDate || "",
+      notes: selectedItem.notes || "",
+      website: selectedItem.links?.website || "",
+      maps: selectedItem.links?.maps || "",
+      flights: selectedItem.links?.flights || "",
+      airbnb: selectedItem.links?.airbnb || "",
+      tripadvisor: selectedItem.links?.tripadvisor || "",
+    });
+    setIsEditMode(true);
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newTitle.trim()) { showToast("Adventure needs a name!", 'error'); return; }
-    try {
-      const links = { flights: newFlightLink||undefined, airbnb: newAirbnbLink||undefined, maps: newMapsLink||undefined, tripadvisor: newTripAdvisorLink||undefined };
-      await addItem({ title: newTitle, category: newCategory, targetDate: newTargetDate||undefined, links, notes: newNotes||undefined, isCompleted: false });
-      resetNewItemForm();
-      showToast("New adventure added to our map! 🗺️");
-    } catch (error) { console.error(error); showToast("Couldn't chart this adventure.", 'error'); }
-  };
-  
-  const openItemDetailScroll = (item: BucketListItem) => {
-    setViewingItem(item);
-    setIsEditMode(false); // Default to view mode
-    // Populate edit fields in case user clicks edit
-    setEditTitle(item.title);
-    setEditCategory(item.category);
-    setEditTargetDate(item.targetDate ? new Date(item.targetDate + 'T00:00:00').toISOString().split('T')[0] : "");
-    setEditFlightLink(item.links?.flights || ""); setEditAirbnbLink(item.links?.airbnb || "");
-    setEditMapsLink(item.links?.maps || ""); setEditTripAdvisorLink(item.links?.tripadvisor || "");
-    setEditNotes(item.notes || "");
-  };
+    if (!formState.title.trim()) {
+      showToast("Every adventure needs a title!", 'error');
+      return;
+    }
 
-  const handleSaveEdit = async () => {
-    if (!viewingItem || !editTitle.trim()) { showToast("Adventure name can't be blank!", 'error'); return; }
-    try {
-      const links = { flights: editFlightLink||undefined, airbnb: editAirbnbLink||undefined, maps: editMapsLink||undefined, tripadvisor: editTripAdvisorLink||undefined };
-      await updateItem({ id: viewingItem._id, title: editTitle, category: editCategory, targetDate: editTargetDate||undefined, links, notes: editNotes||undefined });
-      setViewingItem(null); // Close modal
-      setIsEditMode(false);
-      showToast("Adventure details updated! 📜");
-    } catch (error) { console.error(error); showToast("Couldn't update this quest.", 'error'); }
-  };
-
-  const handleDeleteItem = async () => {
-    if (!deleteConfirmItem) return;
-    try {
-      await removeItem({ id: deleteConfirmItem._id });
-      setDeleteConfirmItem(null);
-      setViewingItem(null); // Close detail view if it was the one being deleted
-      showToast("Adventure erased from the map. 💨");
-    } catch (error) { console.error(error); showToast("This adventure is stubborn!", 'error'); }
-  };
-  
-  const handleToggleCompleteFromDetail = async (item: BucketListItem) => {
-    try {
-      await toggleItem({ id: item._id, isCompleted: !item.isCompleted });
-      // Optimistically update viewing item if it's the one being toggled
-      if (viewingItem && viewingItem._id === item._id) {
-        setViewingItem(prev => prev ? {...prev, isCompleted: !prev.isCompleted} : null);
+    const payload = {
+      title: formState.title,
+      category: formState.category,
+      targetDate: formState.targetDate || undefined,
+      notes: formState.notes || undefined,
+      links: {
+        website: formState.website || undefined,
+        maps: formState.maps || undefined,
+        flights: formState.flights || undefined,
+        airbnb: formState.airbnb || undefined,
+        tripadvisor: formState.tripadvisor || undefined,
       }
-       showToast(item.isCompleted ? "Marked as 'To Do'! ✨" : "Adventure Complete! 🎉");
+    };
+
+    try {
+      if (isEditMode && selectedItem) {
+        await updateItem({ id: selectedItem._id, ...payload });
+        showToast("Adventure updated! 📜");
+        setIsEditMode(false);
+      } else {
+        await addItem({ ...payload, isCompleted: false });
+        showToast("New adventure charted! 🗺️");
+        setShowAddModal(false);
+      }
     } catch (error) {
-      console.error("Failed to toggle item status:", error);
-      showToast("Status change failed.", "error");
+      console.error(error);
+      showToast("Couldn't save this adventure.", 'error');
     }
   };
-  
-  const formatDateForDisplay = (dateString?: string): string => {
-    if (!dateString) return "Sometime Soon...";
-    const date = new Date(dateString + 'T00:00:00');
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  const handleDelete = async () => {
+    if (!showDeleteConfirm) return;
+    try {
+      await removeItem({ id: showDeleteConfirm._id });
+      showToast("Adventure removed from the map.", 'success');
+      if (selectedItemId === showDeleteConfirm._id) {
+        setSelectedItemId(null);
+      }
+      setShowDeleteConfirm(null);
+    } catch (error) {
+      console.error(error);
+      showToast("This adventure is holding on tight!", 'error');
+    }
   };
 
-
   return (
-    <div className="bucket-layout-desktop-adventurer">
-      {/* --- Side Panel: Adventurer's Almanac --- */}
-      <aside className="almanac-sidebar-cute">
-        <div className="almanac-header-cute">
-          <h1 className="almanac-title-cute">Our Adventure Almanac 📜</h1>
-          <div className="almanac-progress-cute">
-            <div className="almanac-progress-bar-bg-cute">
-              <div className="almanac-progress-bar-fill-cute" style={{ width: `${completionPercentage}%` }}>
-                {completionPercentage > 10 && `${completionPercentage}%`}
+    <div className="bucket-list-artistic-layout">
+      {/* Left Panel: Master List of Adventures */}
+      <div className="quest-list-panel-artistic">
+        <header className="quest-list-header-artistic">
+          <h3>Adventure Almanac</h3>
+          <button onClick={handleOpenAddModal} className="quest-list-add-btn-artistic" title="Add New Adventure">
+            ✨
+          </button>
+        </header>
+
+        <div className="quest-list-filters-artistic">
+          <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+            <option value="all">All Categories</option>
+            {uniqueCategories.map(cat => (
+              <option key={cat} value={cat}>{getCategoryStyle(cat).emoji} {cat}</option>
+            ))}
+          </select>
+          <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as any)}>
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+
+        <ul className="quest-list-scroll-area-artistic">
+          {filteredList.map(item => (
+            <li key={item._id}>
+              <button
+                onClick={() => setSelectedItemId(item._id)}
+                className={`quest-list-item-artistic ${selectedItemId === item._id ? 'active' : ''} ${item.isCompleted ? 'completed' : ''}`}
+              >
+                <span className="quest-item-icon-artistic">{getCategoryStyle(item.category).emoji}</span>
+                <span className="quest-item-title-artistic">{item.title}</span>
+                {item.isCompleted && <span className="quest-item-status-artistic">✔️</span>}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Right Panel: Detail View of Selected Adventure */}
+      <div className="quest-detail-view-artistic">
+        {selectedItem ? (
+          isEditMode ? (
+            // EDIT MODE
+            <form onSubmit={handleFormSubmit} className="quest-detail-form-artistic">
+              <input ref={firstInputRef} type="text" value={formState.title} onChange={e => setFormState(p => ({...p, title: e.target.value}))} placeholder="Adventure Title" className="quest-form-input-artistic title" />
+              <select value={formState.category} onChange={e => setFormState(p => ({...p, category: e.target.value}))} className="quest-form-input-artistic">
+                {uniqueCategories.map(cat => <option key={cat} value={cat}>{getCategoryStyle(cat).emoji} {cat}</option>)}
+              </select>
+              <input type="date" value={formState.targetDate} onChange={e => setFormState(p => ({...p, targetDate: e.target.value}))} className="quest-form-input-artistic" />
+              <textarea value={formState.notes} onChange={e => setFormState(p => ({...p, notes: e.target.value}))} placeholder="Secret plans and notes..." className="quest-form-textarea-artistic" />
+              <div className="quest-form-links-grid-artistic">
+                <input type="url" value={formState.website} onChange={e => setFormState(p => ({...p, website: e.target.value}))} placeholder="🌐 Website" />
+                <input type="url" value={formState.maps} onChange={e => setFormState(p => ({...p, maps: e.target.value}))} placeholder="📍 Maps" />
+                <input type="url" value={formState.flights} onChange={e => setFormState(p => ({...p, flights: e.target.value}))} placeholder="✈️ Flights" />
+                <input type="url" value={formState.airbnb} onChange={e => setFormState(p => ({...p, airbnb: e.target.value}))} placeholder="🏠 Stays" />
               </div>
-            </div>
-            <p>{completedItemsCount} of {totalItems} Adventures Conquered!</p>
-          </div>
-        </div>
-
-        <div className="almanac-section-cute">
-          <h3 className="almanac-section-title-cute">Filter by Chapter</h3>
-          <div className="almanac-category-filters-cute">
-            <button onClick={() => setCategoryFilter("all")} className={categoryFilter === "all" ? "active" : ""}>All Chapters 🌍</button>
-            {uniqueCategories.map(cat => {
-              const style = getCategoryStyle(cat);
-              return <button key={cat} onClick={() => setCategoryFilter(cat)} className={`${style.className} ${categoryFilter === cat ? "active" : ""}`}>{style.emoji} {cat}</button>;
-            })}
-          </div>
-        </div>
-
-        <div className="almanac-section-cute">
-          <h3 className="almanac-section-title-cute">Quest Status</h3>
-          <div className="almanac-status-filters-cute">
-            {(["all", "pending", "completed"] as const).map(s => (
-              <button key={s} onClick={() => setFilterStatus(s)} className={filterStatus === s ? "active" : ""}>{s.charAt(0).toUpperCase() + s.slice(1)}</button>
-            ))}
-          </div>
-        </div>
-        
-        <div className="almanac-section-cute">
-          <h3 className="almanac-section-title-cute">Sort Journal By</h3>
-          <div className="almanac-sort-options-cute">
-             {(["date", "title", "category"] as const).map(s => (
-                <button key={s} onClick={() => {
-                    if (sortBy === s) setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-                    else { setSortBy(s); setSortOrder('asc');}
-                }} className={sortBy === s ? 'active' : ''}>
-                    {s.charAt(0).toUpperCase() + s.slice(1)} {sortBy === s ? (sortOrder === 'asc' ? '🔼' : '🔽') : ''}
+              <div className="quest-detail-actions-artistic">
+                <button type="button" onClick={() => setIsEditMode(false)} className="quest-action-btn-artistic secondary">Cancel</button>
+                <button type="submit" className="quest-action-btn-artistic primary">Save Changes</button>
+              </div>
+            </form>
+          ) : (
+            // VIEW MODE
+            <div className="quest-detail-content-artistic">
+              <header className="quest-detail-header-artistic">
+                <span className="quest-detail-icon-artistic">{getCategoryStyle(selectedItem.category).emoji}</span>
+                <div>
+                  <h2>{selectedItem.title}</h2>
+                  <p>{selectedItem.targetDate || "Whenever our hearts desire"}</p>
+                </div>
+              </header>
+              {selectedItem.notes && (
+                <div className="quest-detail-section-artistic">
+                  <h4>Our Secret Plans 🤫</h4>
+                  <p>{selectedItem.notes}</p>
+                </div>
+              )}
+              {Object.values(selectedItem.links || {}).some(link => link) && (
+                <div className="quest-detail-section-artistic">
+                  <h4>Helpful Scrolls 📜</h4>
+                  <div className="quest-detail-links-artistic">
+                    {selectedItem.links?.website && <a href={selectedItem.links.website} target="_blank" rel="noopener noreferrer">🌐 Website</a>}
+                    {selectedItem.links?.maps && <a href={selectedItem.links.maps} target="_blank" rel="noopener noreferrer">📍 Google Maps</a>}
+                    {selectedItem.links?.flights && <a href={selectedItem.links.flights} target="_blank" rel="noopener noreferrer">✈️ Flights</a>}
+                    {selectedItem.links?.airbnb && <a href={selectedItem.links.airbnb} target="_blank" rel="noopener noreferrer">🏠 Airbnb</a>}
+                  </div>
+                </div>
+              )}
+              <footer className="quest-detail-actions-artistic">
+                 <button onClick={() => toggleItem({ id: selectedItem._id, isCompleted: !selectedItem.isCompleted })} className={`quest-action-btn-artistic ${selectedItem.isCompleted ? 'secondary' : 'primary'}`}>
+                  {selectedItem.isCompleted ? 'Mark as Pending' : 'Mark Complete!'}
                 </button>
-            ))}
-          </div>
-        </div>
-
-        <button onClick={() => { setShowAddItemParchment(true); setTimeout(() => firstInputRef.current?.focus(),0);}} className="almanac-add-quest-button-cute">
-          New Quest! ➕
-        </button>
-      </aside>
-
-      {/* --- Main Content: Quest Board / Map --- */}
-      <main className="quest-board-main-cute">
-        {filteredAndSortedList.length === 0 && !showAddItemParchment && (
-          <div className="quest-board-empty-state-cute">
-            <span className="icon">🗺️</span>
-            <h2>The Map is Blank!</h2>
-            <p>Let's add some grand adventures to our journal!</p>
-            <button onClick={() => setShowAddItemParchment(true)} className="almanac-add-quest-button-cute">Chart a New Course!</button>
+                <button onClick={handleOpenEditMode} className="quest-action-btn-artistic">Edit</button>
+                <button onClick={() => setShowDeleteConfirm(selectedItem)} className="quest-action-btn-artistic danger">Delete</button>
+              </footer>
+            </div>
+          )
+        ) : (
+          <div className="quest-detail-empty-state-artistic">
+            <span>🗺️</span>
+            <h3>Select an Adventure</h3>
+            <p>Pick a quest from the list to see the details, or add a new one!</p>
           </div>
         )}
+      </div>
 
-        <div className="quest-item-grid-cute">
-          {filteredAndSortedList.map(item => {
-            const style = getCategoryStyle(item.category);
-            return (
-              <div 
-                key={item._id} 
-                className={`quest-item-badge-cute ${style.className} ${item.isCompleted ? "completed" : ""}`}
-                onClick={() => openItemDetailScroll(item)}
-                tabIndex={0}
-                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openItemDetailScroll(item)}
-              >
-                <div className="quest-badge-icon-area-cute">
-                  <span className="icon">{style.emoji}</span>
-                  {item.isCompleted && <span className="completed-banner-cute">DONE!</span>}
-                </div>
-                <h4 className="quest-badge-title-cute">{item.title}</h4>
-                {item.targetDate && <p className="quest-badge-date-cute">{formatDateForDisplay(item.targetDate)}</p>}
-                {item.isCompleted && <div className="quest-badge-completed-overlay-cute"></div>}
-              </div>
-            );
-          })}
-        </div>
-      </main>
-
-      {/* --- Add Item Parchment (Modal-like overlay) --- */}
-      {showAddItemParchment && (
-        <div className="new-quest-parchment-overlay-cute" onClick={() => setShowAddItemParchment(false)}>
-          <form className="new-quest-parchment-form-cute" onSubmit={handleAddNewItem} onClick={e => e.stopPropagation()}>
-            <h3>Add a New Adventure! ✨</h3>
-            <input ref={firstInputRef} type="text" value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="Name of our grand quest..." />
-            <select value={newCategory} onChange={e => setNewCategory(e.target.value)}>
-              <option value="adventure">🏞️ Adventure</option>
-              <option value="travel">✈️ Travel</option>
-              <option value="food">🍕 Food Quest</option>
-              <option value="milestone">🏆 Milestone</option>
-              <option value="other">💖 Other Fun</option>
-            </select>
-            <input type="date" value={newTargetDate} onChange={e => setNewTargetDate(e.target.value)} />
-            <textarea value={newNotes} onChange={e => setNewNotes(e.target.value)} placeholder="Whisper your secret plans here..."/>
-            <p className="form-section-title-cute">Helpful Scrolls (Links):</p>
-            <input type="url" value={newFlightLink} onChange={e => setNewFlightLink(e.target.value)} placeholder="✈️ Flights..." />
-            <input type="url" value={newAirbnbLink} onChange={e => setNewAirbnbLink(e.target.value)} placeholder="🏠 Stays..." />
-            <input type="url" value={newMapsLink} onChange={e => setNewMapsLink(e.target.value)} placeholder="📍 Maps..." />
-            <input type="url" value={newTripAdvisorLink} onChange={e => setNewTripAdvisorLink(e.target.value)} placeholder="⭐ Reviews..." />
-            <div className="form-actions-cute">
-              <button type="button" onClick={resetNewItemForm} className="cancel">Discard Scroll</button>
-              <button type="submit" className="add">Add to Almanac!</button>
-            </div>
+      {/* Add Item Modal */}
+      {showAddModal && (
+        <div className="quest-form-modal-overlay-artistic" onClick={() => setShowAddModal(false)}>
+          <form onSubmit={handleFormSubmit} className="quest-form-modal-content-artistic" onClick={e => e.stopPropagation()}>
+             <h3>Chart a New Adventure!</h3>
+             <p>Let's add something new and exciting to our special list.</p>
+             <div className="quest-modal-form-fields-artistic">
+                <input ref={firstInputRef} type="text" value={formState.title} onChange={e => setFormState(p => ({...p, title: e.target.value}))} placeholder="What's the adventure?" required />
+                <select value={formState.category} onChange={e => setFormState(p => ({...p, category: e.target.value}))}>
+                  <option value="adventure">🏞️ Adventure</option>
+                  <option value="travel">✈️ Travel</option>
+                  <option value="food">🍕 Food</option>
+                  <option value="milestone">🏆 Milestone</option>
+                  <option value="other">💖 Other</option>
+                </select>
+                <input type="date" value={formState.targetDate} onChange={e => setFormState(p => ({...p, targetDate: e.target.value}))}/>
+             </div>
+             <div className="quest-modal-actions-artistic">
+                <button type="button" onClick={() => setShowAddModal(false)} className="secondary">Cancel</button>
+                <button type="submit" className="primary">Add to Map</button>
+             </div>
           </form>
         </div>
       )}
 
-      {/* --- Item Detail Scroll Modal --- */}
-      {viewingItem && (
-        <div className="quest-detail-scroll-overlay-cute" onClick={() => { setViewingItem(null); setIsEditMode(false);}}>
-          <div className="quest-detail-scroll-content-cute" onClick={e => e.stopPropagation()}>
-            <button onClick={() => {setViewingItem(null); setIsEditMode(false);}} className="close-scroll-button-cute">X</button>
-            {!isEditMode ? (
-              <>
-                <div className={`scroll-header-cute ${getCategoryStyle(viewingItem.category).className}`}>
-                  <span className="icon">{getCategoryStyle(viewingItem.category).emoji}</span>
-                  <h2>{viewingItem.title}</h2>
-                  {viewingItem.isCompleted && <span className="completed-tag-cute">ACHIEVED! 🏆</span>}
-                </div>
-                <div className="scroll-section-cute">
-                  <strong>Target Date:</strong> {formatDateForDisplay(viewingItem.targetDate)}
-                </div>
-                {viewingItem.notes && <div className="scroll-section-cute notes"><strong>Notes:</strong> <p>{viewingItem.notes}</p></div>}
-                {(viewingItem.links?.flights || viewingItem.links?.airbnb || viewingItem.links?.maps || viewingItem.links?.tripadvisor) && (
-                  <div className="scroll-section-cute links">
-                    <strong>Helpful Scrolls:</strong>
-                    {viewingItem.links?.flights && <a href={viewingItem.links.flights} target="_blank" rel="noopener noreferrer">✈️ Flights</a>}
-                    {viewingItem.links?.airbnb && <a href={viewingItem.links.airbnb} target="_blank" rel="noopener noreferrer">🏠 Stay</a>}
-                    {viewingItem.links?.maps && <a href={viewingItem.links.maps} target="_blank" rel="noopener noreferrer">📍 Map</a>}
-                    {viewingItem.links?.tripadvisor && <a href={viewingItem.links.tripadvisor} target="_blank" rel="noopener noreferrer">⭐ Reviews</a>}
-                  </div>
-                )}
-                <div className="scroll-actions-cute">
-                  <button onClick={() => handleToggleCompleteFromDetail(viewingItem)} className="toggle-complete">
-                    {viewingItem.isCompleted ? "Mark as Pending 🤔" : "Mark as Done! 🎉"}
-                  </button>
-                  <button onClick={() => setIsEditMode(true)} className="edit">Edit Quest ✏️</button>
-                  <button onClick={() => setDeleteConfirmItem(viewingItem)} className="delete">Abandon Quest 🗑️</button>
-                </div>
-              </>
-            ) : (
-              /* Edit Mode within Scroll */
-              <form className="edit-quest-form-in-scroll-cute" onSubmit={(e) => {e.preventDefault(); handleSaveEdit();}}>
-                <h3>Edit Adventure Details ✏️</h3>
-                <input type="text" value={editTitle} onChange={e => setEditTitle(e.target.value)} placeholder="Adventure Name" />
-                <select value={editCategory} onChange={e => setEditCategory(e.target.value)}>
-                  <option value="adventure">🏞️ Adventure</option>
-                  <option value="travel">✈️ Travel</option>
-                  <option value="food">🍕 Food Quest</option>
-                  <option value="milestone">🏆 Milestone</option>
-                  <option value="other">💖 Other Fun</option>
-                </select>
-                <input type="date" value={editTargetDate} onChange={e => setEditTargetDate(e.target.value)} />
-                <textarea value={editNotes} onChange={e => setEditNotes(e.target.value)} placeholder="Update your secret plans..."/>
-                <p className="form-section-title-cute">Update Links:</p>
-                <input type="url" value={editFlightLink} onChange={e => setEditFlightLink(e.target.value)} placeholder="✈️ Flights..." />
-                <input type="url" value={editAirbnbLink} onChange={e => setEditAirbnbLink(e.target.value)} placeholder="🏠 Stays..." />
-                <input type="url" value={editMapsLink} onChange={e => setEditMapsLink(e.target.value)} placeholder="📍 Maps..." />
-                <input type="url" value={editTripAdvisorLink} onChange={e => setEditTripAdvisorLink(e.target.value)} placeholder="⭐ Reviews..." />
-                <div className="form-actions-cute">
-                  <button type="button" onClick={() => setIsEditMode(false)} className="cancel">Cancel Edit</button>
-                  <button type="submit" className="save">Save Changes!</button>
-                </div>
-              </form>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {deleteConfirmItem && (
-         <div className="bucket-modal-overlay-cute" onClick={() => setDeleteConfirmItem(null)}>
-            <div className="bucket-modal-content-cute confirm-delete" onClick={e => e.stopPropagation()}>
-                <div className="bucket-delete-icon-cute">🗑️</div>
-                <h3 className="bucket-modal-title-cute">Abandon "{deleteConfirmItem.title}"?</h3>
-                <p>This adventure will be removed from our almanac!</p>
-                <div className="bucket-modal-actions-cute">
-                <button onClick={() => setDeleteConfirmItem(null)} className="bucket-button-cute cancel">No, Keep It!</button>
-                <button onClick={handleDeleteItem} className="bucket-button-cute delete">Yes, Abandon!</button>
+       {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="quest-form-modal-overlay-artistic" onClick={() => setShowDeleteConfirm(null)}>
+            <div className="quest-form-modal-content-artistic danger-confirm" onClick={e => e.stopPropagation()}>
+                <h3>Erase this Adventure?</h3>
+                <p>Are you sure you want to remove "{showDeleteConfirm.title}" from our almanac forever?</p>
+                <div className="quest-modal-actions-artistic">
+                    <button onClick={() => setShowDeleteConfirm(null)} className="secondary">No, Keep It</button>
+                    <button onClick={handleDelete} className="danger">Yes, Erase</button>
                 </div>
             </div>
         </div>
       )}
 
-      {/* Toast */}
+      {/* Toast Notification */}
       {toast.visible && <div className={`bucket-toast-cute ${toast.type}`}>{toast.message}</div>}
     </div>
   );
