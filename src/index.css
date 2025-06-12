@@ -324,10 +324,10 @@ select:focus {
    ================================================================= */
 .tab-container-cute {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
   margin-bottom: 1.5rem;
   overflow-x: auto;
-  padding: 0.25rem;
+  padding: 4rem;
   scrollbar-width: thin;
   scrollbar-color: var(--border-primary) var(--bg-secondary);
 }

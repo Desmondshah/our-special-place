@@ -317,6 +317,12 @@ export default function PlansSection() {
 
   // Enhanced search with debouncing
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery);
+
+  // Scroll section into view when navigating here
+  const sectionRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
   
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -1013,7 +1019,7 @@ export default function PlansSection() {
   };
 
   return (
-    <div className="plans-section-macos">
+    <div ref={sectionRef} className="plans-section-macos">
       {/* Enhanced Header with Statistics */}
       <motion.header 
         className="plans-header-macos"
@@ -1940,42 +1946,7 @@ export default function PlansSection() {
         )}
       </motion.main>
 
-      {/* Enhanced Floating Action Button */}
-      <motion.button
-        className="fab-macos"
-        onClick={() => setShowAddForm(true)}
-        variants={fabVariants}
-        initial="hidden"
-        animate="visible"
-        whileHover="hover"
-        whileTap="tap"
-        style={{
-          background: "linear-gradient(135deg, var(--accent-primary), #E55A9D)",
-          boxShadow: "0 4px 20px rgba(255, 107, 107, 0.3)"
-        }}
-      >
-        <motion.span
-          animate={{ 
-            rotate: showAddForm ? 45 : 0,
-            scale: showAddForm ? 0.9 : 1
-          }}
-          transition={{ duration: 0.3, ease: "backOut" }}
-        >
-          +
-        </motion.span>
-        <motion.div
-          className="fab-ripple"
-          animate={{
-            scale: [1, 1.5, 1],
-            opacity: [0.6, 0, 0.6]
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeOut"
-          }}
-        />
-      </motion.button>
+      {/* Floating Action Button removed as duplicate */}
 
       {/* Enhanced Memory Modal */}
       <AnimatePresence>
