@@ -1,27 +1,27 @@
 import { useState, useEffect } from "react";
 import BucketListSectionMobile from "./BucketListSectionMobile";
 import BucketListSectionDesktop from "./BucketListSectionDesktop";
-import { useTheme } from "./ThemeContext"; // Import useTheme
 
 export default function BucketListSection() {
+  // State to track screen size
   const [isMobile, setIsMobile] = useState(false);
-  const { theme } = useTheme(); // Get the current theme
-
+  
+  // Effect to detect screen size and update on resize
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768); 
+      setIsMobile(window.innerWidth < 768); // Breakpoint for mobile/desktop switch
     };
+    
+    // Initial check
     checkScreenSize();
+    
+    // Listen for window resize events
     window.addEventListener("resize", checkScreenSize);
+    
+    // Cleanup
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
-
-  // Apply the base starry theme class if the theme is starry
-  const sectionClassName = theme === 'starry' ? 'bucket-list-section-starry starry-section' : '';
-
-  return (
-    <div className={sectionClassName}>
-      {isMobile ? <BucketListSectionMobile /> : <BucketListSectionDesktop />}
-    </div>
-  );
+  
+  // Render appropriate version based on screen size
+  return isMobile ? <BucketListSectionMobile /> : <BucketListSectionDesktop />;
 }

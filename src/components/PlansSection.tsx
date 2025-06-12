@@ -1,6 +1,4 @@
-import { useState, useRef, useEffect }
-
-/* Add these enhanced iOS-inspired styles to your src/index.css file */ from "react";
+import { useState, useRef, useEffect } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
@@ -77,6 +75,7 @@ export default function PlansSection() {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
 
   // Get current date in YYYY-MM-DD format
   const getCurrentDate = () => {
@@ -193,7 +192,7 @@ export default function PlansSection() {
     if (!files || files.length === 0) return;
     
     setIsUploading(true);
-    setUploadProgress(0);
+    setUploadProgress(0); // Reset progress
     
     try {
       const file = files[0];
@@ -280,12 +279,12 @@ export default function PlansSection() {
   const openImageViewer = (url: string) => {
     setCurrentImage(url);
     setImageViewerOpen(true);
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('body-no-scroll');
   };
 
   const closeImageViewer = () => {
     setImageViewerOpen(false);
-    document.body.style.overflow = '';
+    document.body.classList.remove('body-no-scroll');
   };
 
   const editExistingMemory = (plan: Plan) => {
@@ -319,7 +318,7 @@ export default function PlansSection() {
   });
 
   const getMonthYear = (dateStr: string) => {
-    const date = new Date(dateStr + 'T00:00:00');
+    const date = new Date(dateStr + 'T00:00:00'); // Ensure date is parsed in local timezone
     return `${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
   };
 
@@ -334,13 +333,13 @@ export default function PlansSection() {
 
   const getTypeEmoji = (type: string): string => {
     const emojis: { [key: string]: string } = {
-      'date': '💖',
-      'trip': '✈️',
-      'activity': '🎉',
-      'celebration': '🥳',
-      'other': '🌟'
+      'date': '💖', // Sparkling Heart
+      'trip': '✈️', // Airplane
+      'activity': '🎉', // Party Popper
+      'celebration': '🥳', // Partying Face
+      'other': '🌟' // Glowing Star
     };
-    return emojis[type] || '✨';
+    return emojis[type] || '✨'; // Default: Sparkles
   };
   
   const formatDateBadge = (dateStr: string) => {
@@ -351,611 +350,263 @@ export default function PlansSection() {
     };
   };
 
-  const getStats = () => {
-    const totalPlans = plans.length;
-    const completedPlans = plans.filter(p => p.isCompleted).length;
-    const memoriesAdded = plans.filter(p => p.memory).length;
-    return { totalPlans, completedPlans, memoriesAdded };
-  };
-
-  const stats = getStats();
 
   return (
-    <div className="ios-plans-container">
-      {/* Professional Header Section */}
-      <div className="ios-header-section">
-        <div className="ios-header-backdrop"></div>
-        <div className="ios-header-content">
-          <div className="ios-title-section">
-            <h1 className="ios-main-title">Our Epic Adventures</h1>
-            <p className="ios-subtitle">Creating memories, one quest at a time</p>
-          </div>
-          
-          {/* Enhanced Stats Dashboard */}
-          <div className="ios-stats-grid">
-            <div className="ios-stat-card stat-primary">
-              <div className="ios-stat-icon">🎯</div>
-              <div className="ios-stat-content">
-                <div className="ios-stat-number">{stats.totalPlans}</div>
-                <div className="ios-stat-label">Total Quests</div>
-              </div>
-            </div>
-            
-            <div className="ios-stat-card stat-success">
-              <div className="ios-stat-icon">✅</div>
-              <div className="ios-stat-content">
-                <div className="ios-stat-number">{stats.completedPlans}</div>
-                <div className="ios-stat-label">Completed</div>
-              </div>
-            </div>
-            
-            <div className="ios-stat-card stat-memories">
-              <div className="ios-stat-icon">💖</div>
-              <div className="ios-stat-content">
-                <div className="ios-stat-number">{stats.memoriesAdded}</div>
-                <div className="ios-stat-label">Memories</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content Container */}
-      <div className="ios-main-content">
-        {/* Navigation Controls */}
-        <div className="ios-controls-section">
-          <div className="ios-filter-tabs">
+    <div className="plans-section-cute">
+      {/* Header with add button and filters */}
+      <div className="plans-header-cute">
+        <h2 className="plans-title-cute">Our Adventures & Memories 💖</h2>
+        <div className="plans-controls-cute">
+          <div className="plans-filter-tabs-cute">
             {(["all", "upcoming", "completed", "withMemories"] as const).map(filterKey => (
               <button 
                 key={filterKey}
                 onClick={() => setViewFilter(filterKey)}
-                className={`ios-filter-tab ${viewFilter === filterKey ? "active" : ""}`}
+                className={`plans-filter-tab-cute ${viewFilter === filterKey ? "active" : ""}`}
               >
-                <span className="ios-tab-icon">
-                  {filterKey === 'all' && '📋'}
-                  {filterKey === 'upcoming' && '⏳'}
-                  {filterKey === 'completed' && '✅'}
-                  {filterKey === 'withMemories' && '💖'}
-                </span>
-                <span className="ios-tab-label">
-                  {filterKey.charAt(0).toUpperCase() + filterKey.slice(1).replace('With', 'With ')}
-                </span>
+                {filterKey.charAt(0).toUpperCase() + filterKey.slice(1).replace('With', 'With ')}
               </button>
             ))}
           </div>
-          
           <button
             onClick={() => setShowAddForm(!showAddForm)}
-            className="ios-add-button"
+            className="plans-add-button-cute"
           >
-            <span className="ios-add-icon">{showAddForm ? '✕' : '+'}</span>
-            <span className="ios-add-label">{showAddForm ? 'Cancel' : 'New Quest'}</span>
+            {showAddForm ? "Close Form 📖" : "New Plan! ✨"}
           </button>
         </div>
+      </div>
 
-        {/* Add Form */}
-        {showAddForm && (
-          <div className="ios-form-container">
-            <div className="ios-form-header">
-              <h3 className="ios-form-title">Create New Quest</h3>
-              <p className="ios-form-subtitle">Plan your next adventure together</p>
-            </div>
-            
-            <form onSubmit={handleAddPlan} className="ios-form">
-              <div className="ios-form-grid">
-                <div className="ios-input-group">
-                  <label className="ios-label">Quest Name</label>
-                  <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Our Epic Adventure..."
-                    className="ios-input"
-                    required
-                  />
-                </div>
-                
-                <div className="ios-input-group">
-                  <label className="ios-label">Quest Date</label>
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className="ios-input"
-                    required
-                  />
-                </div>
-                
-                <div className="ios-input-group">
-                  <label className="ios-label">Quest Type</label>
-                  <select 
-                    value={type} 
-                    onChange={(e) => setType(e.target.value)} 
-                    className="ios-input ios-select"
-                  >
-                    <option value="date">💖 Romance Quest</option>
-                    <option value="trip">✈️ Adventure Quest</option>
-                    <option value="activity">🎉 Fun Quest</option>
-                    <option value="celebration">🥳 Party Quest</option>
-                    <option value="other">🌟 Special Quest</option>
-                  </select>
-                </div>
-                
-                <div className="ios-input-group">
-                  <label className="ios-label">Website (Optional)</label>
-                  <input
-                    type="url"
-                    value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
-                    placeholder="https://..."
-                    className="ios-input"
-                  />
-                </div>
-                
-                <div className="ios-input-group full-width">
-                  <label className="ios-label">Maps Link (Optional)</label>
-                  <input
-                    type="url"
-                    value={mapsLink}
-                    onChange={(e) => setMapsLink(e.target.value)}
-                    placeholder="Google Maps link..."
-                    className="ios-input"
-                  />
-                </div>
-              </div>
-              
-              <div className="ios-form-actions">
-                <button 
-                  type="button" 
-                  onClick={() => setShowAddForm(false)} 
-                  className="ios-button secondary"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit" 
-                  className="ios-button primary"
-                >
-                  Create Quest
-                </button>
-              </div>
-            </form>
+      {/* Add Plan Form (Collapsible) */}
+      {showAddForm && (
+        <form onSubmit={handleAddPlan} className="plans-add-form-cute">
+          <h3 className="plans-form-title-cute">Plan a New Memory! 🎨</h3>
+          <div className="plans-form-grid-cute">
+            <input
+              type="text" value={title} onChange={(e) => setTitle(e.target.value)}
+              placeholder="What's the adventure?" className="plans-input-cute" required
+            />
+            <input
+              type="date" value={date} onChange={(e) => setDate(e.target.value)}
+              className="plans-input-cute" required
+            />
+            <select value={type} onChange={(e) => setType(e.target.value)} className="plans-input-cute">
+              <option value="date">Date Night 💖</option>
+              <option value="trip">Awesome Trip ✈️</option>
+              <option value="activity">Fun Activity 🎉</option>
+              <option value="celebration">Big Celebration 🥳</option>
+              <option value="other">Something Else 🌟</option>
+            </select>
+            <input
+              type="url" value={website} onChange={(e) => setWebsite(e.target.value)}
+              placeholder="Website Link (Optional)" className="plans-input-cute"
+            />
+            <input
+              type="url" value={mapsLink} onChange={(e) => setMapsLink(e.target.value)}
+              placeholder="Google Maps Link (Optional)" className="plans-input-cute full-width"
+            />
           </div>
-        )}
-
-        {/* Empty State */}
-        {sortedPlans.length === 0 && !showAddForm && (
-          <div className="ios-empty-state">
-            <div className="ios-empty-icon">🗺️</div>
-            <h3 className="ios-empty-title">Quest Log Empty!</h3>
-            <p className="ios-empty-description">
-              Ready to start your love story adventure? Create your first quest!
-            </p>
-            <button 
-              onClick={() => setShowAddForm(true)} 
-              className="ios-button primary large"
-            >
-              Begin Adventure
+          <div className="plans-form-actions-cute">
+            <button type="button" onClick={() => setShowAddForm(false)} className="plans-button-cute cancel">
+              Nevermind
+            </button>
+            <button type="submit" className="plans-button-cute save">
+              Let's Do It! 💕
             </button>
           </div>
-        )}
+        </form>
+      )}
 
-        {/* Quest Cards by Month */}
-        <div className="ios-plans-timeline">
-          {Object.entries(plansByMonth).map(([monthYear, monthPlans]) => (
-            <div key={monthYear} className="ios-month-section">
-              <div className="ios-month-header">
-                <div className="ios-month-badge">
-                  <span className="ios-month-text">{monthYear}</span>
-                </div>
-                <div className="ios-month-line"></div>
-              </div>
-              
-              <div className="ios-plans-grid">
-                {monthPlans.map((plan: Plan) => (
-                  <div 
-                    key={plan._id} 
-                    className={`ios-plan-card ${plan.isCompleted ? 'completed' : 'upcoming'} ${plan.memory ? 'has-memory' : ''}`}
-                  >
-                    {editingPlan === plan._id ? (
-                      // Edit Form
-                      <div className="ios-edit-form">
-                        <h4 className="ios-edit-title">Edit Quest</h4>
-                        
-                        <div className="ios-edit-inputs">
-                          <input 
-                            type="text" 
-                            value={editTitle} 
-                            onChange={(e) => setEditTitle(e.target.value)} 
-                            className="ios-input"
-                            placeholder="Quest name..."
-                          />
-                          <input 
-                            type="date" 
-                            value={editDate} 
-                            onChange={(e) => setEditDate(e.target.value)} 
-                            className="ios-input"
-                          />
-                          <select 
-                            value={editType} 
-                            onChange={(e) => setEditType(e.target.value)} 
-                            className="ios-input ios-select"
-                          >
-                            <option value="date">💖 Romance Quest</option>
-                            <option value="trip">✈️ Adventure Quest</option>
-                            <option value="activity">🎉 Fun Quest</option>
-                            <option value="celebration">🥳 Party Quest</option>
-                            <option value="other">🌟 Special Quest</option>
-                          </select>
-                          <input 
-                            type="url" 
-                            value={editWebsite} 
-                            onChange={(e) => setEditWebsite(e.target.value)} 
-                            placeholder="Website"
-                            className="ios-input"
-                          />
-                          <input 
-                            type="url" 
-                            value={editMapsLink} 
-                            onChange={(e) => setEditMapsLink(e.target.value)} 
-                            placeholder="Maps Link"
-                            className="ios-input"
-                          />
+      {/* Empty state */}
+      {sortedPlans.length === 0 && !showAddForm && (
+        <div className="plans-empty-state-cute">
+          <span className="plans-empty-icon-cute">🗺️</span>
+          <h3 className="plans-empty-title-cute">Our Adventure Book is Blank!</h3>
+          <p className="plans-empty-text-cute">Let's fill it with wonderful plans and memories!</p>
+          <button onClick={() => setShowAddForm(true)} className="plans-empty-button-cute">
+            Plan Our First Adventure! ✨
+          </button>
+        </div>
+      )}
+
+      {/* Plans List */}
+      <div className="plans-list-container-cute">
+        {Object.entries(plansByMonth).map(([monthYear, monthPlans]) => (
+          <div key={monthYear} className="plans-month-group-cute">
+            <h3 className="plans-month-header-cute">{monthYear}</h3>
+            <div className={`plans-grid-cute ${isMobile ? 'mobile' : ''}`}>
+              {monthPlans.map((plan: Plan) => (
+                <div 
+                  key={plan._id} 
+                  className={`plan-card-cute ${plan.isCompleted ? "completed" : "upcoming"} ${plan.memory ? "has-memory" : ""}`}
+                >
+                  {editingPlan === plan._id ? (
+                    <div className="plan-edit-form-cute">
+                      <h3 className="plan-edit-title-cute">Update Our Plan! ✏️</h3>
+                       <div className="plans-form-grid-cute compact">
+                        <input type="text" value={editTitle} onChange={(e) => setEditTitle(e.target.value)} className="plans-input-cute" />
+                        <input type="date" value={editDate} onChange={(e) => setEditDate(e.target.value)} className="plans-input-cute" />
+                        <select value={editType} onChange={(e) => setEditType(e.target.value)} className="plans-input-cute">
+                          <option value="date">Date Night 💖</option>
+                          <option value="trip">Awesome Trip ✈️</option>
+                          <option value="activity">Fun Activity 🎉</option>
+                          <option value="celebration">Big Celebration 🥳</option>
+                          <option value="other">Something Else 🌟</option>
+                        </select>
+                        <input type="url" value={editWebsite} onChange={(e) => setEditWebsite(e.target.value)} placeholder="Website" className="plans-input-cute" />
+                        <input type="url" value={editMapsLink} onChange={(e) => setEditMapsLink(e.target.value)} placeholder="Maps Link" className="plans-input-cute full-width" />
+                      </div>
+                      <div className="plan-edit-actions-cute">
+                        <button onClick={() => setEditingPlan(null)} className="plans-button-cute cancel small">Cancel</button>
+                        <button onClick={() => handleSaveEdit(plan._id)} className="plans-button-cute save small">Save Changes</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="plan-card-header-cute">
+                        <div className="plan-date-badge-cute">
+                          <span className="day">{formatDateBadge(plan.date).day}</span>
+                          <span className="month">{formatDateBadge(plan.date).month}</span>
                         </div>
-                        
-                        <div className="ios-edit-actions">
-                          <button 
-                            onClick={() => setEditingPlan(null)} 
-                            className="ios-button secondary small"
-                          >
-                            Cancel
-                          </button>
-                          <button 
-                            onClick={() => handleSaveEdit(plan._id)} 
-                            className="ios-button primary small"
-                          >
-                            Save
-                          </button>
+                        <h3 className="plan-title-cute">
+                          <span className="plan-type-emoji-cute">{getTypeEmoji(plan.type)}</span>
+                          {plan.title}
+                        </h3>
+                        <div 
+                            onClick={() => togglePlan({ id: plan._id, isCompleted: !plan.isCompleted })}
+                            className={`plan-checkbox-cute ${plan.isCompleted ? "checked" : ""}`}
+                            title={plan.isCompleted ? "Mark as not done" : "Mark as done!"}
+                        >
+                            {plan.isCompleted && '✔'}
                         </div>
                       </div>
-                    ) : (
-                      // Normal Card View
-                      <>
-                        {/* Card Header */}
-                        <div className="ios-card-header">
-                          <div className="ios-date-badge">
-                            <div className="ios-date-day">{formatDateBadge(plan.date).day}</div>
-                            <div className="ios-date-month">{formatDateBadge(plan.date).month}</div>
-                          </div>
-                          
-                          <div className="ios-plan-info">
-                            <h3 className="ios-plan-title">
-                              <span className="ios-plan-emoji">{getTypeEmoji(plan.type)}</span>
-                              {plan.title}
-                            </h3>
-                            {plan.isCompleted && (
-                              <div className="ios-completed-badge">
-                                <span className="ios-badge-icon">✅</span>
-                                <span className="ios-badge-text">Completed</span>
-                              </div>
-                            )}
-                          </div>
-                          
-                          <button
-                            onClick={() => togglePlan({ id: plan._id, isCompleted: !plan.isCompleted })}
-                            className="ios-checkbox"
-                            title={plan.isCompleted ? "Mark as not done" : "Mark as done!"}
-                          >
-                            {plan.isCompleted && <span className="ios-check">✓</span>}
-                          </button>
-                        </div>
+                      
+                      <div className="plan-card-actions-cute">
+                        {plan.website && <a href={plan.website} target="_blank" rel="noopener noreferrer" className="plan-action-button-cute link" title="Visit Website">🌐</a>}
+                        {plan.mapsLink && <a href={plan.mapsLink} target="_blank" rel="noopener noreferrer" className="plan-action-button-cute link" title="Open in Maps">📍</a>}
+                        <button onClick={() => startEditing(plan)} className="plan-action-button-cute edit" title="Edit Plan">✏️</button>
+                        <button onClick={() => removePlan({ id: plan._id })} className="plan-action-button-cute delete" title="Delete Plan">🗑️</button>
+                      </div>
 
-                        {/* Action Buttons */}
-                        <div className="ios-action-row">
-                          {plan.website && (
-                            <a 
-                              href={plan.website} 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
-                              className="ios-action-button"
-                              title="Visit Website"
-                            >
-                              <span className="ios-action-icon">🌐</span>
-                              <span className="ios-action-text">Website</span>
-                            </a>
+                      {plan.isCompleted && (
+                        <div className="plan-memory-actions-cute">
+                          {plan.memory ? (
+                            <button onClick={() => editExistingMemory(plan)} className="plans-button-cute memory small">Edit Memory 💖</button>
+                          ) : (
+                            <button onClick={() => { setSelectedPlan(plan); setShowMemoryModal(true); }} className="plans-button-cute add-memory small">Add Memory ✨</button>
                           )}
-                          {plan.mapsLink && (
-                            <a 
-                              href={plan.mapsLink} 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
-                              className="ios-action-button"
-                              title="Open in Maps"
-                            >
-                              <span className="ios-action-icon">📍</span>
-                              <span className="ios-action-text">Maps</span>
-                            </a>
-                          )}
-                          <button 
-                            onClick={() => startEditing(plan)} 
-                            className="ios-action-button"
-                            title="Edit Plan"
-                          >
-                            <span className="ios-action-icon">✏️</span>
-                            <span className="ios-action-text">Edit</span>
-                          </button>
-                          <button 
-                            onClick={() => removePlan({ id: plan._id })} 
-                            className="ios-action-button danger"
-                            title="Delete Plan"
-                          >
-                            <span className="ios-action-icon">🗑️</span>
-                            <span className="ios-action-text">Delete</span>
-                          </button>
                         </div>
+                      )}
 
-                        {/* Memory Section */}
-                        {plan.isCompleted && (
-                          <div className="ios-memory-section">
-                            {plan.memory ? (
-                              <div className="ios-memory-preview">
-                                <div className="ios-memory-header">
-                                  <span className="ios-memory-title">💖 Our Memory</span>
-                                  <button 
-                                    onClick={() => editExistingMemory(plan)} 
-                                    className="ios-memory-edit"
-                                  >
-                                    Edit
-                                  </button>
-                                </div>
-                                
-                                <div className="ios-memory-rating">
-                                  {Array.from({ length: 5 }, (_, i) => (
-                                    <span key={i} className="ios-star">
-                                      {i < plan.memory!.rating ? '💖' : '🤍'}
-                                    </span>
-                                  ))}
-                                </div>
-                                
-                                {plan.memory.photos.length > 0 && (
-                                  <div className="ios-memory-photos">
-                                    {plan.memory.photos.slice(0, 3).map((photo, index) => (
-                                      <img 
-                                        key={index} 
-                                        src={photo} 
-                                        alt={`Memory ${index + 1}`} 
-                                        onClick={() => openImageViewer(photo)}
-                                        className="ios-memory-photo"
-                                      />
-                                    ))}
-                                    {plan.memory.photos.length > 3 && (
-                                      <div className="ios-memory-more">
-                                        +{plan.memory.photos.length - 3}
-                                      </div>
-                                    )}
-                                  </div>
-                                )}
-                                
-                                {plan.memory.notes.length > 0 && (
-                                  <div className="ios-memory-note">
-                                    "{plan.memory.notes[0].substring(0, 80)}{plan.memory.notes[0].length > 80 ? "..." : ""}"
-                                  </div>
-                                )}
-                              </div>
-                            ) : (
-                              <button 
-                                onClick={() => { 
-                                  setSelectedPlan(plan); 
-                                  setShowMemoryModal(true); 
-                                }} 
-                                className="ios-add-memory-button"
-                              >
-                                <span className="ios-memory-icon">✨</span>
-                                <span className="ios-memory-text">Add Memory</span>
-                              </button>
-                            )}
+                      {plan.memory && (
+                        <div className="plan-memory-preview-cute">
+                          <h4 className="plan-memory-title-cute">Our Sweet Memory</h4>
+                          <div className="plan-memory-rating-cute">
+                            Rating: {'💖'.repeat(plan.memory.rating)}{'🤍'.repeat(5 - plan.memory.rating)}
                           </div>
-                        )}
-                      </>
-                    )}
+                          {plan.memory.photos.length > 0 && (
+                            <div className="plan-memory-photos-cute">
+                              {plan.memory.photos.slice(0, isMobile ? 2 : 3).map((photo, index) => (
+                                <img key={index} src={photo} alt={`Memory ${index + 1}`} onClick={() => openImageViewer(photo)} className="plan-memory-photo-thumb-cute"/>
+                              ))}
+                              {plan.memory.photos.length > (isMobile ? 2 : 3) && <div className="plan-memory-photo-more-cute">+{plan.memory.photos.length - (isMobile ? 2 : 3)}</div>}
+                            </div>
+                          )}
+                           {plan.memory.notes.length > 0 && (
+                             <p className="plan-memory-note-excerpt-cute">"{plan.memory.notes[0].substring(0, 50)}{plan.memory.notes[0].length > 50 ? "..." : ""}"</p>
+                           )}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Memory Modal */}
+      {showMemoryModal && selectedPlan && (
+        <div className="memory-modal-overlay-cute">
+          <div className="memory-modal-cute">
+            <h2 className="memory-modal-title-cute">
+              {selectedPlan?.memory ? 'Relive This Moment 💖' : 'Capture This Moment! ✨'}
+            </h2>
+            
+            <div className="memory-rating-input-cute">
+              <label>How magical was it?</label>
+              <div className="memory-stars-cute">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star} type="button" onClick={() => setMemoryRating(star)}
+                    className={`memory-star-button-cute ${star <= memoryRating ? "selected" : ""}`}
+                  >💖</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="memory-photos-upload-cute">
+              <label>Show me the pictures!</label>
+              <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="memory-file-input-cute" />
+              <button type="button" onClick={() => fileInputRef.current?.click()} disabled={isUploading} className="plans-button-cute upload">
+                {isUploading ? `Uploading... ${uploadProgress}%` : "Add Photo 🖼️"}
+              </button>
+              {isUploading && <div className="memory-progress-bar-cute" style={{ width: `${uploadProgress}%` }}></div>}
+              <div className="memory-photo-previews-cute">
+                {memoryPhotos.map((photo, index) => (
+                  <div key={index} className="memory-photo-preview-item-cute">
+                    <img src={photo} alt={`Preview ${index + 1}`} onClick={() => openImageViewer(photo)}/>
+                    <button type="button" onClick={() => handleRemovePhoto(index)} className="memory-remove-photo-button-cute">🗑️</button>
                   </div>
                 ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Enhanced Memory Modal */}
-      {showMemoryModal && selectedPlan && (
-        <div className="ios-modal-overlay">
-          <div className="ios-modal">
-            <div className="ios-modal-header">
-              <h2 className="ios-modal-title">
-                {selectedPlan?.memory ? '💖 Edit Memory' : '✨ New Memory'}
-              </h2>
-              <button 
-                onClick={() => { 
-                  setShowMemoryModal(false); 
-                  setSelectedPlan(null); 
-                  setMemoryPhotos([]); 
-                  setMemoryRating(5); 
-                  setMemoryNotes([]); 
-                  setNewNote(""); 
-                  setEditingNoteIndex(-1);
-                }} 
-                className="ios-modal-close"
-              >
-                ✕
-              </button>
-            </div>
-            
-            <div className="ios-modal-content">
-              {/* Rating */}
-              <div className="ios-rating-section">
-                <label className="ios-label">How Magical Was It?</label>
-                <div className="ios-rating-stars">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star} 
-                      type="button" 
-                      onClick={() => setMemoryRating(star)}
-                      className={`ios-star-button ${star <= memoryRating ? 'active' : ''}`}
-                    >
-                      💖
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Photos */}
-              <div className="ios-photo-section">
-                <label className="ios-label">Photos</label>
-                <input 
-                  type="file" 
-                  ref={fileInputRef} 
-                  onChange={handleFileChange} 
-                  accept="image/*" 
-                  style={{ display: 'none' }}
-                />
-                <button 
-                  type="button" 
-                  onClick={() => fileInputRef.current?.click()} 
-                  disabled={isUploading} 
-                  className="ios-upload-button"
-                >
-                  {isUploading ? `Uploading... ${uploadProgress}%` : "📸 Add Photo"}
+            <div className="memory-notes-input-cute">
+              <label>What made it special?</label>
+              <div className="memory-note-add-form-cute">
+                <textarea value={newNote} onChange={(e) => setNewNote(e.target.value)} placeholder="Our favorite part was..." className="memory-textarea-cute"/>
+                <button type="button" onClick={handleAddNote} className="plans-button-cute add-note">
+                  {editingNoteIndex >= 0 ? "Update Note ✏️" : "Add Note 📝"}
                 </button>
-                
-                {isUploading && (
-                  <div className="ios-progress-bar">
-                    <div className="ios-progress-fill" style={{ width: `${uploadProgress}%` }}></div>
-                  </div>
-                )}
-                
-                <div className="ios-photo-grid">
-                  {memoryPhotos.map((photo, index) => (
-                    <div key={index} className="ios-photo-item">
-                      <img 
-                        src={photo} 
-                        alt={`Preview ${index + 1}`} 
-                        onClick={() => openImageViewer(photo)}
-                        className="ios-photo-preview"
-                      />
-                      <button 
-                        type="button" 
-                        onClick={() => handleRemovePhoto(index)} 
-                        className="ios-photo-remove"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Notes */}
-              <div className="ios-notes-section">
-                <label className="ios-label">What Made It Special?</label>
-                <div className="ios-note-input-row">
-                  <textarea 
-                    value={newNote} 
-                    onChange={(e) => setNewNote(e.target.value)} 
-                    placeholder="Our favorite part was..." 
-                    className="ios-textarea"
-                  />
-                  <div className="ios-note-actions">
-                    <button 
-                      type="button" 
-                      onClick={handleAddNote} 
-                      className="ios-button primary small"
-                    >
-                      {editingNoteIndex >= 0 ? "Update" : "Add"}
+                {editingNoteIndex >= 0 && (
+                    <button type="button" onClick={() => { setNewNote(""); setEditingNoteIndex(-1);}} className="plans-button-cute cancel-note small">
+                        Cancel Edit
                     </button>
-                    {editingNoteIndex >= 0 && (
-                      <button 
-                        type="button" 
-                        onClick={() => { 
-                          setNewNote(""); 
-                          setEditingNoteIndex(-1);
-                        }} 
-                        className="ios-button secondary small"
-                      >
-                        Cancel
-                      </button>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="ios-notes-list">
-                  {memoryNotes.map((note, index) => (
-                    <div key={index} className="ios-note-item">
-                      <span className="ios-note-text">{note}</span>
-                      <div className="ios-note-item-actions">
-                        <button 
-                          type="button" 
-                          onClick={() => handleEditNote(index)} 
-                          className="ios-note-action"
-                        >
-                          ✏️
-                        </button>
-                        <button 
-                          type="button" 
-                          onClick={() => handleRemoveNote(index)} 
-                          className="ios-note-action danger"
-                        >
-                          ✕
-                        </button>
-                      </div>
+                )}
+              </div>
+              <div className="memory-notes-list-cute">
+                {memoryNotes.map((note, index) => (
+                  <div key={index} className="memory-note-item-cute">
+                    <span>{note}</span>
+                    <div className="memory-note-actions-cute">
+                        <button type="button" onClick={() => handleEditNote(index)} className="memory-edit-note-button-cute">✏️</button>
+                        <button type="button" onClick={() => handleRemoveNote(index)} className="memory-remove-note-button-cute">🗑️</button>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="ios-modal-footer">
-              <button 
-                type="button" 
-                onClick={() => { 
-                  setShowMemoryModal(false); 
-                  setSelectedPlan(null); 
-                  setMemoryPhotos([]); 
-                  setMemoryRating(5); 
-                  setMemoryNotes([]); 
-                  setNewNote(""); 
-                  setEditingNoteIndex(-1);
-                }} 
-                className="ios-button secondary"
-              >
-                Cancel
+            <div className="memory-modal-actions-cute">
+              <button type="button" onClick={() => { setShowMemoryModal(false); setSelectedPlan(null); setMemoryPhotos([]); setMemoryRating(5); setMemoryNotes([]); setNewNote(""); setEditingNoteIndex(-1);}} className="plans-button-cute cancel">
+                Close
               </button>
-              <button 
-                type="button" 
-                onClick={handleSaveMemory} 
-                className="ios-button primary"
-              >
-                💕 Save Memory
+              <button type="button" onClick={handleSaveMemory} className="plans-button-cute save">
+                Save Memory 💕
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Enhanced Image Viewer Modal */}
+      {/* Full-size Image Viewer Modal */}
       {imageViewerOpen && (
-        <div className="ios-image-viewer-overlay" onClick={closeImageViewer}>
-          <div className="ios-image-viewer-content" onClick={(e) => e.stopPropagation()}>
-            <button 
-              onClick={closeImageViewer} 
-              className="ios-image-viewer-close"
-            >
-              ✕
-            </button>
-            <img 
-              src={currentImage} 
-              alt="Memory Preview" 
-              className="ios-image-viewer-image"
-            />
+        <div className="image-viewer-overlay-cute" onClick={closeImageViewer}>
+          <div className="image-viewer-content-cute" onClick={(e) => e.stopPropagation()}>
+            <button onClick={closeImageViewer} className="image-viewer-close-button-cute">X</button>
+            <img src={currentImage} alt="Memory Preview" className="image-viewer-image-cute"/>
           </div>
         </div>
       )}

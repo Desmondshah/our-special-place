@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useTheme } from "./ThemeContext";
 
 // Define Movie type
 interface Movie {
@@ -28,6 +29,8 @@ export function MovieBottomSheet({
   onDelete,
   onOpenTrailer
 }: MovieBottomSheetProps) {
+  // Get current theme
+  const { theme } = useTheme();
   
   // Ref for the sheet container
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -120,10 +123,12 @@ export function MovieBottomSheet({
         
         <div className="flex mb-6 px-4">
           {/* Movie poster thumbnail - larger and better framed */}
-          <div className="w-28 h-40 flex-shrink-0 mr-5 rounded-lg overflow-hidden border-3"
+          <div className="w-28 h-40 flex-shrink-0 mr-5 rounded-lg overflow-hidden border-3" 
                style={{ 
                  borderColor: 'var(--border-primary)',
-                boxShadow: '3px 3px 0 var(--shadow-color)'
+                 boxShadow: theme === 'pixel' 
+                   ? '3px 3px 0 var(--shadow-color)' 
+                   : '0 8px 20px var(--shadow-color)'
                }}>
             <img 
               src={movie.poster} 
@@ -140,11 +145,19 @@ export function MovieBottomSheet({
             
             {/* Watched status - more visible */}
             {movie.watched ? (
-              <div className="inline-block rounded-full px-3 py-1 text-sm mb-3 font-medium bg-[#A5D6A7] text-[#1B5E20]">
+              <div className={`inline-block rounded-full px-3 py-1 text-sm mb-3 font-medium ${
+                theme === 'pixel' 
+                  ? 'bg-[#A5D6A7] text-[#1B5E20]' 
+                  : 'bg-[rgba(180,151,189,0.3)] text-[#F4E2D8]'
+              }`}>
                 Watched {formattedWatchedDate ? `on ${formattedWatchedDate}` : ''}
               </div>
             ) : (
-              <div className="inline-block rounded-full px-3 py-1 text-sm mb-3 font-medium bg-[#FFCCBC] text-[#BF360C]">
+              <div className={`inline-block rounded-full px-3 py-1 text-sm mb-3 font-medium ${
+                theme === 'pixel' 
+                  ? 'bg-[#FFCCBC] text-[#BF360C]' 
+                  : 'bg-[rgba(232,193,193,0.3)] text-[#F4E2D8]'
+              }`}>
                 Not watched yet
               </div>
             )}
@@ -179,6 +192,12 @@ export function MovieBottomSheet({
           {movie.watched ? (
            <button 
   onClick={onMarkUnwatched}
+  // className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base ${
+  // theme === 'pixel' 
+  // ? 'bg-[#FFCCBC] text-[#BF360C]' // This was the Tailwind class
+  // : 'bg-[rgba(232,193,193,0.2)] text-[#E8C1C1]'
+  // }`}
+  // Add a new class like 'bottom-sheet-mark-unwatched-btn'
   className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base bottom-sheet-mark-unwatched-btn`}
 >
   <span>↩</span> Mark Unwatched
@@ -186,6 +205,12 @@ export function MovieBottomSheet({
           ) : (
             <button 
   onClick={onMarkWatched}
+  // className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base ${
+  // theme === 'pixel' 
+  // ? 'bg-[#A5D6A7] text-[#1B5E20]' // This was the Tailwind class
+  // : 'bg-[rgba(180,151,189,0.2)] text-[#B497BD]'
+  // }`}
+  // Add a new class like 'bottom-sheet-mark-watched-btn'
   className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base bottom-sheet-mark-watched-btn`}
 >
   <span>✓</span> Mark Watched
@@ -206,6 +231,12 @@ export function MovieBottomSheet({
           
          <button 
     onClick={onDelete}
+    // className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base ${
+    // theme === 'pixel' 
+    // ? 'bg-[#FFCCBC] text-[#BF360C]' // This was the Tailwind class
+    // : 'bg-[rgba(232,193,193,0.2)] text-[#E8C1C1]'
+    // }`}
+    // Add a new class like 'bottom-sheet-delete-btn'
     className={`pixel-button mobile-touch-button flex items-center justify-center gap-2 py-3 text-base bottom-sheet-delete-btn`}
 >
     <span>🗑️</span> Delete Movie
