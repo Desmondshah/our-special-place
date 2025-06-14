@@ -1,18 +1,23 @@
 import { useState, useEffect } from "react";
 import PlansSection from "./components/PlansSection";
-import PlansSectionIOS from "./components/PlansSectionIOS"; // New iOS Plans Component
+import PlansSectionIOS from "./components/PlansSectionIOS";
 import BucketListSection from "./components/BucketListSection";
 import DreamsSection from "./components/DreamsSection";
 import MilestonesSection from "./components/MilestonesSection";
 import CinemaSection from "./components/CinemaSection";
 import MoodBoardSection from "./components/MoodBoardSection";
-import { ThemeProvider } from "./components/ThemeContext";
+import PixelNavBarIOS from "./components/PixelNavBarIOS";
+import { ThemeProvider, useTheme } from "./components/ThemeContext";
 
-export default function App() {
+// Create AppContent component to access theme context
+function AppContent() {
+  const { theme, toggleTheme } = useTheme();
+  
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passcode, setPasscode] = useState("");
   const [activeTab, setActiveTab] = useState("plans");
   const [isMobile, setIsMobile] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -74,17 +79,68 @@ export default function App() {
   };
 
   const tabs = [
-    { id: "plans", label: "Plans", icon: "📅" },
-    { id: "bucket-list", label: "List", icon: "🎯" },
-    { id: "dreams", label: "Dreams", icon: "✨" },
-    { id: "milestones", label: "Miles", icon: "💫" },
-    { id: "cinema", label: "Cinema", icon: "🎬" },
-    { id: "mood-board", label: "Mood", icon: "💭" },
+    { id: "plans", label: "Plans", icon: "📅", subtitle: "Our Adventures" },
+    { id: "bucket-list", label: "List", icon: "🎯", subtitle: "Dream Goals" },
+    { id: "dreams", label: "Dreams", icon: "✨", subtitle: "Future Wishes" },
+    { id: "milestones", label: "Miles", icon: "💫", subtitle: "Memory Lane" },
+    { id: "cinema", label: "Cinema", icon: "🎬", subtitle: "Movie Night" },
+    { id: "mood-board", label: "Mood", icon: "💭", subtitle: "Inspiration" },
   ];
 
-  const getCurrentTabTitle = () => {
+  const getCurrentTabInfo = () => {
     const currentTab = tabs.find(tab => tab.id === activeTab);
-    return currentTab ? `${currentTab.label} ${currentTab.icon}` : "Our Special Place 💕";
+    return currentTab ? {
+      title: currentTab.label,
+      icon: currentTab.icon,
+      subtitle: currentTab.subtitle,
+      fullTitle: `${currentTab.label} ${currentTab.icon}`
+    } : { 
+      title: "Our Special Place", 
+      icon: "💕", 
+      subtitle: "Love & Adventures",
+      fullTitle: "Our Special Place 💕" 
+    };
+  };
+
+  // Calculate progress for different sections
+  const getTabProgress = () => {
+    // You can implement actual data-driven progress here
+    // This is just example logic - replace with real data
+    switch (activeTab) {
+      case "plans":
+        // Example: Could be calculated from actual plans data
+        return 75; // 75% of plans completed
+      case "bucket-list":
+        // Example: Could be calculated from bucket list completion
+        return 45; // 45% of bucket list completed
+      case "milestones":
+        // Example: Could show upload progress or memory completion
+        return 90; // 90% of memories documented
+      case "cinema":
+        // Example: Movies watched vs total movies
+        return 60; // 60% of movies watched
+      default:
+        return undefined; // No progress bar for other tabs
+    }
+  };
+
+  // Handle settings modal/sheet
+  const handleSettingsPress = () => {
+    if (isMobile) {
+      setShowSettings(true);
+    } else {
+      // On desktop, could open a modal or navigate differently
+      alert("Settings coming soon!");
+    }
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    if (confirm("Are you sure you want to log out?")) {
+      setIsAuthenticated(false);
+      setPasscode("");
+      setActiveTab("plans");
+    }
   };
 
   // Render the appropriate content based on active tab and device type
@@ -107,8 +163,10 @@ export default function App() {
     }
   };
 
+  const currentTabInfo = getCurrentTabInfo();
+
   return (
-    <ThemeProvider>
+    <>
       {!isAuthenticated ? (
         <div className={isMobile ? "ios-content" : "min-h-screen flex items-center justify-center p-4"}>
           <div className={isMobile ? "ios-auth-container" : "max-w-md w-full space-y-6 text-center"}>
@@ -136,37 +194,98 @@ export default function App() {
       ) : (
         <>
           {isMobile ? (
-            // iOS Native Mobile Layout
+            // iOS Native Mobile Layout with PixelNavBarIOS
             <div className="ios-app-container">
-              {/* iOS Navigation Bar */}
-              <div className="ios-nav-bar">
-                <div className="ios-nav-content">
-                  <div className="ios-nav-title">{getCurrentTabTitle()}</div>
-                </div>
-              </div>
+              {/* New Pixel Navigation Bar */}
+              <PixelNavBarIOS
+                title={currentTabInfo.title}
+                subtitle={currentTabInfo.subtitle}
+                onThemeToggle={toggleTheme}
+                showThemeToggle={true}
+                showBackButton={false}
+                rightAction={{
+                  icon: "⚙️",
+                  label: "Settings",
+                  onPress: handleSettingsPress
+                }}
+                progress={getTabProgress()}
+                statusBarStyle={theme === 'pixel' ? 'dark' : 'light'}
+              />
 
-              {/* iOS Content Area */}
-              <div className="ios-content">
+              {/* iOS Content Area - Updated to work with new nav */}
+              <div className="ios-content-with-pixel-nav">
                 <div className="ios-scroll-container">
                   {renderTabContent()}
                 </div>
               </div>
 
-              {/* iOS Tab Bar */}
-              <div className="ios-tab-bar">
+              {/* iOS Tab Bar - Enhanced */}
+              <div className="ios-tab-bar-enhanced">
                 <div className="ios-tab-bar-content">
                   {tabs.map((tab) => (
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`ios-tab-item ${activeTab === tab.id ? "active" : ""} no-select`}
+                      className={`ios-tab-item-enhanced ${activeTab === tab.id ? "active" : ""} no-select`}
                     >
-                      <div className="ios-tab-icon">{tab.icon}</div>
-                      <div className="ios-tab-label">{tab.label}</div>
+                      <div className="ios-tab-icon-enhanced">{tab.icon}</div>
+                      <div className="ios-tab-label-enhanced">{tab.label}</div>
+                      {activeTab === tab.id && (
+                        <div className="ios-tab-active-indicator" />
+                      )}
                     </button>
                   ))}
                 </div>
               </div>
+
+              {/* Settings Bottom Sheet */}
+              {showSettings && (
+                <div className="settings-bottom-sheet-overlay" onClick={() => setShowSettings(false)}>
+                  <div className="settings-bottom-sheet" onClick={e => e.stopPropagation()}>
+                    <div className="settings-drag-indicator" />
+                    
+                    <h3 className="settings-sheet-title">Settings</h3>
+                    
+                    <div className="settings-section">
+                      <div className="settings-item">
+                        <div className="settings-item-content">
+                          <span className="settings-item-icon">🎨</span>
+                          <span className="settings-item-label">Theme</span>
+                          <span className="settings-item-value">{theme === 'pixel' ? 'Pixel' : 'Starry'}</span>
+                        </div>
+                        <button onClick={toggleTheme} className="settings-toggle-btn">
+                          Switch
+                        </button>
+                      </div>
+                      
+                      <div className="settings-item">
+                        <div className="settings-item-content">
+                          <span className="settings-item-icon">📱</span>
+                          <span className="settings-item-label">App Version</span>
+                          <span className="settings-item-value">2.0.0</span>
+                        </div>
+                      </div>
+                      
+                      <div className="settings-item">
+                        <div className="settings-item-content">
+                          <span className="settings-item-icon">💕</span>
+                          <span className="settings-item-label">Made with Love</span>
+                          <span className="settings-item-value">Always</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="settings-actions">
+                      <button onClick={handleLogout} className="settings-action-btn danger">
+                        <span>🚪</span> Logout
+                      </button>
+                      <button onClick={() => setShowSettings(false)} className="settings-action-btn primary">
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             // Desktop Layout (unchanged)
@@ -202,6 +321,15 @@ export default function App() {
           )}
         </>
       )}
+    </>
+  );
+}
+
+// Main App component with ThemeProvider
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
     </ThemeProvider>
   );
 }
