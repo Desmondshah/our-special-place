@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import PlansSection from "./components/PlansSection";
+import PlansSectionIOS from "./components/PlansSectionIOS"; // New iOS Plans Component
 import BucketListSection from "./components/BucketListSection";
 import DreamsSection from "./components/DreamsSection";
 import MilestonesSection from "./components/MilestonesSection";
@@ -14,15 +15,58 @@ export default function App() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      
+      // Add mobile class to body for CSS targeting
+      if (mobile) {
+        document.body.classList.add('mobile-device');
+        document.body.classList.remove('desktop-device');
+      } else {
+        document.body.classList.add('desktop-device');
+        document.body.classList.remove('mobile-device');
+      }
+    };
+    
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Add iOS-specific body classes
+  useEffect(() => {
+    if (isMobile) {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isIOSChrome = /CriOS/.test(navigator.userAgent);
+      const isIOSFirefox = /FxiOS/.test(navigator.userAgent);
+      const isIOSSafari = /Safari/.test(navigator.userAgent) && !isIOSChrome && !isIOSFirefox;
+      
+      if (isIOS) {
+        document.body.classList.add('ios-device');
+        if (isIOSSafari) document.body.classList.add('ios-safari');
+      }
+      
+      // Handle iOS viewport height issues
+      const setVH = () => {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      };
+      
+      setVH();
+      window.addEventListener('resize', setVH);
+      window.addEventListener('orientationchange', setVH);
+      
+      return () => {
+        window.removeEventListener('resize', setVH);
+        window.removeEventListener('orientationchange', setVH);
+      };
+    }
+  }, [isMobile]);
+
   const handlePasscodeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode === "012325") { // Consider moving passcode to an environment variable
+    if (passcode === "012325") {
       setIsAuthenticated(true);
     } else {
       alert("Incorrect passcode!");
@@ -41,6 +85,26 @@ export default function App() {
   const getCurrentTabTitle = () => {
     const currentTab = tabs.find(tab => tab.id === activeTab);
     return currentTab ? `${currentTab.label} ${currentTab.icon}` : "Our Special Place 💕";
+  };
+
+  // Render the appropriate content based on active tab and device type
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "plans":
+        return isMobile ? <PlansSectionIOS /> : <PlansSection />;
+      case "bucket-list":
+        return <BucketListSection />;
+      case "dreams":
+        return <DreamsSection />;
+      case "milestones":
+        return <MilestonesSection />;
+      case "cinema":
+        return <CinemaSection />;
+      case "mood-board":
+        return <MoodBoardSection />;
+      default:
+        return isMobile ? <PlansSectionIOS /> : <PlansSection />;
+    }
   };
 
   return (
@@ -84,12 +148,7 @@ export default function App() {
               {/* iOS Content Area */}
               <div className="ios-content">
                 <div className="ios-scroll-container">
-                  {activeTab === "plans" && <PlansSection />}
-                  {activeTab === "bucket-list" && <BucketListSection />}
-                  {activeTab === "dreams" && <DreamsSection />}
-                  {activeTab === "milestones" && <MilestonesSection />}
-                  {activeTab === "cinema" && <CinemaSection />}
-                  {activeTab === "mood-board" && <MoodBoardSection />}
+                  {renderTabContent()}
                 </div>
               </div>
 
@@ -100,7 +159,7 @@ export default function App() {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`ios-tab-item ${activeTab === tab.id ? "active" : ""}`}
+                      className={`ios-tab-item ${activeTab === tab.id ? "active" : ""} no-select`}
                     >
                       <div className="ios-tab-icon">{tab.icon}</div>
                       <div className="ios-tab-label">{tab.label}</div>
@@ -111,7 +170,7 @@ export default function App() {
             </div>
           ) : (
             // Desktop Layout (unchanged)
-            <div className="min-h-screen p-4">
+            <div className="min-h-screen p-4 desktop-only">
               <div className="max-w-4xl mx-auto space-y-6">
                 <h1 className="pixel-title text-center mb-8 relative">
                   Our Special Place 💕
@@ -136,12 +195,7 @@ export default function App() {
                     ))}
                   </div>
 
-                  {activeTab === "plans" && <PlansSection />}
-                  {activeTab === "bucket-list" && <BucketListSection />}
-                  {activeTab === "dreams" && <DreamsSection />}
-                  {activeTab === "milestones" && <MilestonesSection />}
-                  {activeTab === "cinema" && <CinemaSection />}
-                  {activeTab === "mood-board" && <MoodBoardSection />}
+                  {renderTabContent()}
                 </div>
               </div>
             </div>

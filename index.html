@@ -2,19 +2,206 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    
+    <!-- Enhanced iOS Mobile Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, shrink-to-fit=no" />
+    
+    <!-- iOS Specific Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="theme-color" content="#FFEAE6" />
+    <meta name="apple-mobile-web-app-title" content="Chef" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    
+    <!-- Theme Colors -->
+    <meta name="theme-color" content="#FF6B9D" />
+    <meta name="msapplication-navbutton-color" content="#FF6B9D" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Prevent zoom on input focus (iOS) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    
+    <!-- iOS Safe Area Support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="/src/index.css" />
+    
+    <!-- Mobile iOS CSS - Only load on mobile devices -->
     <link rel="stylesheet" href="/src/mobile-ios.css" media="(max-width: 768px)" />
-
+    
+    <!-- PWA Icons for iOS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    
     <title>Chef</title>
 
     <meta property="og:image" content="/og-preview.jpg" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- iOS Splash Screen Support -->
+    <style>
+      /* Prevent flash of unstyled content on iOS */
+      body { 
+        opacity: 0; 
+        transition: opacity 0.3s ease; 
+      }
+      body.loaded { 
+        opacity: 1; 
+      }
+      
+      /* iOS Loading Screen */
+      .ios-loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, #FF6B9D, #C77DFF);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+      }
+      
+      .ios-loading-screen.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .ios-loading-logo {
+        font-size: 48px;
+        color: white;
+        animation: loading-pulse 2s infinite ease-in-out;
+      }
+      
+      @keyframes loading-pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+      }
+      
+      /* Prevent scrolling on iOS during load */
+      html, body {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+      }
+      
+      body.loaded {
+        overflow: unset;
+        position: unset;
+      }
+    </style>
   </head>
   <body>
+    <!-- iOS Loading Screen -->
+    <div class="ios-loading-screen" id="loadingScreen">
+      <div class="ios-loading-logo">💖</div>
+    </div>
+    
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- iOS Specific JavaScript -->
+    <script>
+      // Handle iOS loading and viewport
+      document.addEventListener('DOMContentLoaded', function() {
+        // Add loaded class to body
+        document.body.classList.add('loaded');
+        
+        // Hide loading screen after a short delay
+        setTimeout(() => {
+          const loadingScreen = document.getElementById('loadingScreen');
+          if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+              loadingScreen.remove();
+            }, 500);
+          }
+        }, 1000);
+        
+        // Prevent zoom on double tap (iOS)
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+          const now = (new Date()).getTime();
+          if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+          }
+          lastTouchEnd = now;
+        }, false);
+        
+        // Handle iOS safe area
+        function updateSafeAreaVars() {
+          const root = document.documentElement;
+          if (window.CSS && CSS.supports('padding-top: env(safe-area-inset-top)')) {
+            root.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top)');
+            root.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right)');
+            root.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom)');
+            root.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left)');
+          }
+        }
+        
+        updateSafeAreaVars();
+        window.addEventListener('resize', updateSafeAreaVars);
+        window.addEventListener('orientationchange', updateSafeAreaVars);
+        
+        // Prevent overscroll bounce on iOS
+        document.body.addEventListener('touchstart', function(e) {
+          if (e.touches.length === 1) {
+            const touch = e.touches[0];
+            if (touch.target.closest('.ios-scroll-container')) {
+              return; // Allow scrolling in designated scroll containers
+            }
+          }
+        }, { passive: true });
+        
+        document.body.addEventListener('touchmove', function(e) {
+          if (e.touches.length === 1) {
+            const touch = e.touches[0];
+            if (!touch.target.closest('.ios-scroll-container')) {
+              e.preventDefault(); // Prevent overscroll bounce
+            }
+          }
+        }, { passive: false });
+      });
+      
+      // Handle iOS viewport changes
+      window.addEventListener('resize', function() {
+        // Update viewport height for iOS Safari
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      });
+      
+      // Initial viewport height
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+      
+      // Handle iOS keyboard
+      window.addEventListener('focusin', function(e) {
+        if (e.target.matches('input, textarea, select')) {
+          setTimeout(() => {
+            e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 300);
+        }
+      });
+      
+      // Performance optimization for iOS
+      if (window.DeviceMotionEvent) {
+        window.addEventListener('devicemotion', function() {
+          // Optimize animations during device motion
+          document.body.classList.add('motion-active');
+          setTimeout(() => {
+            document.body.classList.remove('motion-active');
+          }, 100);
+        });
+      }
+    </script>
   </body>
 </html>
