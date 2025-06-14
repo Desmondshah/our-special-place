@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import BucketListSectionMobile from "./BucketListSectionMobile";
-import BucketListSectionDesktop from "./BucketListSectionDesktop";
+import BucketListSectionMobile from "./BucketListSectionMobile"; // New advanced mobile component
+import BucketListSectionDesktop from "./BucketListSectionDesktop"; // Existing desktop component
 
 export default function BucketListSection() {
   // State to track screen size
