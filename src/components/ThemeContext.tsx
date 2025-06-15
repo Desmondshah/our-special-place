@@ -12,11 +12,10 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Try to get theme from localStorage, default to pixel if not found
   const [theme, setTheme] = useState<ThemeType>(() => {
-    const savedTheme = localStorage.getItem("theme") as ThemeType | null;
-    if (savedTheme) return savedTheme;
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator as any).standalone;
-    return isIOS ? "ios" : "pixel";
-  });
+  const savedTheme = localStorage.getItem("theme") as ThemeType | null;
+  // Always default to 'pixel' if no theme is saved in localStorage.
+  return savedTheme || "pixel";
+});
 
   // Update localStorage and document class when theme changes
   useEffect(() => {
