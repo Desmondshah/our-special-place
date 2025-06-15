@@ -23,7 +23,6 @@ const getCategoryStyle = (category: string): { emoji: string, className: string 
     }
 };
 
-
 export default function BucketListSectionMobile() {
   const bottomSheetRef = useRef<HTMLDivElement>(null);
 
@@ -43,23 +42,21 @@ export default function BucketListSectionMobile() {
   const [newItemNotes, setNewItemNotes] = useState("");
 
   const [selectedItemForAction, setSelectedItemForAction] = useState<BucketListItem | null>(null);
-  // Edit form states (used within bottom sheet)
   const [editTitle, setEditTitle] = useState("");
   const [editCategory, setEditCategory] = useState("adventure");
   const [editTargetDate, setEditTargetDate] = useState("");
   const [editNotes, setEditNotes] = useState("");
-  // Simplified links for mobile edit:
   const [editLinkGeneral, setEditLinkGeneral] = useState("");
 
-
   const [deleteConfirmItem, setDeleteConfirmItem] = useState<BucketListItem | null>(null);
-  const [toast, setToast] = useState<{message: string, visible: boolean, type: 'success' | 'error'}>({ message: "", visible: false, type: 'success' });
+  const [toast, setToast] = useState<{message: string, visible: boolean, type: 'success' | 'error'}>({ 
+    message: "", visible: false, type: 'success' 
+  });
 
   const totalItems = bucketList.length;
   const completedItemsCount = bucketList.filter(item => item.isCompleted).length;
   const completionPercentage = totalItems ? Math.round((completedItemsCount / totalItems) * 100) : 0;
   const uniqueCategories = Array.from(new Set(bucketList.map(item => item.category)));
-
 
   const filteredAndSortedList = bucketList
     .filter(item => {
@@ -68,7 +65,7 @@ export default function BucketListSectionMobile() {
       if (categoryFilter !== "all" && item.category !== categoryFilter) return false;
       return true;
     })
-    .sort((a, b) => { // Simplified sort for mobile: pending first, then by date
+    .sort((a, b) => {
       if (a.isCompleted !== b.isCompleted) return a.isCompleted ? 1 : -1;
       const dateA = a.targetDate ? new Date(a.targetDate + 'T00:00:00').getTime() : Infinity;
       const dateB = b.targetDate ? new Date(b.targetDate + 'T00:00:00').getTime() : Infinity;
@@ -81,41 +78,67 @@ export default function BucketListSectionMobile() {
   };
   
   const resetNewItemForm = () => {
-    setNewItemTitle(""); setNewItemCategory("adventure"); setNewItemTargetDate(""); setNewItemNotes("");
+    setNewItemTitle(""); 
+    setNewItemCategory("adventure"); 
+    setNewItemTargetDate(""); 
+    setNewItemNotes("");
   };
 
   const handleAddNewItem = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newItemTitle.trim()) { showToast("Adventure needs a name!", 'error'); return; }
+    if (!newItemTitle.trim()) { 
+      showToast("Adventure needs a name!", 'error'); 
+      return; 
+    }
     try {
-      await addItem({ title: newItemTitle, category: newItemCategory, targetDate: newItemTargetDate||undefined, notes: newItemNotes||undefined, isCompleted: false });
+      await addItem({ 
+        title: newItemTitle, 
+        category: newItemCategory, 
+        targetDate: newItemTargetDate || undefined, 
+        notes: newItemNotes || undefined, 
+        isCompleted: false 
+      });
       resetNewItemForm();
       setActiveSheet('none');
-      showToast("New page added to diary! 📖");
-    } catch (error) { console.error(error); showToast("Couldn't add new page.", 'error'); }
+      showToast("Adventure added! 🎯");
+    } catch (error) { 
+      console.error(error); 
+      showToast("Couldn't add adventure.", 'error'); 
+    }
   };
 
   const openEditSheet = (item: BucketListItem) => {
-    setSelectedItemForAction(item); // Use selectedItemForAction for edit context
+    setSelectedItemForAction(item);
     setEditTitle(item.title);
     setEditCategory(item.category);
     setEditTargetDate(item.targetDate ? new Date(item.targetDate + 'T00:00:00').toISOString().split('T')[0] : "");
     setEditNotes(item.notes || "");
-    // For mobile, maybe just one general link field for simplicity or pick the most common one
     setEditLinkGeneral(item.links?.website || item.links?.maps || item.links?.flights || "");
     setActiveSheet('edit');
   };
 
   const handleSaveEdit = async () => {
-    if (!selectedItemForAction || !editTitle.trim()) { showToast("Adventure name can't be blank!", 'error'); return; }
+    if (!selectedItemForAction || !editTitle.trim()) { 
+      showToast("Adventure name can't be blank!", 'error'); 
+      return; 
+    }
     try {
-        // Simplified links for mobile: assuming a primary link or website
       const links = editLinkGeneral ? { website: editLinkGeneral } : undefined;
-      await updateItem({ id: selectedItemForAction._id, title: editTitle, category: editCategory, targetDate: editTargetDate||undefined, notes: editNotes||undefined, links });
+      await updateItem({ 
+        id: selectedItemForAction._id, 
+        title: editTitle, 
+        category: editCategory, 
+        targetDate: editTargetDate || undefined, 
+        notes: editNotes || undefined, 
+        links 
+      });
       setActiveSheet('none');
       setSelectedItemForAction(null);
-      showToast("Diary page updated! ✍️");
-    } catch (error) { console.error(error); showToast("Couldn't update page.", 'error'); }
+      showToast("Adventure updated! ✨");
+    } catch (error) { 
+      console.error(error); 
+      showToast("Couldn't update adventure.", 'error'); 
+    }
   };
   
   const openActionSheet = (item: BucketListItem) => {
@@ -123,20 +146,30 @@ export default function BucketListSectionMobile() {
     setActiveSheet('actions');
   };
 
-  const handleDeleteItem = async (_id: Id<"bucketList">) => {
+  const handleDeleteItem = async () => {
     if (!deleteConfirmItem) return;
     try {
       await removeItem({ id: deleteConfirmItem._id });
       setDeleteConfirmItem(null);
       setActiveSheet('none'); 
-      showToast("Page torn from diary. 💨");
-    } catch (error) { console.error(error); showToast("Couldn't remove page.", 'error');}
+      showToast("Adventure removed! 💨");
+    } catch (error) { 
+      console.error(error); 
+      showToast("Couldn't remove adventure.", 'error');
+    }
   };
   
   const formatDateForDisplay = (dateString?: string): string => {
-    if (!dateString) return "Anytime ✨";
+    if (!dateString) return "Anytime";
     const date = new Date(dateString + 'T00:00:00');
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
+  const getActiveFiltersCount = () => {
+    let count = 0;
+    if (filterStatus !== "all") count++;
+    if (categoryFilter !== "all") count++;
+    return count;
   };
 
   useEffect(() => {
@@ -153,154 +186,365 @@ export default function BucketListSectionMobile() {
   }, [activeSheet, deleteConfirmItem]);
 
   return (
-    <div className="bucket-layout-mobile-adventurer">
-      <header className="pocket-diary-header-cute">
-        <h2>Our Adventures 💖</h2>
-        <div className="pocket-diary-progress-cute">
-          <div className="progress-bar-container">
-            <div className="progress-bar-fill" style={{width: `${completionPercentage}%`}}></div>
-          </div>
-          <span>{completedItemsCount}/{totalItems} Done!</span>
+    <div className="mobile-bucket-list-pixel">
+      {/* Header */}
+      <div className="mobile-bucket-header">
+        <div className="header-top">
+          <h1 className="bucket-title-pixel">Adventure List</h1>
+          <button 
+            onClick={() => setActiveSheet('filters')} 
+            className="filter-button-pixel"
+          >
+            <span className="filter-icon">⚡</span>
+            {getActiveFiltersCount() > 0 && (
+              <span className="filter-badge">{getActiveFiltersCount()}</span>
+            )}
+          </button>
         </div>
-        <button onClick={() => setActiveSheet('filters')} className="pocket-diary-filter-btn-cute">
-            <span role="img" aria-label="filter">🎨</span> Filters
-        </button>
-      </header>
-
-      {filteredAndSortedList.length === 0 && activeSheet === 'none' && (
-          <div className="pocket-diary-empty-state-cute">
-            <span>📖</span>
-            <p>Our diary is waiting for new adventures!</p>
+        
+        <div className="progress-section">
+          <div className="progress-stats">
+            <span className="progress-text">{completedItemsCount}/{totalItems} Complete</span>
+            <span className="progress-percentage">{completionPercentage}%</span>
           </div>
-      )}
-
-      <main className="pocket-diary-list-cute">
-        {filteredAndSortedList.map(item => {
-          const style = getCategoryStyle(item.category);
-          return (
+          <div className="progress-bar-container">
             <div 
-              key={item._id} 
-              className={`diary-page-card-cute ${style.className} ${item.isCompleted ? "completed" : ""}`}
-              onClick={() => openActionSheet(item)}
-            >
-              <div className="card-top-row">
-                <span className="card-emoji">{style.emoji}</span>
-                <h3 className="card-title">{item.title}</h3>
-                <button 
-                    className={`card-checkbox ${item.isCompleted ? "checked" : ""}`}
-                    onClick={(e) => { e.stopPropagation(); toggleItem({ id: item._id, isCompleted: !item.isCompleted}); }}
+              className="progress-bar-fill" 
+              style={{ width: `${completionPercentage}%` }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Adventure List */}
+      <div className="adventure-list-container">
+        {filteredAndSortedList.length === 0 ? (
+          <div className="empty-state-pixel">
+            <div className="empty-icon">🎯</div>
+            <h3>No Adventures Yet!</h3>
+            <p>Start your pixel adventure by adding your first goal</p>
+          </div>
+        ) : (
+          <div className="adventure-list">
+            {filteredAndSortedList.map((item, index) => {
+              const style = getCategoryStyle(item.category);
+              return (
+                <div 
+                  key={item._id} 
+                  className={`adventure-card-pixel ${style.className} ${item.isCompleted ? "completed" : ""}`}
+                  onClick={() => openActionSheet(item)}
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                    {item.isCompleted ? "✔" : ""}
-                </button>
-              </div>
-              <p className="card-date">{formatDateForDisplay(item.targetDate)}</p>
-              {item.notes && <p className="card-notes-preview">"{item.notes.substring(0, 40)}..."</p>}
-              {item.isCompleted && <div className="card-completed-ribbon-cute">Done!</div>}
-            </div>
-          );
-        })}
-      </main>
+                  <div className="card-header">
+                    <div className="card-icon">{style.emoji}</div>
+                    <div className="card-content">
+                      <h3 className="card-title">{item.title}</h3>
+                      <div className="card-meta">
+                        <span className="card-date">{formatDateForDisplay(item.targetDate)}</span>
+                        <span className="card-category">{item.category}</span>
+                      </div>
+                    </div>
+                    <button 
+                      className={`completion-toggle ${item.isCompleted ? "completed" : ""}`}
+                      onClick={(e) => { 
+                        e.stopPropagation(); 
+                        toggleItem({ id: item._id, isCompleted: !item.isCompleted });
+                      }}
+                    >
+                      {item.isCompleted ? "✓" : ""}
+                    </button>
+                  </div>
+                  
+                  {item.notes && (
+                    <div className="card-notes">
+                      {item.notes.substring(0, 60)}...
+                    </div>
+                  )}
+                  
+                  {item.isCompleted && <div className="completed-badge">DONE</div>}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
-      <button onClick={() => { resetNewItemForm(); setActiveSheet('add'); }} className="pocket-diary-fab-cute">✏️</button>
+      {/* Add Button */}
+      <button 
+        onClick={() => { resetNewItemForm(); setActiveSheet('add'); }} 
+        className="add-fab-pixel"
+      >
+        +
+      </button>
 
-      {/* --- Bottom Sheets --- */}
+      {/* Bottom Sheets */}
       {activeSheet !== 'none' && (
-        <div className="bucket-bottom-sheet-overlay-cute" onClick={() => { if (!deleteConfirmItem) { setActiveSheet('none'); setSelectedItemForAction(null);}}}>
-          <div ref={bottomSheetRef} className="bucket-bottom-sheet-cute adventurer" onClick={e => e.stopPropagation()}>
-            <div className="bucket-bottom-sheet-handle-cute"></div>
+        <div className="bottom-sheet-overlay" onClick={() => { 
+          if (!deleteConfirmItem) { 
+            setActiveSheet('none'); 
+            setSelectedItemForAction(null);
+          }
+        }}>
+          <div 
+            ref={bottomSheetRef} 
+            className="bottom-sheet-pixel" 
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="sheet-handle"></div>
 
+            {/* Add Adventure Sheet */}
             {activeSheet === 'add' && (
-              <>
-                <h3 className="bucket-sheet-title-cute">New Diary Page ✨</h3>
-                <form onSubmit={handleAddNewItem} className="bucket-sheet-form-cute compact">
-                  <input type="text" value={newItemTitle} onChange={e => setNewItemTitle(e.target.value)} placeholder="Adventure Title..." className="bucket-input-cute sheet"/>
-                  <select value={newItemCategory} onChange={e => setNewItemCategory(e.target.value)} className="bucket-input-cute sheet">
-                    {uniqueCategories.length === 0 && <option value="adventure">🏞️ Adventure</option> /* Default if no cats yet */}
-                    {uniqueCategories.map(cat => <option key={cat} value={cat}>{getCategoryStyle(cat).emoji} {cat}</option>)}
+              <div className="sheet-content">
+                <h3 className="sheet-title">New Adventure</h3>
+                <form onSubmit={handleAddNewItem} className="adventure-form">
+                  <input 
+                    type="text" 
+                    value={newItemTitle} 
+                    onChange={e => setNewItemTitle(e.target.value)} 
+                    placeholder="Adventure title..." 
+                    className="form-input-pixel"
+                  />
+                  <select 
+                    value={newItemCategory} 
+                    onChange={e => setNewItemCategory(e.target.value)} 
+                    className="form-select-pixel"
+                  >
+                    <option value="adventure">🏞️ Adventure</option>
+                    <option value="travel">✈️ Travel</option>
+                    <option value="food">🍕 Food</option>
+                    <option value="milestone">🏆 Milestone</option>
                   </select>
-                  <input type="date" value={newItemTargetDate} onChange={e => setNewItemTargetDate(e.target.value)} className="bucket-input-cute sheet"/>
-                  <textarea value={newItemNotes} onChange={e => setNewItemNotes(e.target.value)} placeholder="A few notes..." className="bucket-textarea-cute sheet" rows={2}/>
-                  <div className="bucket-sheet-actions-cute">
-                    <button type="button" onClick={() => setActiveSheet('none')} className="bucket-button-cute cancel sheet">Cancel</button>
-                    <button type="submit" className="bucket-button-cute add sheet">Add Page</button>
+                  <input 
+                    type="date" 
+                    value={newItemTargetDate} 
+                    onChange={e => setNewItemTargetDate(e.target.value)} 
+                    className="form-input-pixel"
+                  />
+                  <textarea 
+                    value={newItemNotes} 
+                    onChange={e => setNewItemNotes(e.target.value)} 
+                    placeholder="Notes (optional)..." 
+                    className="form-textarea-pixel" 
+                    rows={3}
+                  />
+                  <div className="form-actions">
+                    <button 
+                      type="button" 
+                      onClick={() => setActiveSheet('none')} 
+                      className="button-pixel secondary"
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className="button-pixel primary">
+                      Add Adventure
+                    </button>
                   </div>
                 </form>
-              </>
+              </div>
             )}
 
+            {/* Edit Adventure Sheet */}
             {activeSheet === 'edit' && selectedItemForAction && (
-               <>
-                <h3 className="bucket-sheet-title-cute">Edit Page ✏️</h3>
-                <form onSubmit={(e) => {e.preventDefault(); handleSaveEdit();}} className="bucket-sheet-form-cute compact">
-                  <input type="text" value={editTitle} onChange={e => setEditTitle(e.target.value)} className="bucket-input-cute sheet"/>
-                  <select value={editCategory} onChange={e => setEditCategory(e.target.value)} className="bucket-input-cute sheet">
-                     {uniqueCategories.map(cat => <option key={cat} value={cat}>{getCategoryStyle(cat).emoji} {cat}</option>)}
+              <div className="sheet-content">
+                <h3 className="sheet-title">Edit Adventure</h3>
+                <form onSubmit={(e) => {e.preventDefault(); handleSaveEdit();}} className="adventure-form">
+                  <input 
+                    type="text" 
+                    value={editTitle} 
+                    onChange={e => setEditTitle(e.target.value)} 
+                    className="form-input-pixel"
+                  />
+                  <select 
+                    value={editCategory} 
+                    onChange={e => setEditCategory(e.target.value)} 
+                    className="form-select-pixel"
+                  >
+                    {uniqueCategories.map(cat => (
+                      <option key={cat} value={cat}>
+                        {getCategoryStyle(cat).emoji} {cat}
+                      </option>
+                    ))}
                   </select>
-                  <input type="date" value={editTargetDate} onChange={e => setEditTargetDate(e.target.value)} className="bucket-input-cute sheet"/>
-                  <textarea value={editNotes} onChange={e => setEditNotes(e.target.value)} className="bucket-textarea-cute sheet" rows={2}/>
-                  <input type="url" value={editLinkGeneral} onChange={e => setEditLinkGeneral(e.target.value)} placeholder="🔗 Primary Link (Optional)" className="bucket-input-cute sheet"/>
-                  <div className="bucket-sheet-actions-cute">
-                    <button type="button" onClick={() => {setActiveSheet('actions'); /* Go back to actions */}} className="bucket-button-cute cancel sheet">Back</button>
-                    <button type="submit" className="bucket-button-cute save sheet">Save</button>
+                  <input 
+                    type="date" 
+                    value={editTargetDate} 
+                    onChange={e => setEditTargetDate(e.target.value)} 
+                    className="form-input-pixel"
+                  />
+                  <textarea 
+                    value={editNotes} 
+                    onChange={e => setEditNotes(e.target.value)} 
+                    className="form-textarea-pixel" 
+                    rows={3}
+                    placeholder="Notes..."
+                  />
+                  <input 
+                    type="url" 
+                    value={editLinkGeneral} 
+                    onChange={e => setEditLinkGeneral(e.target.value)} 
+                    placeholder="Link (optional)" 
+                    className="form-input-pixel"
+                  />
+                  <div className="form-actions">
+                    <button 
+                      type="button" 
+                      onClick={() => setActiveSheet('actions')} 
+                      className="button-pixel secondary"
+                    >
+                      Back
+                    </button>
+                    <button type="submit" className="button-pixel primary">
+                      Save Changes
+                    </button>
                   </div>
                 </form>
-              </>
+              </div>
             )}
             
+            {/* Actions Sheet */}
             {activeSheet === 'actions' && selectedItemForAction && (
-                <>
-                    <h3 className="bucket-sheet-title-cute compact">{selectedItemForAction.title}</h3>
-                    <div className="bucket-sheet-action-list-cute">
-                        <button onClick={() => { toggleItem({ id: selectedItemForAction._id, isCompleted: !selectedItemForAction.isCompleted }); setActiveSheet('none'); setSelectedItemForAction(null);}} className="bucket-action-list-item-cute">
-                            {selectedItemForAction.isCompleted ? "✔️ Mark Pending" : "◻️ Mark Done"}
-                        </button>
-                        <button onClick={() => openEditSheet(selectedItemForAction)} className="bucket-action-list-item-cute">✏️ Edit Entry</button>
-                         {/* Simplified link display for mobile actions */}
-                        {selectedItemForAction.links?.website && <a href={selectedItemForAction.links.website} target="_blank" rel="noopener noreferrer" className="bucket-action-list-item-cute link">🔗 View Link</a>}
-                        {!selectedItemForAction.links?.website && selectedItemForAction.links?.maps && <a href={selectedItemForAction.links.maps} target="_blank" rel="noopener noreferrer" className="bucket-action-list-item-cute link">📍 View Map</a>}
-                        
-                        <button onClick={() => setDeleteConfirmItem(selectedItemForAction)} className="bucket-action-list-item-cute delete">🗑️ Remove Entry</button>
-                    </div>
-                    <button onClick={() => setActiveSheet('none')} className="bucket-button-cute cancel sheet full-width mt-2">Close</button>
-                </>
-            )}
-
-            {activeSheet === 'filters' && (
-                <>
-                    <h3 className="bucket-sheet-title-cute">Filter Adventures 🧭</h3>
-                    <div className="bucket-sheet-form-cute compact">
-                        <label>Status:</label>
-                        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value as any)} className="bucket-input-cute sheet">
-                            <option value="all">All</option>
-                            <option value="pending">Pending</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                        <label>Category:</label>
-                        <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="bucket-input-cute sheet">
-                            <option value="all">All Categories</option>
-                            {uniqueCategories.map(cat => <option key={cat} value={cat}>{getCategoryStyle(cat).emoji} {cat}</option>)}
-                        </select>
-                    </div>
-                     <button onClick={() => setActiveSheet('none')} className="bucket-button-cute save sheet full-width mt-2">Apply Filters</button>
-                </>
-            )}
-
-
-            {deleteConfirmItem && selectedItemForAction && ( // Ensure selectedItemForAction is used for context
-                <div className="bucket-delete-confirm-sheet-cute">
-                    <h4>Remove "{selectedItemForAction.title}"?</h4>
-                    <p>This page will be torn from our diary!</p>
-                    <div className="bucket-sheet-actions-cute">
-                        <button onClick={() => setDeleteConfirmItem(null)} className="bucket-button-cute cancel sheet">No, Keep!</button>
-                        <button onClick={() => handleDeleteItem(selectedItemForAction._id)} className="bucket-button-cute delete sheet">Yes, Remove!</button>
-                    </div>
+              <div className="sheet-content">
+                <h3 className="sheet-title">{selectedItemForAction.title}</h3>
+                <div className="action-list">
+                  <button 
+                    onClick={() => { 
+                      toggleItem({ 
+                        id: selectedItemForAction._id, 
+                        isCompleted: !selectedItemForAction.isCompleted 
+                      }); 
+                      setActiveSheet('none'); 
+                      setSelectedItemForAction(null);
+                    }} 
+                    className="action-button-pixel"
+                  >
+                    <span className="action-icon">
+                      {selectedItemForAction.isCompleted ? "↺" : "✓"}
+                    </span>
+                    <span className="action-text">
+                      {selectedItemForAction.isCompleted ? "Mark Pending" : "Mark Complete"}
+                    </span>
+                  </button>
+                  
+                  <button 
+                    onClick={() => openEditSheet(selectedItemForAction)} 
+                    className="action-button-pixel"
+                  >
+                    <span className="action-icon">✏️</span>
+                    <span className="action-text">Edit Adventure</span>
+                  </button>
+                  
+                  {selectedItemForAction.links?.website && (
+                    <a 
+                      href={selectedItemForAction.links.website} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="action-button-pixel link"
+                    >
+                      <span className="action-icon">🔗</span>
+                      <span className="action-text">Open Link</span>
+                    </a>
+                  )}
+                  
+                  <button 
+                    onClick={() => setDeleteConfirmItem(selectedItemForAction)} 
+                    className="action-button-pixel danger"
+                  >
+                    <span className="action-icon">🗑️</span>
+                    <span className="action-text">Delete Adventure</span>
+                  </button>
                 </div>
+                
+                <button 
+                  onClick={() => setActiveSheet('none')} 
+                  className="button-pixel secondary full-width"
+                >
+                  Close
+                </button>
+              </div>
+            )}
+
+            {/* Filters Sheet */}
+            {activeSheet === 'filters' && (
+              <div className="sheet-content">
+                <h3 className="sheet-title">Filter Adventures</h3>
+                <div className="filter-section">
+                  <h4 className="filter-label">Status</h4>
+                  <div className="filter-group">
+                    {(['all', 'pending', 'completed'] as const).map(status => (
+                      <button
+                        key={status}
+                        onClick={() => setFilterStatus(status)}
+                        className={`filter-chip ${filterStatus === status ? 'active' : ''}`}
+                      >
+                        {status === 'all' ? 'All' : status === 'pending' ? 'Pending' : 'Completed'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="filter-section">
+                  <h4 className="filter-label">Category</h4>
+                  <div className="filter-group">
+                    <button
+                      onClick={() => setCategoryFilter('all')}
+                      className={`filter-chip ${categoryFilter === 'all' ? 'active' : ''}`}
+                    >
+                      All Categories
+                    </button>
+                    {uniqueCategories.map(cat => (
+                      <button
+                        key={cat}
+                        onClick={() => setCategoryFilter(cat)}
+                        className={`filter-chip ${categoryFilter === cat ? 'active' : ''}`}
+                      >
+                        {getCategoryStyle(cat).emoji} {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                <button 
+                  onClick={() => setActiveSheet('none')} 
+                  className="button-pixel primary full-width"
+                >
+                  Apply Filters
+                </button>
+              </div>
+            )}
+
+            {/* Delete Confirmation */}
+            {deleteConfirmItem && (
+              <div className="sheet-content">
+                <h3 className="sheet-title danger">Delete Adventure?</h3>
+                <p className="delete-warning">
+                  Are you sure you want to delete "{deleteConfirmItem.title}"? This cannot be undone.
+                </p>
+                <div className="form-actions">
+                  <button 
+                    onClick={() => setDeleteConfirmItem(null)} 
+                    className="button-pixel secondary"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    onClick={handleDeleteItem} 
+                    className="button-pixel danger"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             )}
           </div>
         </div>
       )}
 
-      {toast.visible && <div className={`bucket-toast-cute mobile ${toast.type}`}>{toast.message}</div>}
+      {/* Toast Notification */}
+      {toast.visible && (
+        <div className={`toast-pixel ${toast.type}`}>
+          {toast.message}
+        </div>
+      )}
     </div>
   );
 }
