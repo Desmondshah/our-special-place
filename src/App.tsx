@@ -58,7 +58,7 @@ export default function App() {
           </div>
         </div>
       ) : (
-        <div className="min-h-screen p-4">
+        <div className="min-h-[100dvh] p-4 pb-20">
           <div className="max-w-4xl mx-auto space-y-6">
             <h1 className="pixel-title text-center mb-8 relative">
               Our Special Place 💕
@@ -66,8 +66,8 @@ export default function App() {
             
             {/* Apply new styles to the pixel-card and tab container */}
             <div className="pixel-card"> {/* Ensure this has some padding, e.g., p-4 or p-6 from your CSS */}
-              {/* Updated tab container with new class */}
-              <div className="tab-container-cute">
+              {/* Desktop navigation */}
+              <div className="tab-container-cute desktop-nav hidden sm:flex">
                 {tabs.map((tab) => (
                   <button
                     key={tab.id}
@@ -94,6 +94,21 @@ export default function App() {
               {activeTab === "cinema" && <CinemaSection />}
               {activeTab === "mood-board" && <MoodBoardSection />}
             </div>
+            {/* Bottom navigation for mobile */}
+            <nav className="bottom-nav-cute sm:hidden" aria-label="Mobile navigation">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`tab-button-artistic ${
+                    activeTab === tab.id ? "active-tab-artistic" : "inactive-tab-artistic"
+                  }`}
+                  title={tab.label}
+                >
+                  {tab.icon}
+                </button>
+              ))}
+            </nav>
           </div>
         </div>
       )}
