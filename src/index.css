@@ -5780,37 +5780,6 @@ iframe {
 }
 
 /* ===================================
-   MOBILE BOTTOM NAVIGATION
-   =================================== */
-@media (max-width: 640px) {
-  .desktop-nav {
-    display: none;
-  }
-
-  .bottom-nav-cute {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-around;
-    background-color: var(--background-secondary);
-    border-top: 1px solid var(--border-primary);
-    padding: 0.5rem calc(0.5rem + env(safe-area-inset-bottom));
-    z-index: 60;
-  }
-
-  .bottom-nav-cute .tab-button-artistic {
-    flex: 1;
-    box-shadow: none;
-    border: none;
-    background: transparent;
-    padding: 0.5rem 0;
-    font-size: 1.25rem;
-  }
-}
-
-/* ===================================
    DESKTOP STYLES (ORIGINAL LAYOUT)
    =================================== */
 
@@ -5832,7 +5801,7 @@ iframe {
 }
 
 .plan-card-cute {
-  max-width: 400px;
+  max-width: 350px;
   max-height: 350px;
   margin-left: 0;
   margin-right: 0;
@@ -6166,6 +6135,259 @@ iframe {
 
   .memory-notes-list-cute {
     max-height: 100px;
+  }
+}
+
+/* ===================================
+   ADVANCED iOS-STYLE BOTTOM NAVIGATION
+   =================================== */
+
+/* Hide any existing bottom navigation */
+@media (max-width: 640px) {
+  .desktop-nav {
+    display: none;
+  }
+
+  /* Hide old bottom nav if it exists */
+  .bottom-nav-cute:not(.ios-bottom-nav) {
+    display: none !important;
+  }
+
+  .bottom-nav-cute.ios-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+    z-index: 9999;
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    margin: 0;
+    transform: translateZ(0);
+  }
+
+  /* Dark theme support */
+  [data-theme="starry"] .bottom-nav-cute.ios-bottom-nav {
+    background: rgba(26, 26, 64, 0.85);
+    border-top: 0.5px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic {
+    flex: 1;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 8px 4px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    border-radius: 12px;
+    margin: 0 4px;
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    overflow: hidden;
+    min-height: 56px;
+    max-width: 80px;
+  }
+
+  /* Tab icons */
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic::before {
+    content: attr(data-icon);
+    font-size: 22px;
+    line-height: 1;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: center;
+  }
+
+  /* Tab labels */
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic::after {
+    content: attr(data-label);
+    font-size: 10px;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  /* Inactive state */
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic.inactive-tab-artistic {
+    color: rgba(60, 60, 67, 0.6);
+    transform: scale(1);
+  }
+
+  [data-theme="starry"] .bottom-nav-cute.ios-bottom-nav .tab-button-artistic.inactive-tab-artistic {
+    color: rgba(235, 235, 245, 0.6);
+  }
+
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic.inactive-tab-artistic::before {
+    transform: scale(1);
+    filter: none;
+  }
+
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic.inactive-tab-artistic::after {
+    opacity: 0.6;
+  }
+
+  /* Active state */
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic.active-tab-artistic {
+    color: var(--cute-accent-primary);
+    transform: scale(1);
+    background: rgba(255, 105, 180, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  [data-theme="starry"] .bottom-nav-cute.ios-bottom-nav .tab-button-artistic.active-tab-artistic {
+    color: var(--accent-light);
+    background: rgba(180, 151, 189, 0.15);
+  }
+
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic.active-tab-artistic::before {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic.active-tab-artistic::after {
+    opacity: 1;
+    font-weight: 600;
+  }
+
+  /* Hover/Touch feedback */
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic:active {
+    transform: scale(0.85);
+    background: rgba(255, 105, 180, 0.12);
+    transition: transform 0.1s ease;
+  }
+
+  [data-theme="starry"] .bottom-nav-cute.ios-bottom-nav .tab-button-artistic:active {
+    background: rgba(180, 151, 189, 0.2);
+  }
+
+  /* Tab switching animation */
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic {
+    animation: tab-settle 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  }
+
+  /* Active indicator dot */
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic.active-tab-artistic::before {
+    position: relative;
+  }
+
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic.active-tab-artistic::before::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 6px;
+    height: 6px;
+    background: var(--cute-accent-primary);
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+    animation: pulse-dot 2s infinite ease-in-out;
+  }
+
+  /* Notification badges */
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic[data-badge]::after {
+    content: attr(data-badge);
+    position: absolute;
+    top: 4px;
+    right: 16px;
+    background: #FF3B30;
+    color: white;
+    font-size: 8px;
+    font-weight: 600;
+    padding: 2px 5px;
+    border-radius: 8px;
+    min-width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    animation: badge-bounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  }
+
+  /* Spring animations */
+  @keyframes badge-bounce {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(0.9); }
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { 
+      transform: scale(1); 
+      opacity: 1; 
+    }
+    50% { 
+      transform: scale(1.2); 
+      opacity: 0.8; 
+    }
+  }
+
+  @keyframes tab-settle {
+    0% { transform: scale(0.95); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  /* Safe area optimization */
+  @supports (padding: max(0px)) {
+    .bottom-nav-cute.ios-bottom-nav {
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
+    }
+  }
+
+  /* Accessibility improvements */
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic:focus-visible {
+    outline: 2px solid var(--cute-accent-primary);
+    outline-offset: 2px;
+  }
+
+  /* Haptic feedback simulation */
+  .bottom-nav-cute.ios-bottom-nav .tab-button-artistic:active {
+    transition: transform 0.1s ease;
+  }
+
+  /* Advanced blur for modern devices */
+  @supports (backdrop-filter: blur(20px)) {
+    .bottom-nav-cute.ios-bottom-nav {
+      background: rgba(255, 255, 255, 0.8);
+    }
+    
+    [data-theme="starry"] .bottom-nav-cute.ios-bottom-nav {
+      background: rgba(26, 26, 64, 0.8);
+    }
+  }
+
+  /* Fallback for older devices */
+  @supports not (backdrop-filter: blur(20px)) {
+    .bottom-nav-cute.ios-bottom-nav {
+      background: rgba(255, 255, 255, 0.95);
+    }
+    
+    [data-theme="starry"] .bottom-nav-cute.ios-bottom-nav {
+      background: rgba(26, 26, 64, 0.95);
+    }
   }
 }
 

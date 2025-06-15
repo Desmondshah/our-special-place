@@ -22,12 +22,12 @@ export default function App() {
   };
 
   const tabs = [
-    { id: "plans", label: "Plans 📅", icon: "📅" },
-    { id: "bucket-list", label: "List 🎯", icon: "🎯" },
-    { id: "dreams", label: "Dreams ✨", icon: "✨" },
-    { id: "milestones", label: "Miles 💫", icon: "💫" },
-    { id: "cinema", label: "Cinema 🎬", icon: "🎬" },
-    { id: "mood-board", label: "Mood 💭", icon: "💭" },
+    { id: "plans", label: "Plans", icon: "📅" },
+    { id: "bucket-list", label: "List", icon: "🎯" },
+    { id: "dreams", label: "Dreams", icon: "✨" },
+    { id: "milestones", label: "Miles", icon: "💫" },
+    { id: "cinema", label: "Cinema", icon: "🎬" },
+    { id: "mood-board", label: "Mood", icon: "💭" },
   ];
 
   return (
@@ -64,23 +64,20 @@ export default function App() {
               Our Special Place 💕
             </h1>
             
-            {/* Apply new styles to the pixel-card and tab container */}
-            <div className="pixel-card"> {/* Ensure this has some padding, e.g., p-4 or p-6 from your CSS */}
+            <div className="pixel-card">
               {/* Desktop navigation */}
               <div className="tab-container-cute desktop-nav hidden sm:flex">
                 {tabs.map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    // Apply new classes to buttons
                     className={`tab-button-artistic ${
                       activeTab === tab.id
-                        ? "active-tab-artistic" // New class for active tab
-                        : "inactive-tab-artistic" // New class for inactive tab
+                        ? "active-tab-artistic"
+                        : "inactive-tab-artistic"
                     }`}
-                    title={tab.label} // Add title for accessibility and hover
+                    title={tab.label}
                   >
-                    {/* Using only icon for smaller tabs, or icon + text based on screen size */}
                     <span className="sm:hidden">{tab.icon}</span>
                     <span className="hidden sm:inline">{tab.label}</span>
                   </button>
@@ -94,8 +91,9 @@ export default function App() {
               {activeTab === "cinema" && <CinemaSection />}
               {activeTab === "mood-board" && <MoodBoardSection />}
             </div>
-            {/* Bottom navigation for mobile */}
-            <nav className="bottom-nav-cute sm:hidden" aria-label="Mobile navigation">
+            
+            {/* Bottom navigation for mobile - Fixed with iOS styling */}
+            <nav className="bottom-nav-cute ios-bottom-nav sm:hidden" aria-label="Mobile navigation">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
@@ -104,8 +102,9 @@ export default function App() {
                     activeTab === tab.id ? "active-tab-artistic" : "inactive-tab-artistic"
                   }`}
                   title={tab.label}
+                  data-icon={tab.icon}
+                  data-label={tab.label}
                 >
-                  {tab.icon}
                 </button>
               ))}
             </nav>
