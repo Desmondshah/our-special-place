@@ -6409,3 +6409,160 @@ iframe {
     transform: scale(0.95);
   }
 }
+
+/* ===================================
+   MOBILE STYLES
+   =================================== */
+@media (max-width: 1200px) { 
+  .moodboard-items-container-cute.masonry { column-count: 3; } 
+}
+
+@media (max-width: 1024px) {
+  .milestone-container {
+    display: block;
+  }
+  
+  .milestone-form {
+    position: sticky;
+    top: 20px;
+    align-self: start;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+  
+  .milestone-list {
+    overflow-y: auto;
+    max-height: calc(100vh - 40px);
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 900px) { 
+  .moodboard-items-container-cute.masonry { column-count: 2; } 
+}
+
+@media (max-width: 768px) {
+  .plans-header-cute {
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .plans-controls-cute {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+  }
+  
+  .plans-grid-cute {
+    grid-template-columns: 1fr;
+  }
+
+  /* Mobile Form Improvements */
+  .plans-add-form-cute {
+    margin: 0 0 1rem 0;
+    padding: 1rem;
+    max-width: 100%;
+    box-sizing: border-box;
+    border-radius: 12px;
+  }
+
+  .plans-form-grid-cute,
+  .plans-form-grid-cute.compact {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .plans-form-grid-cute .full-width {
+    grid-column: span 1;
+  }
+
+  .plans-input-cute {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+
+  .plans-form-actions-cute {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .plans-form-actions-cute .plans-button-cute {
+    width: 100%;
+    min-height: 44px;
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  /* Mobile Edit Form Fixes */
+  .plan-edit-form-cute {
+    padding: 1rem;
+    padding-bottom: 1.5rem; /* Extra bottom padding for buttons */
+    margin: 0.5rem 0 2rem 0; /* Extra bottom margin */
+    border-radius: 12px;
+    background-color: var(--cute-bg-primary);
+    border: 2px solid var(--cute-border-secondary);
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .plan-edit-title-cute {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .plan-edit-actions-cute {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem; /* More space above buttons */
+    margin-bottom: 0.5rem; /* Space below buttons */
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--cute-border-secondary);
+  }
+
+  .plan-edit-actions-cute .plans-button-cute {
+    width: 100%;
+    min-height: 44px;
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  /* Ensure plan cards don't cut off edit forms */
+  .plan-card-cute:has(.plan-edit-form-cute) {
+    overflow: visible;
+    min-height: auto;
+    margin-bottom: 2rem; /* Extra space when editing */
+  }
+
+  /* Ensure forms don't get cut off by bottom nav */
+  .plans-section-cute {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 20px));
+  }
+
+  /* Card improvements for mobile */
+  .plan-card-cute {
+    margin: 0 0 1rem 0;
+    padding: 1rem;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .plan-card-header-cute {
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  .plan-date-badge-cute {
+    align-self: center;
+  }
+
+  .plan-checkbox-cute {
+    align-self: center;
+    margin-top: 0.5rem;
+  }
+}
