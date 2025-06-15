@@ -76,7 +76,6 @@ export default function PlansSection() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-
   // Get current date in YYYY-MM-DD format
   const getCurrentDate = () => {
     const now = new Date();
@@ -318,7 +317,7 @@ export default function PlansSection() {
   });
 
   const getMonthYear = (dateStr: string) => {
-    const date = new Date(dateStr + 'T00:00:00'); // Ensure date is parsed in local timezone
+    const date = new Date(dateStr + 'T00:00:00');
     return `${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
   };
 
@@ -333,13 +332,13 @@ export default function PlansSection() {
 
   const getTypeEmoji = (type: string): string => {
     const emojis: { [key: string]: string } = {
-      'date': '💖', // Sparkling Heart
-      'trip': '✈️', // Airplane
-      'activity': '🎉', // Party Popper
-      'celebration': '🥳', // Partying Face
-      'other': '🌟' // Glowing Star
+      'date': '💖',
+      'trip': '✈️',
+      'activity': '🎉',
+      'celebration': '🥳',
+      'other': '🌟'
     };
-    return emojis[type] || '✨'; // Default: Sparkles
+    return emojis[type] || '✨';
   };
   
   const formatDateBadge = (dateStr: string) => {
@@ -349,7 +348,6 @@ export default function PlansSection() {
       month: date.toLocaleString('default', { month: 'short' }).toUpperCase()
     };
   };
-
 
   return (
     <div className="plans-section-cute">
@@ -481,11 +479,11 @@ export default function PlansSection() {
                         </div>
                       </div>
                       
-                      <div className="plan-card-actions-cute">
-                        {plan.website && <a href={plan.website} target="_blank" rel="noopener noreferrer" className="plan-action-button-cute link" title="Visit Website">🌐</a>}
-                        {plan.mapsLink && <a href={plan.mapsLink} target="_blank" rel="noopener noreferrer" className="plan-action-button-cute link" title="Open in Maps">📍</a>}
-                        <button onClick={() => startEditing(plan)} className="plan-action-button-cute edit" title="Edit Plan">✏️</button>
-                        <button onClick={() => removePlan({ id: plan._id })} className="plan-action-button-cute delete" title="Delete Plan">🗑️</button>
+                      <div className={`plan-card-actions-cute ${isMobile ? 'mobile' : ''}`}>
+                        {plan.website && <a href={plan.website} target="_blank" rel="noopener noreferrer" className="plan-action-button-cute link" title="Visit Website">{isMobile ? '🌐 Website' : '🌐'}</a>}
+                        {plan.mapsLink && <a href={plan.mapsLink} target="_blank" rel="noopener noreferrer" className="plan-action-button-cute link" title="Open in Maps">{isMobile ? '📍 Maps' : '📍'}</a>}
+                        <button onClick={() => startEditing(plan)} className="plan-action-button-cute edit" title="Edit Plan">{isMobile ? '✏️ Edit' : '✏️'}</button>
+                        <button onClick={() => removePlan({ id: plan._id })} className="plan-action-button-cute delete" title="Delete Plan">{isMobile ? '🗑️ Delete' : '🗑️'}</button>
                       </div>
 
                       {plan.isCompleted && (
@@ -565,7 +563,7 @@ export default function PlansSection() {
 
             <div className="memory-notes-input-cute">
               <label>What made it special?</label>
-              <div className="memory-note-add-form-cute">
+              <div className={`memory-note-add-form-cute ${isMobile ? 'mobile' : ''}`}>
                 <textarea value={newNote} onChange={(e) => setNewNote(e.target.value)} placeholder="Our favorite part was..." className="memory-textarea-cute"/>
                 <button type="button" onClick={handleAddNote} className="plans-button-cute add-note">
                   {editingNoteIndex >= 0 ? "Update Note ✏️" : "Add Note 📝"}
@@ -589,7 +587,7 @@ export default function PlansSection() {
               </div>
             </div>
 
-            <div className="memory-modal-actions-cute">
+            <div className={`memory-modal-actions-cute ${isMobile ? 'mobile' : ''}`}>
               <button type="button" onClick={() => { setShowMemoryModal(false); setSelectedPlan(null); setMemoryPhotos([]); setMemoryRating(5); setMemoryNotes([]); setNewNote(""); setEditingNoteIndex(-1);}} className="plans-button-cute cancel">
                 Close
               </button>

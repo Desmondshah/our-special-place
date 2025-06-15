@@ -1308,7 +1308,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .plans-section-cute {
   padding: 1rem;
   font-family: var(--font-main);
-  max-width: 600px;
+  width: 100%;
+  max-width: 900px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -5806,5 +5807,383 @@ iframe {
     background: transparent;
     padding: 0.5rem 0;
     font-size: 1.25rem;
+  }
+}
+
+/* ===================================
+   DESKTOP STYLES (ORIGINAL LAYOUT)
+   =================================== */
+
+.plans-section-cute {
+  padding: 1rem;
+  font-family: var(--font-main);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.plans-grid-cute {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.plans-grid-cute:not(.mobile) {
+  grid-template-columns: 1fr;
+}
+
+.plan-card-cute {
+  max-width: 400px;
+  max-height: 350px;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ===================================
+   MOBILE RESPONSIVE STYLES FOR PLANS SECTION
+   =================================== */
+
+/* Mobile-specific adjustments for existing classes */
+@media (max-width: 768px) {
+  .plans-section-cute {
+    padding: 0.75rem;
+    max-width: 100%;
+  }
+
+  /* Mobile Header Adjustments */
+  .plans-header-cute {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .plans-title-cute {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .plans-controls-cute {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  /* Mobile Filter Tabs */
+  .plans-filter-tabs-cute {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .plans-filter-tab-cute {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    flex: 1;
+    min-width: fit-content;
+    text-align: center;
+  }
+
+  /* Mobile Add Button */
+  .plans-add-button-cute {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  /* Mobile Form Grid */
+  .plans-form-grid-cute,
+  .plans-form-grid-cute.compact {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .plans-form-grid-cute .full-width {
+    grid-column: span 1;
+  }
+
+  .plans-form-actions-cute {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .plans-form-actions-cute .plans-button-cute {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  /* Mobile Plans Grid */
+  .plans-grid-cute.mobile {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Mobile Plan Cards */
+  .plan-card-cute {
+    margin: 0;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  .plan-card-header-cute {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .plan-card-header-cute .plan-date-badge-cute {
+    align-self: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .plan-title-cute {
+    font-size: 1.1rem;
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  .plan-checkbox-cute {
+    align-self: center;
+    margin-top: 0.5rem;
+  }
+
+  /* Mobile Action Buttons */
+  .plan-card-actions-cute.mobile {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .plan-action-button-cute {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: bold;
+  }
+
+  /* Mobile Edit Form */
+  .plan-edit-actions-cute {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .plan-edit-actions-cute .plans-button-cute {
+    width: 100%;
+  }
+
+  /* Mobile Memory Section */
+  .plan-memory-preview-cute {
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+
+  .plan-memory-photos-cute {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .plan-memory-photo-thumb-cute {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .plan-memory-photo-more-cute {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  /* Mobile Memory Modal */
+  .memory-modal-cute {
+    width: 95%;
+    max-width: 500px;
+    margin: 1rem;
+    padding: 1rem;
+    max-height: 90vh;
+  }
+
+  .memory-note-add-form-cute.mobile {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .memory-note-add-form-cute.mobile .memory-textarea-cute {
+    width: 100%;
+    min-height: 80px;
+  }
+
+  .memory-note-add-form-cute.mobile .plans-button-cute {
+    width: 100%;
+  }
+
+  .memory-modal-actions-cute.mobile {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .memory-modal-actions-cute.mobile .plans-button-cute {
+    width: 100%;
+  }
+
+  /* Mobile Photo Previews */
+  .memory-photo-previews-cute {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Mobile Notes List */
+  .memory-notes-list-cute {
+    max-height: 120px;
+  }
+
+  .memory-note-item-cute {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .memory-note-actions-cute {
+    align-self: flex-end;
+    margin-top: 0.5rem;
+  }
+
+  /* Mobile Input Sizing */
+  .plans-input-cute {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+
+  .memory-textarea-cute {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  /* Mobile Button Adjustments */
+  .plans-button-cute {
+    min-height: 44px;
+    font-size: 0.9rem;
+    padding: 0.625rem 1.25rem;
+  }
+
+  .plans-button-cute.small {
+    min-height: 36px;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .plans-button-cute.add-note,
+  .plans-button-cute.cancel-note {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .plans-section-cute {
+    padding: 0.5rem;
+  }
+
+  .plans-header-cute {
+    padding: 0.75rem;
+  }
+
+  .plans-title-cute {
+    font-size: 1.3rem;
+  }
+
+  .plans-filter-tab-cute {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  .plan-card-cute {
+    padding: 0.75rem;
+  }
+
+  .plan-title-cute {
+    font-size: 1rem;
+  }
+
+  .plan-action-button-cute {
+    padding: 0.625rem;
+    font-size: 0.85rem;
+    min-height: 40px;
+  }
+
+  .plan-memory-photos-cute {
+    gap: 0.375rem;
+  }
+
+  .plan-memory-photo-thumb-cute,
+  .plan-memory-photo-more-cute {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .memory-modal-cute {
+    width: 98%;
+    margin: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .plans-button-cute {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    min-height: 40px;
+  }
+
+  .plans-button-cute.small {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+    min-height: 32px;
+  }
+}
+
+/* Landscape phone orientation */
+@media (max-width: 896px) and (orientation: landscape) {
+  .memory-modal-cute {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .memory-notes-list-cute {
+    max-height: 100px;
+  }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+  .plan-action-button-cute,
+  .plans-button-cute,
+  .plan-checkbox-cute {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .plan-action-button-cute:active,
+  .plans-button-cute:active {
+    transform: scale(0.98);
+  }
+
+  .plan-checkbox-cute:active {
+    transform: scale(0.95);
   }
 }
