@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
+import "./PlansSection.brutal-pixel.css";
 
 // Define TypeScript interfaces for our data structures
 interface Memory {
@@ -353,7 +354,10 @@ export default function PlansSection() {
     <div className="plans-section-cute">
       {/* Header with add button and filters */}
       <div className="plans-header-cute">
-        <h2 className="plans-title-cute">Our Adventures & Memories 💖</h2>
+        <h2 className="plans-title-cute">
+          <span className="pixel-sparkle" aria-hidden="true"></span>
+          Our Adventures & Memories <span role="img" aria-label="heart">💖</span>
+        </h2>
         <div className="plans-controls-cute">
           <div className="plans-filter-tabs-cute">
             {(["all", "upcoming", "completed", "withMemories"] as const).map(filterKey => (
@@ -362,6 +366,10 @@ export default function PlansSection() {
                 onClick={() => setViewFilter(filterKey)}
                 className={`plans-filter-tab-cute ${viewFilter === filterKey ? "active" : ""}`}
               >
+                {filterKey === "all" && <span role="img" aria-label="all">🌈</span>}
+                {filterKey === "upcoming" && <span role="img" aria-label="upcoming">🗓️</span>}
+                {filterKey === "completed" && <span role="img" aria-label="completed">✅</span>}
+                {filterKey === "withMemories" && <span role="img" aria-label="memories">🧸</span>}
                 {filterKey.charAt(0).toUpperCase() + filterKey.slice(1).replace('With', 'With ')}
               </button>
             ))}
@@ -370,19 +378,23 @@ export default function PlansSection() {
             onClick={() => setShowAddForm(!showAddForm)}
             className="plans-add-button-cute"
           >
-            {showAddForm ? "Close Form 📖" : "New Plan! ✨"}
+            {showAddForm ? <><span role="img" aria-label="close">❌</span> Close Form</> : <><span role="img" aria-label="sparkle">✨</span> New Plan!</>}
           </button>
         </div>
       </div>
 
       {/* Add Plan Form (Collapsible) */}
       {showAddForm && (
-        <form onSubmit={handleAddPlan} className="plans-add-form-cute">
-          <h3 className="plans-form-title-cute">Plan a New Memory! 🎨</h3>
+        <form onSubmit={handleAddPlan} className="plans-add-form-cute pixel-sticky-note">
+          <span className="pixel-heart-float" aria-hidden="true"></span>
+          <h3 className="plans-form-title-cute">
+            <span className="pixel-sparkle" aria-hidden="true"></span>
+            Plan a New Memory! <span role="img" aria-label="palette">🎨</span>
+          </h3>
           <div className="plans-form-grid-cute">
             <input
               type="text" value={title} onChange={(e) => setTitle(e.target.value)}
-              placeholder="What's the adventure?" className="plans-input-cute" required
+              placeholder="What's the adventure? 🌟" className="plans-input-cute" required
             />
             <input
               type="date" value={date} onChange={(e) => setDate(e.target.value)}
@@ -397,19 +409,19 @@ export default function PlansSection() {
             </select>
             <input
               type="url" value={website} onChange={(e) => setWebsite(e.target.value)}
-              placeholder="Website Link (Optional)" className="plans-input-cute"
+              placeholder="Website Link (Optional) 🌐" className="plans-input-cute"
             />
             <input
               type="url" value={mapsLink} onChange={(e) => setMapsLink(e.target.value)}
-              placeholder="Google Maps Link (Optional)" className="plans-input-cute full-width"
+              placeholder="Google Maps Link (Optional) 🗺️" className="plans-input-cute full-width"
             />
           </div>
           <div className="plans-form-actions-cute">
             <button type="button" onClick={() => setShowAddForm(false)} className="plans-button-cute cancel">
-              Nevermind
+              <span role="img" aria-label="cancel">🚫</span> Nevermind
             </button>
             <button type="submit" className="plans-button-cute save">
-              Let's Do It! 💕
+              <span role="img" aria-label="heart">💕</span> Let's Do It!
             </button>
           </div>
         </form>

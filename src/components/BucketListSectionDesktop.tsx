@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
+import "./BucketListSection.brutal-pixel.css";
 
 interface BucketListItem {
   _id: Id<"bucketList">;
@@ -170,67 +171,94 @@ export default function BucketListSectionDesktop() {
 
   return (
     <div className="bucket-layout-desktop-adventurer">
-      {/* --- Side Panel: Adventurer's Almanac --- */}
-      <aside className="almanac-sidebar-cute">
-        <div className="almanac-header-cute">
-          <h1 className="almanac-title-cute">Our Adventure Almanac 📜</h1>
-          <div className="almanac-progress-cute">
-            <div className="almanac-progress-bar-bg-cute">
-              <div className="almanac-progress-bar-fill-cute" style={{ width: `${completionPercentage}%` }}>
-                {completionPercentage > 10 && `${completionPercentage}%`}
-              </div>
+      {/* --- FULL WIDTH HEADER --- */}
+      <header className="bucket-header-section">
+        <div className="bucket-header-content">
+          <h1 className="bucket-header-title">🗡️ QUEST ARCHIVE</h1>
+          <div className="bucket-header-stats">
+            <div className="bucket-stat-pill">
+              ⚔️ {completedItemsCount}/{totalItems} CONQUERED
             </div>
-            <p>{completedItemsCount} of {totalItems} Adventures Conquered!</p>
+            <div className="bucket-stat-pill">
+              🔥 {completionPercentage}% COMPLETE
+            </div>
           </div>
         </div>
+      </header>
 
-        <div className="almanac-section-cute">
-          <h3 className="almanac-section-title-cute">Filter by Chapter</h3>
-          <div className="almanac-category-filters-cute">
-            <button onClick={() => setCategoryFilter("all")} className={categoryFilter === "all" ? "active" : ""}>All Chapters 🌍</button>
+      {/* --- HORIZONTAL CONTROLS BAR --- */}
+      <section className="bucket-controls-horizontal">
+        <div className="controls-section-horizontal">
+          <button 
+            className="controls-add-button"
+            onClick={() => setShowAddItemParchment(true)}
+          >
+            ✨ CREATE NEW QUEST ✨
+          </button>
+        </div>
+        
+        <div className="controls-filters-horizontal">
+          <div className="controls-filter-group">
+            <span className="controls-filter-label">STATUS:</span>
+            {(["all", "pending", "completed"] as const).map(s => (
+              <button 
+                key={s} 
+                onClick={() => setFilterStatus(s)} 
+                className={`controls-filter-btn ${filterStatus === s ? "active" : ""}`}
+              >
+                {s === "all" ? "ALL" : s === "pending" ? "ACTIVE" : "DONE"}
+              </button>
+            ))}
+          </div>
+          
+          <div className="controls-filter-group">
+            <span className="controls-filter-label">CATEGORY:</span>
+            <button 
+              onClick={() => setCategoryFilter("all")} 
+              className={`controls-filter-btn ${categoryFilter === "all" ? "active" : ""}`}
+            >
+              🌍 ALL
+            </button>
             {uniqueCategories.map(cat => {
               const style = getCategoryStyle(cat);
-              return <button key={cat} onClick={() => setCategoryFilter(cat)} className={`${style.className} ${categoryFilter === cat ? "active" : ""}`}>{style.emoji} {cat}</button>;
+              return (
+                <button 
+                  key={cat} 
+                  onClick={() => setCategoryFilter(cat)} 
+                  className={`controls-filter-btn ${categoryFilter === cat ? "active" : ""}`}
+                >
+                  {style.emoji} {cat.toUpperCase()}
+                </button>
+              );
             })}
           </div>
         </div>
-
-        <div className="almanac-section-cute">
-          <h3 className="almanac-section-title-cute">Quest Status</h3>
-          <div className="almanac-status-filters-cute">
-            {(["all", "pending", "completed"] as const).map(s => (
-              <button key={s} onClick={() => setFilterStatus(s)} className={filterStatus === s ? "active" : ""}>{s.charAt(0).toUpperCase() + s.slice(1)}</button>
-            ))}
-          </div>
-        </div>
         
-        <div className="almanac-section-cute">
-          <h3 className="almanac-section-title-cute">Sort Journal By</h3>
-          <div className="almanac-sort-options-cute">
-             {(["date", "title", "category"] as const).map(s => (
-                <button key={s} onClick={() => {
-                    if (sortBy === s) setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-                    else { setSortBy(s); setSortOrder('asc');}
-                }} className={sortBy === s ? 'active' : ''}>
-                    {s.charAt(0).toUpperCase() + s.slice(1)} {sortBy === s ? (sortOrder === 'asc' ? '🔼' : '🔽') : ''}
-                </button>
-            ))}
-          </div>
+        <div className="controls-sort-horizontal">
+          <span className="controls-filter-label">SORT:</span>
+          {(["date", "title", "category"] as const).map(s => (
+            <button 
+              key={s} 
+              onClick={() => {
+                if (sortBy === s) setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                else { setSortBy(s); setSortOrder('asc');}
+              }} 
+              className={`controls-sort-btn ${sortBy === s ? 'active' : ''}`}
+            >
+              {s === "date" ? "DATE" : s === "title" ? "NAME" : "TYPE"} {sortBy === s ? (sortOrder === 'asc' ? '🔼' : '🔽') : ''}
+            </button>
+          ))}
         </div>
+      </section>
 
-        <button onClick={() => { setShowAddItemParchment(true); setTimeout(() => firstInputRef.current?.focus(),0);}} className="almanac-add-quest-button-cute">
-          New Quest! ➕
-        </button>
-      </aside>
-
-      {/* --- Main Content: Quest Board / Map --- */}
-      <main className="quest-board-main-cute">
+      {/* --- HORIZONTAL CONTENT GRID --- */}
+      <main className="bucket-main-content">
         {filteredAndSortedList.length === 0 && !showAddItemParchment && (
           <div className="quest-board-empty-state-cute">
             <span className="icon">🗺️</span>
-            <h2>The Map is Blank!</h2>
-            <p>Let's add some grand adventures to our journal!</p>
-            <button onClick={() => setShowAddItemParchment(true)} className="almanac-add-quest-button-cute">Chart a New Course!</button>
+            <h2>THE ARCHIVE IS EMPTY!</h2>
+            <p>⚔️ Start your legend by creating your first quest! ⚔️</p>
+            <button onClick={() => setShowAddItemParchment(true)} className="almanac-add-quest-button-cute">⚡ CREATE FIRST QUEST! ⚡</button>
           </div>
         )}
 
@@ -247,7 +275,7 @@ export default function BucketListSectionDesktop() {
               >
                 <div className="quest-badge-icon-area-cute">
                   <span className="icon">{style.emoji}</span>
-                  {item.isCompleted && <span className="completed-banner-cute">DONE!</span>}
+                  {item.isCompleted && <span className="completed-banner-cute">⚔️ DONE! ⚔️</span>}
                 </div>
                 <h4 className="quest-badge-title-cute">{item.title}</h4>
                 {item.targetDate && <p className="quest-badge-date-cute">{formatDateForDisplay(item.targetDate)}</p>}
@@ -258,29 +286,61 @@ export default function BucketListSectionDesktop() {
         </div>
       </main>
 
+      {/* --- FOOTER SECTION --- */}
+      <footer className="bucket-footer-area">
+        <div className="footer-stats-horizontal">
+          <div className="footer-stat-item">
+            📊 TOTAL ARCHIVE: {totalItems} QUESTS
+          </div>
+          <div className="footer-stat-item">
+            ⚔️ CONQUERED: {completedItemsCount}
+          </div>
+          <div className="footer-stat-item">
+            🔥 REMAINING: {totalItems - completedItemsCount}
+          </div>
+          <div className="footer-stat-item">
+            📈 COMPLETION: {completionPercentage}%
+          </div>
+        </div>
+        <div className="footer-actions">
+          <button 
+            className="footer-action-btn"
+            onClick={() => { setCategoryFilter("all"); setFilterStatus("all"); }}
+          >
+            🌍 SHOW ALL QUESTS
+          </button>
+          <button 
+            className="footer-action-btn"
+            onClick={() => setFilterStatus("pending")}
+          >
+            🔥 VIEW ACTIVE ONLY
+          </button>
+        </div>
+      </footer>
+
       {/* --- Add Item Parchment (Modal-like overlay) --- */}
       {showAddItemParchment && (
         <div className="new-quest-parchment-overlay-cute" onClick={() => setShowAddItemParchment(false)}>
           <form className="new-quest-parchment-form-cute" onSubmit={handleAddNewItem} onClick={e => e.stopPropagation()}>
-            <h3>Add a New Adventure! ✨</h3>
-            <input ref={firstInputRef} type="text" value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="Name of our grand quest..." />
+            <h3>⚡ ADD A NEW QUEST! ⚡</h3>
+            <input ref={firstInputRef} type="text" value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="🗡️ Name of our epic quest..." />
             <select value={newCategory} onChange={e => setNewCategory(e.target.value)}>
-              <option value="adventure">🏞️ Adventure</option>
-              <option value="travel">✈️ Travel</option>
-              <option value="food">🍕 Food Quest</option>
-              <option value="milestone">🏆 Milestone</option>
-              <option value="other">💖 Other Fun</option>
+              <option value="adventure">🏞️ ADVENTURE</option>
+              <option value="travel">✈️ TRAVEL</option>
+              <option value="food">🍕 FOOD QUEST</option>
+              <option value="milestone">🏆 MILESTONE</option>
+              <option value="other">💖 OTHER FUN</option>
             </select>
             <input type="date" value={newTargetDate} onChange={e => setNewTargetDate(e.target.value)} />
-            <textarea value={newNotes} onChange={e => setNewNotes(e.target.value)} placeholder="Whisper your secret plans here..."/>
-            <p className="form-section-title-cute">Helpful Scrolls (Links):</p>
+            <textarea value={newNotes} onChange={e => setNewNotes(e.target.value)} placeholder="💀 Whisper your secret battle plans here..."/>
+            <p className="form-section-title-cute">🔗 HELPFUL SCROLLS (LINKS):</p>
             <input type="url" value={newFlightLink} onChange={e => setNewFlightLink(e.target.value)} placeholder="✈️ Flights..." />
             <input type="url" value={newAirbnbLink} onChange={e => setNewAirbnbLink(e.target.value)} placeholder="🏠 Stays..." />
             <input type="url" value={newMapsLink} onChange={e => setNewMapsLink(e.target.value)} placeholder="📍 Maps..." />
             <input type="url" value={newTripAdvisorLink} onChange={e => setNewTripAdvisorLink(e.target.value)} placeholder="⭐ Reviews..." />
             <div className="form-actions-cute">
-              <button type="button" onClick={resetNewItemForm} className="cancel">Discard Scroll</button>
-              <button type="submit" className="add">Add to Almanac!</button>
+              <button type="button" onClick={resetNewItemForm} className="cancel">💥 DISCARD SCROLL</button>
+              <button type="submit" className="add">⚔️ ADD TO ALMANAC!</button>
             </div>
           </form>
         </div>
@@ -296,7 +356,7 @@ export default function BucketListSectionDesktop() {
                 <div className={`scroll-header-cute ${getCategoryStyle(viewingItem.category).className}`}>
                   <span className="icon">{getCategoryStyle(viewingItem.category).emoji}</span>
                   <h2>{viewingItem.title}</h2>
-                  {viewingItem.isCompleted && <span className="completed-tag-cute">ACHIEVED! 🏆</span>}
+                  {viewingItem.isCompleted && <span className="completed-tag-cute">⚔️ ACHIEVED! 🏆</span>}
                 </div>
                 <div className="scroll-section-cute">
                   <strong>Target Date:</strong> {formatDateForDisplay(viewingItem.targetDate)}
@@ -313,34 +373,34 @@ export default function BucketListSectionDesktop() {
                 )}
                 <div className="scroll-actions-cute">
                   <button onClick={() => handleToggleCompleteFromDetail(viewingItem)} className="toggle-complete">
-                    {viewingItem.isCompleted ? "Mark as Pending 🤔" : "Mark as Done! 🎉"}
+                    {viewingItem.isCompleted ? "💀 MARK AS PENDING 💀" : "⚔️ MARK AS DONE! ⚔️"}
                   </button>
-                  <button onClick={() => setIsEditMode(true)} className="edit">Edit Quest ✏️</button>
-                  <button onClick={() => setDeleteConfirmItem(viewingItem)} className="delete">Abandon Quest 🗑️</button>
+                  <button onClick={() => setIsEditMode(true)} className="edit">✏️ EDIT QUEST ✏️</button>
+                  <button onClick={() => setDeleteConfirmItem(viewingItem)} className="delete">💥 ABANDON QUEST �</button>
                 </div>
               </>
             ) : (
               /* Edit Mode within Scroll */
               <form className="edit-quest-form-in-scroll-cute" onSubmit={(e) => {e.preventDefault(); handleSaveEdit();}}>
-                <h3>Edit Adventure Details ✏️</h3>
-                <input type="text" value={editTitle} onChange={e => setEditTitle(e.target.value)} placeholder="Adventure Name" />
+                <h3>⚡ EDIT QUEST DETAILS ⚡</h3>
+                <input type="text" value={editTitle} onChange={e => setEditTitle(e.target.value)} placeholder="🗡️ Quest Name" />
                 <select value={editCategory} onChange={e => setEditCategory(e.target.value)}>
-                  <option value="adventure">🏞️ Adventure</option>
-                  <option value="travel">✈️ Travel</option>
-                  <option value="food">🍕 Food Quest</option>
-                  <option value="milestone">🏆 Milestone</option>
-                  <option value="other">💖 Other Fun</option>
+                  <option value="adventure">🏞️ ADVENTURE</option>
+                  <option value="travel">✈️ TRAVEL</option>
+                  <option value="food">🍕 FOOD QUEST</option>
+                  <option value="milestone">🏆 MILESTONE</option>
+                  <option value="other">💖 OTHER FUN</option>
                 </select>
                 <input type="date" value={editTargetDate} onChange={e => setEditTargetDate(e.target.value)} />
-                <textarea value={editNotes} onChange={e => setEditNotes(e.target.value)} placeholder="Update your secret plans..."/>
-                <p className="form-section-title-cute">Update Links:</p>
+                <textarea value={editNotes} onChange={e => setEditNotes(e.target.value)} placeholder="💀 Update your battle plans..."/>
+                <p className="form-section-title-cute">🔗 UPDATE LINKS:</p>
                 <input type="url" value={editFlightLink} onChange={e => setEditFlightLink(e.target.value)} placeholder="✈️ Flights..." />
                 <input type="url" value={editAirbnbLink} onChange={e => setEditAirbnbLink(e.target.value)} placeholder="🏠 Stays..." />
                 <input type="url" value={editMapsLink} onChange={e => setEditMapsLink(e.target.value)} placeholder="📍 Maps..." />
                 <input type="url" value={editTripAdvisorLink} onChange={e => setEditTripAdvisorLink(e.target.value)} placeholder="⭐ Reviews..." />
                 <div className="form-actions-cute">
-                  <button type="button" onClick={() => setIsEditMode(false)} className="cancel">Cancel Edit</button>
-                  <button type="submit" className="save">Save Changes!</button>
+                  <button type="button" onClick={() => setIsEditMode(false)} className="cancel">💥 CANCEL EDIT</button>
+                  <button type="submit" className="save">⚔️ SAVE CHANGES!</button>
                 </div>
               </form>
             )}
@@ -352,12 +412,12 @@ export default function BucketListSectionDesktop() {
       {deleteConfirmItem && (
          <div className="bucket-modal-overlay-cute" onClick={() => setDeleteConfirmItem(null)}>
             <div className="bucket-modal-content-cute confirm-delete" onClick={e => e.stopPropagation()}>
-                <div className="bucket-delete-icon-cute">🗑️</div>
-                <h3 className="bucket-modal-title-cute">Abandon "{deleteConfirmItem.title}"?</h3>
-                <p>This adventure will be removed from our almanac!</p>
+                <div className="bucket-delete-icon-cute">�</div>
+                <h3 className="bucket-modal-title-cute">💥 ABANDON "{deleteConfirmItem.title}"? 💥</h3>
+                <p>⚔️ This quest will be erased from our almanac! ⚔️</p>
                 <div className="bucket-modal-actions-cute">
-                <button onClick={() => setDeleteConfirmItem(null)} className="bucket-button-cute cancel">No, Keep It!</button>
-                <button onClick={handleDeleteItem} className="bucket-button-cute delete">Yes, Abandon!</button>
+                <button onClick={() => setDeleteConfirmItem(null)} className="bucket-button-cute cancel">🛡️ NO, KEEP IT!</button>
+                <button onClick={handleDeleteItem} className="bucket-button-cute delete">💀 YES, ABANDON!</button>
                 </div>
             </div>
         </div>

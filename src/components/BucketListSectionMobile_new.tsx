@@ -220,162 +220,132 @@ export default function BucketListSectionMobile() {
 
   return (
     <div className="bucket-mobile-layout-brutal">
-      {/* HORIZONTAL HEADER */}
+      {/* MOBILE HEADER - REVAMPED */}
       <header className="mobile-header-brutal">
         <div className="mobile-header-content">
-          <h1 className="mobile-header-title">Dream Quests</h1>
-          <div className="mobile-stats-compact">
-            <div className="mobile-stat-chip">{completedItemsCount}/{totalItems}</div>
-            <div className="mobile-stat-chip">{completionPercentage}%</div>
+          <h1 className="mobile-header-title">🗡️ QUEST ARCHIVE</h1>
+          <div className="mobile-progress-bar">
+            <div
+              className="mobile-progress-fill"
+              style={{ width: `${completionPercentage}%` }}
+            />
+          </div>
+          <div className="mobile-stats-row">
+            <div className="mobile-stat-chip">
+              ⚔️ {completedItemsCount}/{totalItems}
+            </div>
+            <div className="mobile-stat-chip">
+              🔥 {completionPercentage}%
+            </div>
           </div>
         </div>
       </header>
 
-      {/* HORIZONTAL CONTROLS */}
-      <div className="mobile-controls-horizontal">
-        <div className="mobile-controls-scroll">
-          <button 
-            className="mobile-add-quest-btn"
-            onClick={() => setActiveSheet("add")}
-          >
-            + ADD QUEST
-          </button>
-          
-          <div className="mobile-controls-divider" />
-          
+      {/* MOBILE FILTER BAR - HORIZONTAL SCROLL */}
+      <section className="mobile-filters-brutal">
+        <div className="mobile-filters-scroll">
           <button
-            className={`mobile-filter-chip ${filterStatus === 'all' ? 'active' : ''}`}
-            onClick={() => setFilterStatus('all')}
+            onClick={() => setFilterStatus("all")}
+            className={`mobile-filter-chip ${filterStatus === "all" ? "active" : ""}`}
           >
-            ALL
+            🌍 ALL
           </button>
-          
           <button
-            className={`mobile-filter-chip ${filterStatus === 'pending' ? 'active' : ''}`}
-            onClick={() => setFilterStatus('pending')}
+            onClick={() => setFilterStatus("pending")}
+            className={`mobile-filter-chip ${filterStatus === "pending" ? "active" : ""}`}
           >
-            PENDING
+            🔥 ACTIVE
           </button>
-          
           <button
-            className={`mobile-filter-chip ${filterStatus === 'completed' ? 'active' : ''}`}
-            onClick={() => setFilterStatus('completed')}
+            onClick={() => setFilterStatus("completed")}
+            className={`mobile-filter-chip ${filterStatus === "completed" ? "active" : ""}`}
           >
-            DONE
+            ✅ DONE
           </button>
-
-          <div className="mobile-controls-divider" />
-
+          <div style={{ width: "2px", background: "var(--brutal-black)", margin: "0 8px" }} />
+          <button
+            onClick={() => setCategoryFilter("all")}
+            className={`mobile-filter-chip ${categoryFilter === "all" ? "active" : ""}`}
+          >
+            🎯 ALL TYPES
+          </button>
           {uniqueCategories.map(cat => {
             const style = getCategoryStyle(cat);
             return (
               <button
                 key={cat}
-                className={`mobile-filter-chip ${categoryFilter === cat ? 'active' : ''}`}
                 onClick={() => setCategoryFilter(cat)}
+                className={`mobile-filter-chip ${categoryFilter === cat ? "active" : ""}`}
               >
                 {style.emoji} {cat.toUpperCase()}
               </button>
             );
           })}
         </div>
-      </div>
+      </section>
 
-      {/* HORIZONTAL CONTENT DASHBOARD */}
+      {/* MOBILE CONTENT - VERTICAL STACK */}
       <main className="mobile-content-brutal">
-        <div className="mobile-bucket-dashboard">
-          <div className="mobile-dashboard-section">
-            <div className="mobile-section-header">
-              <h2 className="mobile-section-title">Active Quests</h2>
-              <span className="mobile-section-count">{filteredAndSortedList.length}</span>
-            </div>
-            
-            <div className="mobile-quests-container">
-              {filteredAndSortedList.length === 0 ? (
-                <div className="mobile-empty-state">
-                  <p>No quests found. Start your journey!</p>
-                  <button 
-                    className="mobile-add-quest-btn"
-                    onClick={() => setActiveSheet("add")}
-                  >
-                    CREATE FIRST QUEST
-                  </button>
-                </div>
-              ) : (
-                filteredAndSortedList.map((item) => {
-                  const categoryStyle = getCategoryStyle(item.category);
-                  return (
-                    <div
-                      key={item._id}
-                      className={`mobile-quest-card ${item.isCompleted ? 'completed' : ''}`}
-                    >
-                      <div className="mobile-quest-header">
-                        <h3 className="mobile-quest-title">{item.title}</h3>
-                        <span className={`mobile-quest-priority ${categoryStyle.className}`}>
-                          {categoryStyle.emoji}
-                        </span>
-                      </div>
-                      
-                      {item.notes && (
-                        <p className="mobile-quest-description">{item.notes}</p>
-                      )}
-                      
-                      {item.targetDate && (
-                        <div className="mobile-quest-date">
-                          📅 {formatDateForDisplay(item.targetDate)}
-                        </div>
-                      )}
-                      
-                      <div className="mobile-quest-footer">
-                        <span className="mobile-quest-category">{item.category}</span>
-                        
-                        <div className="mobile-quest-actions">
-                          <button
-                            className={`mobile-action-btn complete ${item.isCompleted ? 'completed' : ''}`}
-                            onClick={() => handleToggleComplete(item)}
-                            title={item.isCompleted ? 'Mark as pending' : 'Mark as complete'}
-                          >
-                            {item.isCompleted ? '↶' : '✓'}
-                          </button>
-                          
-                          <button
-                            className="mobile-action-btn delete"
-                            onClick={() => handleDeleteItem(item)}
-                            title="Delete quest"
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
+        {filteredAndSortedList.length === 0 ? (
+          <div className="mobile-empty-state-brutal">
+            <span className="icon">🗺️</span>
+            <h2>ARCHIVE IS EMPTY!</h2>
+            <p>⚔️ Time to start your legend! ⚔️</p>
+            <button 
+              onClick={() => setActiveSheet("add")}
+              className="mobile-empty-cta-brutal"
+            >
+              ✨ CREATE FIRST QUEST ✨
+            </button>
           </div>
-        </div>
+        ) : (
+          <div className="mobile-quest-grid-brutal">
+            {filteredAndSortedList.map((item) => {
+              const style = getCategoryStyle(item.category);
+              return (
+                <div
+                  key={item._id}
+                  className={`mobile-quest-card-brutal ${style.className} ${item.isCompleted ? "completed" : ""}`}
+                  onClick={() => openItemActions(item)}
+                >
+                  {item.isCompleted && (
+                    <div className="mobile-quest-completed-badge-brutal">⚔️ DONE!</div>
+                  )}
+                  <div className="mobile-quest-header-brutal">
+                    <div className="mobile-quest-icon-brutal">
+                      <span>{style.emoji}</span>
+                    </div>
+                    <h3 className="mobile-quest-title-brutal">{item.title}</h3>
+                  </div>
+                  {item.targetDate && (
+                    <div className="mobile-quest-date-brutal">
+                      📅 {formatDateForDisplay(item.targetDate)}
+                    </div>
+                  )}
+                  {item.notes && (
+                    <div className="mobile-quest-notes-brutal">
+                      📝 {item.notes.substring(0, 50)}{item.notes.length > 50 ? "..." : ""}
+                    </div>
+                  )}
+                  <div className="mobile-quest-category-brutal">
+                    {item.category.toUpperCase()}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </main>
 
-      {/* HORIZONTAL FOOTER DASHBOARD */}
-      <footer className="mobile-footer-brutal">
-        <div className="mobile-footer-dashboard">
-          <div className="mobile-footer-stats">
-            <div className="mobile-footer-stat">Total: {totalItems}</div>
-            <div className="mobile-footer-stat">Done: {completedItemsCount}</div>
-          </div>
-          
-          <div className="mobile-footer-divider" />
-          
-          <div className="mobile-footer-actions">
-            <button className="mobile-footer-btn" onClick={() => setFilterStatus('all')}>
-              VIEW ALL
-            </button>
-            <button className="mobile-footer-btn" onClick={() => setActiveSheet("add")}>
-              ADD NEW
-            </button>
-          </div>
-        </div>
-      </footer>
+      {/* FLOATING ACTION BUTTON */}
+      <div className="mobile-fab-area">
+        <button
+          onClick={() => setActiveSheet("add")}
+          className="mobile-fab-brutal"
+        >
+          ⚡ NEW QUEST
+        </button>
+      </div>
 
       {/* BOTTOM SHEETS */}
       {activeSheet !== "none" && (

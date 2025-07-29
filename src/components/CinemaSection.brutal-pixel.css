@@ -1,0 +1,732 @@
+/* ===================================
+   CINEMA SECTION - BRUTALIST PIXEL FUSION
+   Maintaining Pastel Pixel Core Theme Colors
+   =================================== */
+
+.cinema-brutal-container {
+  /* CORE LAYOUT - MAXIMUM BREATHING ROOM */
+  padding: var(--space-brutal-3xl);
+  background: linear-gradient(135deg, 
+    var(--background-primary) 0%, 
+    var(--background-secondary) 50%, 
+    var(--background-tertiary) 100%);
+  border: var(--border-width-heavy) solid var(--brutal-outline-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--brutal-shadow-mega) var(--brutal-shadow-color);
+  font-family: var(--font-pixel-modern);
+  position: relative;
+  overflow: hidden;
+  min-height: 80vh;
+}
+
+/* PIXEL NOISE OVERLAY */
+.cinema-brutal-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 1px 1px, var(--brutal-shadow-color) 1px, transparent 0);
+  background-size: var(--pixel-grid-size) var(--pixel-grid-size);
+  opacity: var(--pixel-noise-opacity);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* HEADER SECTION - MAXIMUM IMPACT */
+.cinema-brutal-header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-bottom: var(--space-brutal-3xl);
+  padding: var(--space-brutal-2xl);
+  background: var(--background-secondary);
+  border: var(--border-width) solid var(--text-primary);
+  box-shadow: var(--brutal-shadow-heavy) var(--text-accent);
+  transform: perspective(1000px) rotateX(-2deg);
+}
+
+.cinema-brutal-title {
+  font-family: var(--font-pixel);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: var(--text-accent);
+  text-shadow: 
+    4px 4px 0 var(--text-primary),
+    8px 8px 0 var(--brutal-shadow-color);
+  margin-bottom: var(--space-brutal-lg);
+  position: relative;
+  display: inline-block;
+  animation: var(--animation-brutal-bounce);
+}
+
+.cinema-brutal-title::after {
+  content: '🍿';
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  transform: translateY(-50%) rotate(15deg);
+  font-size: 0.6em;
+  animation: var(--animation-pixel-pulse);
+}
+
+/* BRUTALIST DIVIDER */
+.cinema-brutal-divider {
+  width: 100%;
+  height: var(--border-width);
+  background: var(--text-accent);
+  margin: var(--space-brutal-lg) 0;
+  box-shadow: 0 var(--border-width) 0 var(--text-primary);
+  position: relative;
+}
+
+.cinema-brutal-divider::before,
+.cinema-brutal-divider::after {
+  content: '◆';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: var(--text-accent);
+  background: var(--background-secondary);
+  padding: 0 var(--space-brutal-sm);
+}
+
+.cinema-brutal-divider::before {
+  left: var(--space-brutal-lg);
+}
+
+.cinema-brutal-divider::after {
+  right: var(--space-brutal-lg);
+}
+
+/* CONTROLS SECTION - SPACED OUT BRUTALISM */
+.cinema-brutal-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-brutal-xl);
+  margin-bottom: var(--space-brutal-3xl);
+  padding: var(--space-brutal-xl);
+  background: var(--background-tertiary);
+  border: var(--border-width-thin) solid var(--border-primary);
+  box-shadow: var(--brutal-shadow-light) var(--text-secondary);
+}
+
+.cinema-brutal-button {
+  padding: var(--space-brutal-md) var(--space-brutal-lg);
+  font-family: var(--font-pixel-modern);
+  font-size: 1rem;
+  font-weight: 600;
+  background: var(--button-primary);
+  color: var(--text-primary);
+  border: var(--border-width-thin) solid var(--text-primary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--button-shadow) var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+  position: relative;
+  overflow: hidden;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-brutal-sm);
+}
+
+.cinema-brutal-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.cinema-brutal-button:hover {
+  transform: var(--button-hover-scale);
+  box-shadow: var(--brutal-shadow-heavy) var(--text-accent);
+  background: var(--accent-light);
+}
+
+.cinema-brutal-button:hover::before {
+  left: 100%;
+}
+
+.cinema-brutal-button:active {
+  transform: var(--brutal-slam);
+  box-shadow: var(--brutal-shadow-light) var(--text-primary);
+}
+
+/* BUTTON VARIANTS */
+.cinema-brutal-button--primary {
+  background: var(--text-accent);
+  color: var(--brutal-white);
+  border-color: var(--text-primary);
+}
+
+.cinema-brutal-button--success {
+  background: var(--button-success);
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.cinema-brutal-button--search {
+  background: var(--accent-dark);
+  color: var(--brutal-white);
+  border-color: var(--brutal-white);
+}
+
+.cinema-brutal-button--search.active {
+  background: var(--brutal-neon-lime);
+  color: var(--brutal-black);
+  box-shadow: 0 0 20px var(--brutal-neon-lime);
+}
+
+/* SELECT AND INPUT STYLING */
+.cinema-brutal-select,
+.cinema-brutal-input {
+  padding: var(--space-brutal-md);
+  font-family: var(--font-pixel-modern);
+  font-size: 1rem;
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  border: var(--border-width-thin) solid var(--text-primary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--input-shadow) var(--text-secondary);
+  min-height: 60px;
+  transition: all 0.2s ease;
+}
+
+.cinema-brutal-select:focus,
+.cinema-brutal-input:focus {
+  outline: none;
+  border-color: var(--text-accent);
+  box-shadow: var(--brutal-shadow-heavy) var(--text-accent);
+  transform: translate(-2px, -2px);
+}
+
+.cinema-brutal-input::placeholder {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* SEARCH BAR */
+.cinema-brutal-search {
+  width: 100%;
+  margin-top: var(--space-brutal-lg);
+  position: relative;
+}
+
+.cinema-brutal-search-input {
+  width: 100%;
+  padding: var(--space-brutal-lg);
+  font-size: 1.25rem;
+  text-align: center;
+  background: var(--background-primary);
+  border: var(--border-width) solid var(--text-accent);
+  box-shadow: var(--brutal-shadow-heavy) var(--text-accent);
+}
+
+/* ADD FORM - MAXIMUM SPACING */
+.cinema-brutal-add-form {
+  background: var(--background-tertiary);
+  padding: var(--space-brutal-3xl);
+  margin-bottom: var(--space-brutal-3xl);
+  border: var(--border-width) solid var(--text-primary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--brutal-shadow-heavy) var(--text-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.cinema-brutal-add-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    var(--border-primary) 10px,
+    var(--border-primary) 12px
+  );
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.cinema-brutal-add-title {
+  font-family: var(--font-pixel);
+  font-size: 1.75rem;
+  color: var(--text-accent);
+  text-align: center;
+  margin-bottom: var(--space-brutal-xl);
+  text-shadow: 2px 2px 0 var(--text-primary);
+}
+
+.cinema-brutal-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-brutal-xl);
+  margin-bottom: var(--space-brutal-xl);
+}
+
+.cinema-brutal-form-input {
+  padding: var(--space-brutal-lg);
+  font-size: 1.125rem;
+  background: var(--background-primary);
+  border: var(--border-width) solid var(--text-primary);
+  box-shadow: var(--brutal-shadow-light) var(--text-secondary);
+  min-height: 70px;
+}
+
+/* MOVIE GALLERY - HORIZONTAL CAROUSEL */
+.cinema-brutal-gallery {
+  background: var(--background-secondary);
+  padding: var(--space-brutal-xl);
+  border: var(--border-width) solid var(--text-primary);
+  border-radius: var(--border-radius);
+  box-shadow: 
+    inset var(--brutal-shadow-light) rgba(0, 0, 0, 0.1),
+    var(--brutal-shadow-heavy) var(--text-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.cinema-brutal-movie-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: var(--space-brutal-xl);
+  padding: var(--space-brutal-lg);
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.cinema-brutal-movie-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.cinema-brutal-movie-carousel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.cinema-brutal-movie-carousel::-webkit-scrollbar-thumb {
+  background: var(--text-primary);
+  border-radius: 4px;
+}
+
+.cinema-brutal-movie-carousel::-webkit-scrollbar-thumb:hover {
+  background: var(--text-accent);
+}
+
+/* MOVIE CARDS - BRUTALIST PIXEL PERFECTION */
+.cinema-brutal-movie-card {
+  width: 250px;
+  height: 400px;
+  flex-shrink: 0;
+  background: var(--background-primary);
+  border: var(--border-width) solid var(--text-primary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow) var(--text-primary);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.cinema-brutal-movie-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    var(--border-primary) 2deg,
+    transparent 4deg
+  );
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cinema-brutal-movie-card:hover {
+  transform: var(--card-hover-scale);
+  box-shadow: var(--brutal-shadow-mega) var(--text-accent);
+  border-color: var(--text-accent);
+}
+
+.cinema-brutal-movie-card.watched {
+  opacity: 0.7;
+  filter: grayscale(30%);
+  border-color: var(--button-success);
+}
+
+.cinema-brutal-movie-card.watched::after {
+  content: 'WATCHED';
+  position: absolute;
+  top: var(--space-brutal-lg);
+  right: -30px;
+  background: var(--button-success);
+  color: var(--text-primary);
+  padding: var(--space-brutal-xs) var(--space-brutal-lg);
+  font-family: var(--font-pixel);
+  font-size: 0.75rem;
+  transform: rotate(45deg);
+  box-shadow: var(--brutal-shadow-light) var(--text-primary);
+  z-index: 10;
+}
+
+/* MOVIE POSTER */
+.cinema-brutal-poster {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-bottom: var(--border-width-thin) solid var(--text-primary);
+  image-rendering: pixelated;
+  transition: transform 0.3s ease;
+  z-index: 2;
+  position: relative;
+}
+
+.cinema-brutal-movie-card:hover .cinema-brutal-poster {
+  transform: scale(1.02);
+}
+
+/* MOVIE INFO */
+.cinema-brutal-movie-info {
+  padding: var(--space-brutal-lg);
+  background: var(--background-primary);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.cinema-brutal-movie-title {
+  font-family: var(--font-pixel-modern);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-brutal-sm);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* MOVIE CONTROLS */
+.cinema-brutal-movie-controls {
+  display: flex;
+  gap: var(--space-brutal-sm);
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cinema-brutal-control-btn {
+  width: 48px;
+  height: 48px;
+  background: var(--button-primary);
+  border: var(--border-width-thin) solid var(--text-primary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--brutal-shadow-light) var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  transition: all 0.15s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.cinema-brutal-control-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--button-shadow) var(--text-accent);
+}
+
+.cinema-brutal-control-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--text-primary);
+}
+
+.cinema-brutal-control-btn--watch {
+  background: var(--button-success);
+}
+
+.cinema-brutal-control-btn--unwatch {
+  background: var(--accent-light);
+}
+
+.cinema-brutal-control-btn--delete {
+  background: var(--button-danger);
+}
+
+.cinema-brutal-control-btn--trailer {
+  background: var(--text-accent);
+  color: var(--brutal-white);
+  flex-grow: 1;
+  height: 48px;
+  border-radius: var(--border-radius);
+  font-family: var(--font-pixel-modern);
+  font-weight: 600;
+}
+
+/* EMPTY STATE */
+.cinema-brutal-empty {
+  text-align: center;
+  padding: var(--space-brutal-3xl);
+  color: var(--text-secondary);
+}
+
+.cinema-brutal-empty-icon {
+  font-size: 4rem;
+  margin-bottom: var(--space-brutal-lg);
+  animation: var(--animation-brutal-bounce);
+}
+
+.cinema-brutal-empty-title {
+  font-family: var(--font-pixel);
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin-bottom: var(--space-brutal-md);
+  text-shadow: 2px 2px 0 var(--text-secondary);
+}
+
+.cinema-brutal-empty-text {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-brutal-xl);
+  line-height: 1.5;
+}
+
+/* COUNT DISPLAY */
+.cinema-brutal-count {
+  text-align: center;
+  margin-top: var(--space-brutal-xl);
+  padding: var(--space-brutal-lg);
+  background: var(--background-tertiary);
+  border: var(--border-width-thin) solid var(--border-primary);
+  border-radius: var(--border-radius);
+  font-family: var(--font-pixel-modern);
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  box-shadow: var(--brutal-shadow-light) var(--text-secondary);
+}
+
+/* MODALS */
+.cinema-brutal-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-brutal-xl);
+}
+
+.cinema-brutal-modal {
+  background: var(--background-primary);
+  border: var(--border-width) solid var(--text-primary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--brutal-shadow-mega) var(--brutal-shadow-color);
+  padding: var(--space-brutal-2xl);
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+}
+
+.cinema-brutal-modal-title {
+  font-family: var(--font-pixel);
+  font-size: 1.5rem;
+  color: var(--text-accent);
+  text-align: center;
+  margin-bottom: var(--space-brutal-lg);
+  text-shadow: 1px 1px 0 var(--text-primary);
+}
+
+.cinema-brutal-modal-text {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: var(--space-brutal-xl);
+  line-height: 1.5;
+}
+
+.cinema-brutal-modal-actions {
+  display: flex;
+  gap: var(--space-brutal-lg);
+  justify-content: center;
+}
+
+.cinema-brutal-close-btn {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 60px;
+  height: 60px;
+  background: var(--text-accent);
+  color: var(--brutal-white);
+  border: var(--border-width) solid var(--brutal-white);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--button-shadow) var(--brutal-shadow-color);
+  transition: all 0.2s ease;
+}
+
+.cinema-brutal-close-btn:hover {
+  transform: scale(1.1);
+  box-shadow: var(--brutal-shadow-heavy) var(--brutal-shadow-color);
+}
+
+/* TRAILER MODAL */
+.cinema-brutal-trailer-modal {
+  max-width: 90vw;
+  max-height: 90vh;
+  aspect-ratio: 16/9;
+  padding: 0;
+  background: var(--brutal-black);
+}
+
+.cinema-brutal-trailer-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: var(--border-radius);
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .cinema-brutal-container {
+    padding: var(--space-brutal-lg);
+    margin: var(--space-brutal-sm);
+  }
+  
+  .cinema-brutal-header {
+    padding: var(--space-brutal-lg);
+    margin-bottom: var(--space-brutal-xl);
+  }
+  
+  .cinema-brutal-title {
+    font-size: 2rem;
+  }
+  
+  .cinema-brutal-controls {
+    grid-template-columns: 1fr;
+    gap: var(--space-brutal-lg);
+    padding: var(--space-brutal-lg);
+  }
+  
+  .cinema-brutal-add-form {
+    padding: var(--space-brutal-lg);
+  }
+  
+  .cinema-brutal-gallery {
+    padding: var(--space-brutal-lg);
+  }
+  
+  .cinema-brutal-movie-carousel {
+    gap: var(--space-brutal-lg);
+  }
+  
+  .cinema-brutal-movie-card {
+    width: 180px;
+    height: 280px;
+  }
+  
+  .cinema-brutal-poster {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cinema-brutal-container {
+    padding: var(--space-brutal-md);
+  }
+  
+  .cinema-brutal-movie-card {
+    width: 160px;
+    height: 260px;
+  }
+  
+  .cinema-brutal-poster {
+    height: 180px;
+  }
+  
+  .cinema-brutal-modal {
+    margin: var(--space-brutal-md);
+    padding: var(--space-brutal-lg);
+  }
+}
+
+/* LOADING STATES */
+.cinema-brutal-loading {
+  opacity: 0.6;
+  pointer-events: none;
+  position: relative;
+}
+
+.cinema-brutal-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 4px solid var(--text-primary);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* SCROLL BEHAVIOR */
+.cinema-brutal-movie-grid {
+  scroll-behavior: smooth;
+}
+
+/* FOCUS STYLES FOR ACCESSIBILITY */
+.cinema-brutal-button:focus,
+.cinema-brutal-control-btn:focus {
+  outline: var(--border-width-thin) solid var(--text-accent);
+  outline-offset: var(--space-brutal-xs);
+}
+
+/* PRINT STYLES */
+@media print {
+  .cinema-brutal-container {
+    box-shadow: none;
+    border-color: var(--text-primary);
+  }
+  
+  .cinema-brutal-movie-card {
+    break-inside: avoid;
+  }
+}
