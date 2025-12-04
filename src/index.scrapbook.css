@@ -1,0 +1,267 @@
+/* ===================================
+   📔 SCRAPBOOK LOVE STORY - Main Styles
+   =================================== */
+
+/* ===================================
+   FONT IMPORTS (must come before @tailwind)
+   =================================== */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================================
+   CSS VARIABLES
+   =================================== */
+:root {
+  --font-handwritten: 'Caveat', cursive;
+  --font-casual: 'Patrick Hand', cursive;
+  --font-doodle: 'Indie Flower', cursive;
+  --font-notes: 'Kalam', cursive;
+  
+  --paper-cream: #fdf6e3;
+  --paper-white: #fefefe;
+  --paper-aged: #f5e6d3;
+  --paper-pink: #fff0f5;
+  
+  --washi-pink: #ffb6c1;
+  --washi-mint: #98d8c8;
+  --washi-lavender: #c9b1ff;
+  --washi-yellow: #fff3b0;
+  
+  --ink-black: #2d2d2d;
+  --ink-brown: #8b4513;
+  --ink-pink: #d4547a;
+}
+
+/* ===================================
+   BASE STYLES
+   =================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-casual);
+  min-height: 100vh;
+  color: var(--ink-black);
+  /* Cork board texture background */
+  background: 
+    linear-gradient(135deg, #d4a574 0%, #c4956a 50%, #b8865a 100%);
+  background-attachment: fixed;
+}
+
+/* Paper texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===================================
+   SCROLLBAR
+   =================================== */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--paper-aged);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--washi-pink), var(--washi-lavender));
+  border-radius: 6px;
+  border: 2px solid var(--paper-aged);
+}
+
+/* ===================================
+   SELECTION
+   =================================== */
+::selection {
+  background: var(--washi-yellow);
+  color: var(--ink-black);
+}
+
+/* ===================================
+   TAILWIND LAYER COMPONENTS
+   =================================== */
+@layer components {
+  /* Scrapbook Page */
+  .scrapbook-page {
+    @apply relative bg-[#fdf6e3] rounded-sm shadow-xl;
+    background-image: 
+      linear-gradient(90deg, transparent 79px, #e8d4b8 79px, #e8d4b8 81px, transparent 81px),
+      linear-gradient(#f5e6d3 0.1em, transparent 0.1em);
+    background-size: 100% 1.5em;
+  }
+  
+  /* Polaroid Frame */
+  .polaroid-frame {
+    @apply bg-white p-3 pb-12 shadow-lg;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  /* Sticky Note */
+  .sticky-note {
+    @apply p-5 shadow-md;
+    font-family: var(--font-handwritten);
+    box-shadow: 
+      2px 2px 6px rgba(0,0,0,0.15),
+      inset 0 -40px 40px -40px rgba(0,0,0,0.05);
+  }
+  
+  /* Washi Tape */
+  .washi {
+    @apply h-7 opacity-85;
+  }
+  
+  /* Craft Button */
+  .btn-craft {
+    @apply px-6 py-3 bg-white border-2 border-dashed border-gray-800 rounded-lg cursor-pointer transition-all;
+    font-family: var(--font-casual);
+  }
+  
+  .btn-craft:hover {
+    @apply bg-[#fff3b0] scale-102;
+  }
+  
+  /* Sticker Button */
+  .btn-sticker {
+    @apply px-5 py-2.5 text-white rounded-full cursor-pointer transition-all;
+    font-family: var(--font-casual);
+    background: linear-gradient(135deg, #ff8fab, #ff6b8a);
+    box-shadow: 0 4px 0 #d4547a, 1px 2px 4px rgba(0,0,0,0.12);
+  }
+  
+  .btn-sticker:hover {
+    @apply -translate-y-0.5;
+    box-shadow: 0 6px 0 #d4547a, 1px 2px 4px rgba(0,0,0,0.12);
+  }
+  
+  .btn-sticker:active {
+    @apply translate-y-0.5;
+    box-shadow: 0 2px 0 #d4547a, 1px 2px 4px rgba(0,0,0,0.12);
+  }
+  
+  /* Journal Input */
+  .input-journal {
+    @apply w-full px-4 py-3 bg-white border-0 border-b-2 border-amber-700 outline-none transition-colors;
+    font-family: var(--font-handwritten);
+    font-size: 18px;
+  }
+  
+  .input-journal:focus {
+    @apply border-pink-500;
+  }
+  
+  /* Handwritten Tag */
+  .tag-craft {
+    @apply inline-flex items-center px-3 py-1 rounded text-sm;
+    font-family: var(--font-notes);
+    background: var(--paper-aged);
+  }
+}
+
+@layer utilities {
+  /* Paper textures */
+  .paper-cream { background: var(--paper-cream); }
+  .paper-white { background: var(--paper-white); }
+  .paper-aged { background: var(--paper-aged); }
+  .paper-pink { background: var(--paper-pink); }
+  
+  /* Washi colors */
+  .washi-pink { background: repeating-linear-gradient(45deg, #ffb6c1, #ffb6c1 5px, #ffc8d4 5px, #ffc8d4 10px); }
+  .washi-mint { background: repeating-linear-gradient(-45deg, #98d8c8, #98d8c8 4px, #b8e8d8 4px, #b8e8d8 8px); }
+  .washi-lavender { background: linear-gradient(90deg, #c9b1ff, #d9c8ff 50%, #c9b1ff); }
+  .washi-yellow { background: #fff3b0; }
+  .washi-dots { 
+    background: #fff3b0;
+    background-image: radial-gradient(circle, #ffc8a2 3px, transparent 3px);
+    background-size: 12px 12px;
+  }
+  
+  /* Fonts */
+  .font-handwritten { font-family: var(--font-handwritten); }
+  .font-casual { font-family: var(--font-casual); }
+  .font-doodle { font-family: var(--font-doodle); }
+  .font-notes { font-family: var(--font-notes); }
+  
+  /* Ink colors */
+  .text-ink { color: var(--ink-black); }
+  .text-ink-brown { color: var(--ink-brown); }
+  .text-ink-pink { color: var(--ink-pink); }
+  
+  /* Hand-drawn border */
+  .border-sketchy {
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  }
+  
+  /* Tape torn edges */
+  .tape-torn {
+    clip-path: polygon(
+      2% 0%, 5% 8%, 8% 0%, 12% 6%, 16% 0%, 20% 8%, 24% 0%, 28% 6%, 32% 0%, 36% 8%, 40% 0%, 44% 6%, 48% 0%, 52% 8%, 56% 0%, 60% 6%, 64% 0%, 68% 8%, 72% 0%, 76% 6%, 80% 0%, 84% 8%, 88% 0%, 92% 6%, 96% 0%, 100% 8%,
+      100% 92%, 96% 100%, 92% 94%, 88% 100%, 84% 92%, 80% 100%, 76% 94%, 72% 100%, 68% 92%, 64% 100%, 60% 94%, 56% 100%, 52% 92%, 48% 100%, 44% 94%, 40% 100%, 36% 92%, 32% 100%, 28% 94%, 24% 100%, 20% 92%, 16% 100%, 12% 94%, 8% 100%, 4% 92%, 0% 100%
+    );
+  }
+  
+  /* Paper shadow */
+  .shadow-paper {
+    box-shadow: 2px 3px 8px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+  }
+  
+  .shadow-polaroid {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  /* Rotations */
+  .rotate-craft-1 { transform: rotate(1deg); }
+  .rotate-craft-2 { transform: rotate(2deg); }
+  .rotate-craft-3 { transform: rotate(3deg); }
+  .-rotate-craft-1 { transform: rotate(-1deg); }
+  .-rotate-craft-2 { transform: rotate(-2deg); }
+  .-rotate-craft-3 { transform: rotate(-3deg); }
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes float-paper {
+  0%, 100% { transform: translateY(0) rotate(var(--tw-rotate, 0deg)); }
+  50% { transform: translateY(-6px) rotate(var(--tw-rotate, 0deg)); }
+}
+
+@keyframes tape-wave {
+  0%, 100% { transform: rotate(-45deg) scaleY(1); }
+  50% { transform: rotate(-43deg) scaleY(1.02); }
+}
+
+.animate-wiggle {
+  animation: wiggle 3s ease-in-out infinite;
+}
+
+.animate-float-paper {
+  animation: float-paper 4s ease-in-out infinite;
+}

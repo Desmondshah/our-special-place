@@ -1,0 +1,432 @@
+/* ===================================
+   🌸 OUR SPECIAL PLACE - MODERN ROMANCE
+   A beautiful, warm, and modern UI for couples
+   =================================== */
+
+/* ===================================
+   TAILWIND IMPORTS
+   =================================== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================================
+   LAYER OVERRIDES
+   =================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  body {
+    @apply font-body text-gray-800 antialiased;
+    min-height: 100dvh;
+  }
+  
+  * {
+    @apply box-border;
+  }
+}
+
+@layer components {
+  /* Modern Glass Card */
+  .card-glass {
+    @apply bg-white/70 backdrop-blur-xl rounded-3xl shadow-xl border border-white/50;
+  }
+  
+  /* Soft Card */
+  .card-soft {
+    @apply bg-white rounded-2xl shadow-soft border border-rose-50 transition-all duration-200;
+  }
+  
+  .card-soft:hover {
+    @apply shadow-romantic -translate-y-1 border-rose-100;
+  }
+  
+  /* Primary Button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-3 
+           bg-gradient-to-r from-rose-400 to-pink-500 
+           text-white font-semibold rounded-xl 
+           shadow-lg shadow-rose-200/50 
+           transition-all duration-200
+           hover:shadow-xl hover:shadow-rose-300/50 hover:-translate-y-0.5
+           active:translate-y-0
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  /* Secondary Button */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-3 
+           bg-white text-rose-500 font-semibold rounded-xl 
+           border-2 border-rose-100
+           shadow-sm transition-all duration-200
+           hover:border-rose-300 hover:bg-rose-50
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  /* Ghost Button */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 
+           bg-transparent text-gray-500 font-medium rounded-xl 
+           transition-all duration-200
+           hover:bg-rose-50 hover:text-rose-500;
+  }
+  
+  /* Icon Button */
+  .btn-icon {
+    @apply w-11 h-11 flex items-center justify-center 
+           bg-white/80 backdrop-blur-sm rounded-full 
+           border border-white/50 text-gray-500
+           shadow-sm transition-all duration-200
+           hover:bg-white hover:text-rose-500 hover:shadow-romantic hover:scale-105;
+  }
+  
+  /* Form Input */
+  .input-modern {
+    @apply w-full px-4 py-3 
+           bg-white border-2 border-rose-100 rounded-xl 
+           text-gray-700 placeholder-gray-400 
+           transition-all duration-200
+           hover:border-rose-200
+           focus:outline-none focus:border-rose-400 focus:ring-4 focus:ring-rose-100;
+  }
+  
+  /* Textarea */
+  .textarea-modern {
+    @apply input-modern min-h-[120px] resize-y;
+  }
+  
+  /* Select */
+  .select-modern {
+    @apply input-modern pr-10 appearance-none cursor-pointer
+           bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23F43F5E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")]
+           bg-no-repeat bg-[right_12px_center] bg-[length:16px];
+  }
+  
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1 px-3 py-1 
+           text-xs font-semibold rounded-full 
+           bg-rose-100 text-rose-600;
+  }
+  
+  .badge-success {
+    @apply bg-emerald-100 text-emerald-600;
+  }
+  
+  .badge-lavender {
+    @apply bg-purple-100 text-purple-600;
+  }
+  
+  .badge-peach {
+    @apply bg-orange-100 text-orange-600;
+  }
+  
+  /* Checkbox */
+  .checkbox-modern {
+    @apply appearance-none w-5 h-5 
+           border-2 border-rose-200 rounded 
+           cursor-pointer transition-all duration-200
+           hover:border-rose-400
+           checked:bg-gradient-to-r checked:from-rose-400 checked:to-pink-500 
+           checked:border-rose-500;
+  }
+  
+  /* Section Header */
+  .section-header {
+    @apply mb-6 text-center md:text-left;
+  }
+  
+  .section-title {
+    @apply font-display text-2xl md:text-3xl font-bold 
+           bg-gradient-to-r from-rose-500 to-pink-500 bg-clip-text text-transparent;
+  }
+  
+  .section-subtitle {
+    @apply text-gray-500 text-sm mt-1;
+  }
+}
+
+@layer utilities {
+  /* Glass Effect */
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/50;
+  }
+  
+  /* Text Gradient */
+  .text-gradient {
+    @apply bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 bg-clip-text text-transparent;
+  }
+  
+  /* Romantic Glow */
+  .glow-romantic {
+    box-shadow: 0 0 40px rgba(244, 63, 94, 0.15);
+  }
+  
+  /* Hide scrollbar but allow scroll */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Safe area padding */
+  .safe-bottom {
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+  
+  /* Skeleton loading */
+  .skeleton {
+    @apply bg-gradient-to-r from-rose-100/50 via-rose-200/50 to-rose-100/50 
+           bg-[length:200%_100%] animate-shimmer rounded;
+  }
+}
+
+/* ===================================
+   CUSTOM ANIMATIONS
+   =================================== */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.15); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.1); }
+}
+
+/* ===================================
+   SCROLLBAR STYLING
+   =================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-rose-50/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gradient-to-b from-rose-200 to-pink-200 rounded-full;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply from-rose-300 to-pink-300;
+}
+
+/* ===================================
+   SELECTION STYLING
+   =================================== */
+::selection {
+  @apply bg-rose-200 text-rose-900;
+}
+
+/* ===================================
+   FOCUS STYLES
+   =================================== */
+:focus-visible {
+  @apply outline-none ring-2 ring-rose-400 ring-offset-2;
+}
+
+/* ===================================
+   MODERN SECTION STYLES
+   =================================== */
+
+/* Plans Section */
+.plans-grid {
+  @apply grid gap-4;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.plan-card {
+  @apply card-soft p-5 relative overflow-hidden;
+}
+
+.plan-card.completed {
+  @apply bg-gradient-to-br from-emerald-50 to-green-50 border-emerald-100;
+}
+
+.plan-card.completed:hover {
+  @apply border-emerald-200;
+}
+
+/* Memory Preview */
+.memory-preview {
+  @apply mt-4 p-3 bg-rose-50/50 rounded-xl border border-rose-100;
+}
+
+/* Dreams Section */
+.dreams-grid {
+  @apply grid gap-5;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.dream-card {
+  @apply card-glass p-5 text-center transition-all duration-300 cursor-pointer;
+}
+
+.dream-card:hover {
+  @apply -translate-y-2 shadow-dreamy;
+}
+
+/* Milestones Timeline */
+.milestone-timeline {
+  @apply relative pl-8 space-y-6;
+}
+
+.milestone-timeline::before {
+  content: '';
+  @apply absolute left-3 top-2 bottom-2 w-0.5 bg-gradient-to-b from-rose-300 via-pink-300 to-purple-300 rounded-full;
+}
+
+.milestone-item {
+  @apply relative;
+}
+
+.milestone-item::before {
+  content: '';
+  @apply absolute -left-5 top-2 w-4 h-4 rounded-full bg-white border-2 border-rose-400 shadow-sm;
+}
+
+/* Cinema Grid */
+.cinema-grid {
+  @apply grid gap-4;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+@media (min-width: 640px) {
+  .cinema-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+.cinema-card {
+  @apply relative rounded-2xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer aspect-[2/3];
+}
+
+.cinema-card:hover {
+  @apply scale-105 shadow-2xl;
+}
+
+.cinema-card img {
+  @apply w-full h-full object-cover;
+}
+
+.cinema-card .overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent 
+         opacity-0 transition-opacity duration-300 flex flex-col justify-end p-4;
+}
+
+.cinema-card:hover .overlay {
+  @apply opacity-100;
+}
+
+/* Bucket List */
+.bucket-item {
+  @apply flex items-start gap-3 p-4 bg-white rounded-xl border border-gray-100 
+         shadow-sm transition-all duration-200 hover:shadow-md hover:border-rose-100;
+}
+
+.bucket-item.completed {
+  @apply bg-emerald-50/50 border-emerald-100;
+}
+
+/* Mood Board */
+.mood-grid {
+  @apply grid gap-4;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.mood-item {
+  @apply relative rounded-2xl overflow-hidden shadow-md transition-all duration-300 cursor-pointer;
+}
+
+.mood-item:hover {
+  @apply -translate-y-1 shadow-xl;
+}
+
+/* ===================================
+   MODAL STYLES
+   =================================== */
+.modal-backdrop {
+  @apply fixed inset-0 bg-black/40 backdrop-blur-sm z-50 
+         flex items-center justify-center p-4;
+}
+
+.modal-content {
+  @apply bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-hidden;
+}
+
+.modal-header {
+  @apply flex items-center justify-between p-5 border-b border-gray-100;
+}
+
+.modal-body {
+  @apply p-5 overflow-y-auto;
+}
+
+.modal-footer {
+  @apply flex justify-end gap-3 p-5 border-t border-gray-100;
+}
+
+/* Bottom Sheet (Mobile) */
+.bottom-sheet {
+  @apply fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl z-50 max-h-[85vh] overflow-hidden;
+}
+
+.bottom-sheet-handle {
+  @apply w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-2;
+}
+
+/* ===================================
+   EMPTY STATES
+   =================================== */
+.empty-state {
+  @apply flex flex-col items-center justify-center py-16 px-6 text-center;
+}
+
+.empty-state-icon {
+  @apply text-5xl mb-4 animate-float;
+}
+
+.empty-state-title {
+  @apply font-display text-xl font-semibold text-gray-700 mb-2;
+}
+
+.empty-state-text {
+  @apply text-gray-500 text-sm max-w-xs mb-6;
+}
+
+/* ===================================
+   RESPONSIVE ADJUSTMENTS
+   =================================== */
+@media (max-width: 639px) {
+  .plans-grid,
+  .dreams-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-title {
+    @apply text-xl;
+  }
+}

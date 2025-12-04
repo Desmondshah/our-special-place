@@ -1,0 +1,724 @@
+/* ===================================
+   📔 SCRAPBOOK LOVE STORY
+   A whimsical, handcrafted couples journal
+   =================================== */
+
+/* ===================================
+   FONT IMPORTS - Handwritten & Playful
+   =================================== */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
+
+/* ===================================
+   CSS VARIABLES - Scrapbook Theme
+   =================================== */
+:root {
+  /* Paper Colors */
+  --paper-cream: #fdf6e3;
+  --paper-white: #fefefe;
+  --paper-aged: #f5e6d3;
+  --paper-pink: #fff0f5;
+  --paper-blue: #f0f7ff;
+  --paper-mint: #f0fff4;
+  --paper-lavender: #f8f4ff;
+  --paper-peach: #fff5eb;
+  
+  /* Craft Colors */
+  --washi-pink: #ffb6c1;
+  --washi-mint: #98d8c8;
+  --washi-lavender: #c9b1ff;
+  --washi-peach: #ffc8a2;
+  --washi-yellow: #fff3b0;
+  --washi-blue: #a8d8ff;
+  
+  /* Ink & Pen Colors */
+  --ink-black: #2d2d2d;
+  --ink-blue: #4a6fa5;
+  --ink-brown: #8b4513;
+  --ink-pink: #d4547a;
+  --ink-purple: #7c5295;
+  
+  /* Sticker Accents */
+  --sticker-red: #ff6b6b;
+  --sticker-yellow: #ffd93d;
+  --sticker-green: #6bcb77;
+  --sticker-blue: #4d96ff;
+  --sticker-pink: #ff8fab;
+  
+  /* Shadows */
+  --shadow-paper: 2px 3px 8px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-polaroid: 0 4px 15px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.1);
+  --shadow-sticker: 1px 2px 4px rgba(0,0,0,0.12);
+  
+  /* Fonts */
+  --font-handwritten: 'Caveat', cursive;
+  --font-casual: 'Patrick Hand', cursive;
+  --font-script: 'Shadows Into Light', cursive;
+  --font-notes: 'Kalam', cursive;
+  --font-doodle: 'Indie Flower', cursive;
+}
+
+/* ===================================
+   BASE STYLES
+   =================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-casual);
+  background: var(--paper-cream);
+  min-height: 100vh;
+  color: var(--ink-black);
+  line-height: 1.6;
+  /* Subtle paper texture */
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* ===================================
+   PAPER TEXTURES & BACKGROUNDS
+   =================================== */
+.paper-bg {
+  background: var(--paper-white);
+  background-image: 
+    linear-gradient(90deg, transparent 79px, #e8d4b8 79px, #e8d4b8 81px, transparent 81px),
+    linear-gradient(#f5e6d3 0.1em, transparent 0.1em);
+  background-size: 100% 1.5em;
+}
+
+.paper-lined {
+  background: var(--paper-white);
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    #e5e5e5 31px,
+    #e5e5e5 32px
+  );
+  background-position: 0 8px;
+}
+
+.paper-grid {
+  background: var(--paper-white);
+  background-image: 
+    linear-gradient(rgba(200, 200, 200, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 200, 200, 0.3) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.paper-dotted {
+  background: var(--paper-cream);
+  background-image: radial-gradient(circle, #d4c4b0 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Cork board background */
+.cork-bg {
+  background: #c4956a;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+}
+
+/* ===================================
+   WASHI TAPE DECORATIONS
+   =================================== */
+.washi-tape {
+  position: absolute;
+  height: 28px;
+  width: 100px;
+  opacity: 0.85;
+}
+
+.washi-pink {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--washi-pink),
+    var(--washi-pink) 5px,
+    #ffc8d4 5px,
+    #ffc8d4 10px
+  );
+}
+
+.washi-mint {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--washi-mint),
+    var(--washi-mint) 4px,
+    #b8e8d8 4px,
+    #b8e8d8 8px
+  );
+}
+
+.washi-lavender {
+  background: linear-gradient(90deg, 
+    var(--washi-lavender) 0%, 
+    #d9c8ff 50%, 
+    var(--washi-lavender) 100%
+  );
+}
+
+.washi-peach {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--washi-peach),
+    var(--washi-peach) 8px,
+    #ffe0c8 8px,
+    #ffe0c8 16px
+  );
+}
+
+.washi-dots {
+  background: var(--washi-yellow);
+  background-image: radial-gradient(circle, var(--washi-peach) 3px, transparent 3px);
+  background-size: 12px 12px;
+}
+
+.washi-hearts {
+  background: var(--washi-pink);
+  position: relative;
+}
+
+.washi-hearts::after {
+  content: '♥ ♥ ♥ ♥ ♥';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  color: #ff6b8a;
+  letter-spacing: 4px;
+}
+
+/* Torn edges for washi tape */
+.washi-tape::before,
+.washi-tape::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: inherit;
+}
+
+.washi-tape::before {
+  left: -2px;
+  clip-path: polygon(100% 0, 100% 100%, 0 90%, 50% 80%, 0 70%, 50% 60%, 0 50%, 50% 40%, 0 30%, 50% 20%, 0 10%, 50% 0);
+}
+
+.washi-tape::after {
+  right: -2px;
+  clip-path: polygon(0 0, 50% 10%, 0 20%, 50% 30%, 0 40%, 50% 50%, 0 60%, 50% 70%, 0 80%, 50% 90%, 0 100%, 100% 100%, 100% 0);
+}
+
+/* ===================================
+   POLAROID & PHOTO STYLES
+   =================================== */
+.polaroid {
+  background: white;
+  padding: 12px 12px 45px 12px;
+  box-shadow: var(--shadow-polaroid);
+  transform: rotate(var(--rotation, -2deg));
+  transition: transform 0.3s ease;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.02);
+  z-index: 10;
+}
+
+.polaroid-caption {
+  font-family: var(--font-handwritten);
+  font-size: 18px;
+  color: var(--ink-black);
+  text-align: center;
+  margin-top: 8px;
+}
+
+.photo-stack {
+  position: relative;
+}
+
+.photo-stack::before,
+.photo-stack::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  box-shadow: var(--shadow-paper);
+}
+
+.photo-stack::before {
+  transform: rotate(-4deg);
+  z-index: -1;
+}
+
+.photo-stack::after {
+  transform: rotate(3deg);
+  z-index: -2;
+}
+
+/* ===================================
+   STICKY NOTES
+   =================================== */
+.sticky-note {
+  background: var(--washi-yellow);
+  padding: 20px;
+  font-family: var(--font-handwritten);
+  font-size: 18px;
+  box-shadow: 
+    2px 2px 6px rgba(0,0,0,0.15),
+    inset 0 -40px 40px -40px rgba(0,0,0,0.05);
+  position: relative;
+  transform: rotate(var(--rotation, 1deg));
+}
+
+.sticky-note::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+}
+
+.sticky-pink { background: #ffb8d0; }
+.sticky-blue { background: #b8e0ff; }
+.sticky-green { background: #c8f0c8; }
+.sticky-orange { background: #ffd8a8; }
+.sticky-purple { background: #e0c8ff; }
+
+/* ===================================
+   DOODLES & DECORATIONS
+   =================================== */
+.doodle-heart::before {
+  content: '♥';
+  color: var(--sticker-pink);
+  font-size: 24px;
+}
+
+.doodle-star::before {
+  content: '★';
+  color: var(--sticker-yellow);
+  font-size: 24px;
+}
+
+.doodle-sparkle::before {
+  content: '✨';
+  font-size: 20px;
+}
+
+/* Hand-drawn border effect */
+.hand-drawn-border {
+  border: 3px solid var(--ink-black);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+
+/* Sketchy underline */
+.sketchy-underline {
+  position: relative;
+}
+
+.sketchy-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: currentColor;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  transform: rotate(-0.5deg);
+}
+
+/* ===================================
+   STAMPS & STICKERS
+   =================================== */
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 3px dashed currentColor;
+  border-radius: 4px;
+  font-family: var(--font-casual);
+  font-weight: bold;
+  text-transform: uppercase;
+  transform: rotate(-5deg);
+  opacity: 0.85;
+}
+
+.stamp-approved {
+  color: #2e7d32;
+  border-color: #2e7d32;
+}
+
+.stamp-love {
+  color: #c62828;
+  border-color: #c62828;
+}
+
+.stamp-star {
+  color: #f9a825;
+  border-color: #f9a825;
+}
+
+.sticker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 50px;
+  font-family: var(--font-casual);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: var(--shadow-sticker);
+  transform: rotate(var(--rotation, 0deg));
+}
+
+.sticker-red { background: var(--sticker-red); color: white; }
+.sticker-yellow { background: var(--sticker-yellow); color: var(--ink-black); }
+.sticker-green { background: var(--sticker-green); color: white; }
+.sticker-blue { background: var(--sticker-blue); color: white; }
+.sticker-pink { background: var(--sticker-pink); color: white; }
+
+/* ===================================
+   PAPER CLIPS & PINS
+   =================================== */
+.paper-clip {
+  position: absolute;
+  width: 20px;
+  height: 50px;
+  border: 3px solid #c0c0c0;
+  border-radius: 10px 10px 0 0;
+  border-bottom: none;
+  top: -15px;
+  left: 20px;
+}
+
+.paper-clip::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 30px;
+  border: 3px solid #c0c0c0;
+  border-radius: 7px 7px 0 0;
+  border-bottom: none;
+  top: 8px;
+  left: 0;
+}
+
+.push-pin {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle at 30% 30%, #ff6b6b, #c0392b);
+  border-radius: 50%;
+  box-shadow: 
+    0 2px 4px rgba(0,0,0,0.3),
+    inset 0 -2px 4px rgba(0,0,0,0.2);
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.push-pin::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 12px;
+  background: linear-gradient(to bottom, #888, #666);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 0 0 2px 2px;
+}
+
+/* ===================================
+   SCRAPBOOK CARDS
+   =================================== */
+.scrapbook-card {
+  background: var(--paper-white);
+  padding: 20px;
+  box-shadow: var(--shadow-paper);
+  position: relative;
+  transform: rotate(var(--rotation, 0deg));
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.scrapbook-card:hover {
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: 4px 6px 16px rgba(0,0,0,0.15);
+}
+
+.scrapbook-card.paper-torn {
+  clip-path: polygon(
+    0% 2%, 5% 0%, 10% 3%, 15% 0%, 20% 2%, 25% 0%, 30% 3%, 35% 0%, 40% 2%, 45% 0%, 50% 3%, 55% 0%, 60% 2%, 65% 0%, 70% 3%, 75% 0%, 80% 2%, 85% 0%, 90% 3%, 95% 0%, 100% 2%,
+    100% 98%, 95% 100%, 90% 97%, 85% 100%, 80% 98%, 75% 100%, 70% 97%, 65% 100%, 60% 98%, 55% 100%, 50% 97%, 45% 100%, 40% 98%, 35% 100%, 30% 97%, 25% 100%, 20% 98%, 15% 100%, 10% 97%, 5% 100%, 0% 98%
+  );
+}
+
+/* ===================================
+   JOURNAL ENTRY STYLES
+   =================================== */
+.journal-entry {
+  font-family: var(--font-handwritten);
+  font-size: 20px;
+  line-height: 1.8;
+  color: var(--ink-blue);
+}
+
+.journal-date {
+  font-family: var(--font-notes);
+  font-size: 14px;
+  color: var(--ink-brown);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.journal-title {
+  font-family: var(--font-handwritten);
+  font-size: 32px;
+  color: var(--ink-pink);
+  margin-bottom: 12px;
+}
+
+/* ===================================
+   MASKING TAPE CORNERS
+   =================================== */
+.tape-corner {
+  position: absolute;
+  width: 40px;
+  height: 20px;
+  opacity: 0.8;
+}
+
+.tape-corner-tl {
+  top: -5px;
+  left: -5px;
+  transform: rotate(-45deg);
+}
+
+.tape-corner-tr {
+  top: -5px;
+  right: -5px;
+  transform: rotate(45deg);
+}
+
+.tape-corner-bl {
+  bottom: -5px;
+  left: -5px;
+  transform: rotate(45deg);
+}
+
+.tape-corner-br {
+  bottom: -5px;
+  right: -5px;
+  transform: rotate(-45deg);
+}
+
+/* ===================================
+   BUTTON STYLES - Scrapbook
+   =================================== */
+.btn-craft {
+  font-family: var(--font-casual);
+  font-size: 16px;
+  padding: 12px 24px;
+  background: var(--paper-white);
+  border: 2px dashed var(--ink-black);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  transform: rotate(-1deg);
+}
+
+.btn-craft:hover {
+  background: var(--washi-yellow);
+  transform: rotate(0deg) scale(1.02);
+}
+
+.btn-craft:active {
+  transform: rotate(0deg) scale(0.98);
+}
+
+.btn-sticker {
+  font-family: var(--font-casual);
+  font-size: 15px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--sticker-pink), #ff6b8a);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sticker), 0 4px 0 #d4547a;
+  transition: all 0.15s ease;
+}
+
+.btn-sticker:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sticker), 0 6px 0 #d4547a;
+}
+
+.btn-sticker:active {
+  transform: translateY(2px);
+  box-shadow: var(--shadow-sticker), 0 2px 0 #d4547a;
+}
+
+/* ===================================
+   INPUT STYLES - Scrapbook
+   =================================== */
+.input-journal {
+  font-family: var(--font-handwritten);
+  font-size: 18px;
+  padding: 12px 16px;
+  background: var(--paper-white);
+  border: none;
+  border-bottom: 2px solid var(--ink-brown);
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s ease;
+}
+
+.input-journal:focus {
+  border-bottom-color: var(--ink-pink);
+}
+
+.input-journal::placeholder {
+  color: #bbb;
+  font-style: italic;
+}
+
+.textarea-journal {
+  font-family: var(--font-handwritten);
+  font-size: 18px;
+  padding: 16px;
+  background: var(--paper-white);
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    #e8e8e8 31px,
+    #e8e8e8 32px
+  );
+  background-position: 0 12px;
+  border: none;
+  border-radius: 4px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  outline: none;
+  width: 100%;
+  min-height: 120px;
+  line-height: 32px;
+  resize: vertical;
+}
+
+/* ===================================
+   TAG STYLES
+   =================================== */
+.tag-handwritten {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  font-family: var(--font-notes);
+  font-size: 13px;
+  background: var(--paper-aged);
+  border-radius: 4px;
+  position: relative;
+}
+
+.tag-handwritten::before {
+  content: '#';
+  margin-right: 2px;
+  color: var(--ink-pink);
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0) rotate(var(--rotation, 0deg)); }
+  50% { transform: translateY(-8px) rotate(var(--rotation, 0deg)); }
+}
+
+@keyframes tape-flutter {
+  0%, 100% { transform: rotate(var(--base-rotation, -45deg)); }
+  50% { transform: rotate(calc(var(--base-rotation, -45deg) + 3deg)); }
+}
+
+@keyframes stamp-appear {
+  0% { transform: scale(2) rotate(-20deg); opacity: 0; }
+  50% { transform: scale(0.9) rotate(5deg); }
+  100% { transform: scale(1) rotate(-5deg); opacity: 0.85; }
+}
+
+@keyframes heart-pop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.animate-wiggle {
+  animation: wiggle 2s ease-in-out infinite;
+}
+
+.animate-float-gentle {
+  animation: float-gentle 4s ease-in-out infinite;
+}
+
+.animate-stamp {
+  animation: stamp-appear 0.5s ease-out forwards;
+}
+
+.animate-heart-pop {
+  animation: heart-pop 0.4s ease-out;
+}
+
+/* ===================================
+   UTILITY ROTATIONS
+   =================================== */
+.rotate-1 { --rotation: 1deg; transform: rotate(1deg); }
+.rotate-2 { --rotation: 2deg; transform: rotate(2deg); }
+.rotate-3 { --rotation: 3deg; transform: rotate(3deg); }
+.-rotate-1 { --rotation: -1deg; transform: rotate(-1deg); }
+.-rotate-2 { --rotation: -2deg; transform: rotate(-2deg); }
+.-rotate-3 { --rotation: -3deg; transform: rotate(-3deg); }
+
+/* ===================================
+   RESPONSIVE ADJUSTMENTS
+   =================================== */
+@media (max-width: 640px) {
+  .polaroid {
+    padding: 8px 8px 35px 8px;
+  }
+  
+  .polaroid-caption {
+    font-size: 14px;
+  }
+  
+  .sticky-note {
+    padding: 14px;
+    font-size: 16px;
+  }
+  
+  .journal-title {
+    font-size: 24px;
+  }
+  
+  .journal-entry {
+    font-size: 17px;
+  }
+}
